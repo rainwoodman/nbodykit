@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nbodykit.pluginmanager module &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="index.html" />
+    <link rel="up" title="nbodykit package" href="nbodykit.html" />
+    <link rel="next" title="nbodykit.stripedfile module" href="nbodykit.stripedfile.html" />
+    <link rel="prev" title="nbodykit.ndarray module" href="nbodykit.ndarray.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.stripedfile.html" title="nbodykit.stripedfile module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.ndarray.html" title="nbodykit.ndarray module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" accesskey="U">nbodykit package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-nbodykit.pluginmanager">
+<span id="nbodykit-pluginmanager-module"></span><h1>nbodykit.pluginmanager module<a class="headerlink" href="#module-nbodykit.pluginmanager" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nbodykit.pluginmanager.ArgumentParser">
+<em class="property">class </em><code class="descclassname">nbodykit.pluginmanager.</code><code class="descname">ArgumentParser</code><span class="sig-paren">(</span><em>name</em>, <em>*largs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/pluginmanager.html#ArgumentParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.pluginmanager.ArgumentParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">argparse.ArgumentParser</span></code></p>
+<p>An argument parser that loads plugins before dropping to
+the second stage parsing</p>
+<p>Plugins can be specified on the command line with <cite>-X</cite>
+option or set from a YAML config file, which is
+passed via <cite>-c</cite> or <cite>&#8211;config</cite>.</p>
+<dl class="method">
+<dt id="nbodykit.pluginmanager.ArgumentParser.convert_args_file_to_args">
+<code class="descname">convert_args_file_to_args</code><span class="sig-paren">(</span><em>args_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/pluginmanager.html#ArgumentParser.convert_args_file_to_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.pluginmanager.ArgumentParser.convert_args_file_to_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>accepts</p>
+<p>bulh     # comments</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.pluginmanager.HelpFormatterColon">
+<em class="property">class </em><code class="descclassname">nbodykit.pluginmanager.</code><code class="descname">HelpFormatterColon</code><span class="sig-paren">(</span><em>prog</em>, <em>indent_increment=2</em>, <em>max_help_position=24</em>, <em>width=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/pluginmanager.html#HelpFormatterColon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.pluginmanager.HelpFormatterColon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">argparse.RawTextHelpFormatter</span></code></p>
+<p>This class is used to format the &#8216;:&#8217; seperated usage strings</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.pluginmanager.ListPluginsAction">
+<code class="descclassname">nbodykit.pluginmanager.</code><code class="descname">ListPluginsAction</code><span class="sig-paren">(</span><em>extensionpoint</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/pluginmanager.html#ListPluginsAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.pluginmanager.ListPluginsAction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.pluginmanager.add_plugin_list_argument">
+<code class="descclassname">nbodykit.pluginmanager.</code><code class="descname">add_plugin_list_argument</code><span class="sig-paren">(</span><em>parser</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/pluginmanager.html#add_plugin_list_argument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.pluginmanager.add_plugin_list_argument" title="Permalink to this definition">¶</a></dt>
+<dd><p>This adds arguments that contain plugins in a manner which is consistent
+with both YAML and command-line syntax. It is designed to add arguments
+that are a series of string representations of plugins</p>
+<dl class="docutils">
+<dt>This function performs two steps (necessary because <cite>argparse</cite> is terrible):</dt>
+<dd><ol class="first last arabic simple">
+<li>use a new <cite>type</cite> function that simply returns the string when
+given a string, but run the original <cite>type</cite> function when given 
+the combined list of strings</li>
+<li>set the action such that the <cite>type</cite> function will also be called on 
+the total list of the input strings (and not just on the individual strings)</li>
+</ol>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.pluginmanager.load">
+<code class="descclassname">nbodykit.pluginmanager.</code><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em>, <em>namespace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/pluginmanager.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.pluginmanager.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>load a plugin from filename.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : string</p>
+<blockquote>
+<div><p>path to the .py file</p>
+</div></blockquote>
+<p><strong>namespace</strong> : dict</p>
+<blockquote>
+<div><p>global namespace, if None, an empty space will be created</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>namespace</strong> : dict</p>
+<blockquote class="last">
+<div><p>modified global namespace of the plugin script.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nbodykit.ndarray.html"
+                        title="previous chapter">nbodykit.ndarray module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nbodykit.stripedfile.html"
+                        title="next chapter">nbodykit.stripedfile module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/nbodykit.pluginmanager.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.stripedfile.html" title="nbodykit.stripedfile module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.ndarray.html" title="nbodykit.ndarray module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" >nbodykit package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

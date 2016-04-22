@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>plugins.datasource.FOFGroups &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for plugins.datasource.FOFGroups</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">DataSource</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">nbodykit.utils</span> <span class="kn">import</span> <span class="n">selectionlanguage</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;FOFGroups&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FOFDataSource"><a class="viewcode-back" href="../../../plugins/plugins.datasource.FOFGroups.html#plugins.datasource.FOFGroups.FOFDataSource">[docs]</a><span class="k">class</span> <span class="nc">FOFDataSource</span><span class="p">(</span><span class="n">DataSource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to read field data from a HDF5 FOFGroup data file</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    * `h5py` must be installed to use this data source.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path    : str</span>
+<span class="sd">        the path of the file to read the data from </span>
+<span class="sd">    dataset: list of str</span>
+<span class="sd">        For text files, one or more strings specifying the names of the data</span>
+<span class="sd">        columns. Shape must be equal to number of columns</span>
+<span class="sd">        in the field, otherwise, behavior is undefined.</span>
+<span class="sd">        For hdf5 files, the name of the pandas data group.</span>
+<span class="sd">    BoxSize : float or array_like (3,)</span>
+<span class="sd">        the box size, either provided as a single float (isotropic)</span>
+<span class="sd">        or an array of the sizes of the three dimensions</span>
+<span class="sd">    rsd     : [x|y|z], optional</span>
+<span class="sd">        direction to do the redshift space distortion</span>
+<span class="sd">    select  : str, optional</span>
+<span class="sd">        string specifying how to select a subset of data, based</span>
+<span class="sd">        on the column names. For example, if there are columns</span>
+<span class="sd">        `type` and `mass`, you could specify </span>
+<span class="sd">        select= &quot;type == central and mass &gt; 1e14&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;FOFGroups&quot;</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="FOFDataSource.register"><a class="viewcode-back" href="../../../plugins/plugins.datasource.FOFGroups.html#plugins.datasource.FOFGroups.FOFDataSource.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">parser</span> 
+
+        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;path to file&quot;</span><span class="p">)</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;m0&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;mass unit&quot;</span><span class="p">)</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-dataset&quot;</span><span class="p">,</span>  <span class="n">default</span><span class="o">=</span><span class="s">&quot;FOFGroups&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;name of dataset in HDF5 file&quot;</span><span class="p">)</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-BoxSize&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">kls</span><span class="o">.</span><span class="n">BoxSizeParser</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;Overide the size of the box can be a scalar or a vector of length 3&quot;</span><span class="p">)</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-rsd&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="s">&quot;xyz&quot;</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;direction to do redshift distortion&quot;</span><span class="p">)</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-select&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">selectionlanguage</span><span class="o">.</span><span class="n">Query</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;row selection based on conditions specified as string&#39;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="FOFDataSource.finalize_attributes"><a class="viewcode-back" href="../../../plugins/plugins.datasource.FOFGroups.html#plugins.datasource.FOFGroups.FOFDataSource.finalize_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">finalize_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">h5py</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s">&quot;h5py must be installed to use HDF5 reader&quot;</span><span class="p">)</span>
+
+        <span class="n">BoxSize</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f8&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;r&#39;</span><span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">]</span>
+            <span class="n">BoxSize</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&#39;BoxSize&#39;</span><span class="p">]</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Boxsize from file is </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">BoxSize</span><span class="p">))</span>
+
+        <span class="n">BoxSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">BoxSize</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span> <span class="o">=</span> <span class="n">BoxSize</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Overriding BoxSize as </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="FOFDataSource.readall"><a class="viewcode-back" href="../../../plugins/plugins.datasource.FOFGroups.html#plugins.datasource.FOFGroups.FOFDataSource.readall">[docs]</a>    <span class="k">def</span> <span class="nf">readall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">h5py</span>
+
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;r&#39;</span><span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+
+        <span class="n">data2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">(</span><span class="s">&#39;Position&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+                <span class="p">(</span><span class="s">&#39;Velocity&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+                <span class="p">(</span><span class="s">&#39;Mass&#39;</span><span class="p">,</span> <span class="s">&#39;f4&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s">&#39;Weight&#39;</span><span class="p">,</span> <span class="s">&#39;f4&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s">&#39;Length&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s">&#39;Rank&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s">&#39;LogMass&#39;</span><span class="p">,</span> <span class="s">&#39;f4&#39;</span><span class="p">)])</span>
+
+        <span class="n">data2</span><span class="p">[</span><span class="s">&#39;Mass&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;Length&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">m0</span>
+        <span class="n">data2</span><span class="p">[</span><span class="s">&#39;Weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">data2</span><span class="p">[</span><span class="s">&#39;LogMass&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">data2</span><span class="p">[</span><span class="s">&#39;Mass&#39;</span><span class="p">])</span>
+        <span class="c"># get position and velocity, if we have it</span>
+        <span class="n">data2</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span>
+        <span class="n">data2</span><span class="p">[</span><span class="s">&#39;Velocity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;Velocity&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span>
+        <span class="n">data2</span><span class="p">[</span><span class="s">&#39;Rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="c"># select based on input conditions</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">get_mask</span><span class="p">(</span><span class="n">data2</span><span class="p">)</span>
+            <span class="n">data2</span> <span class="o">=</span> <span class="n">data2</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+        <span class="n">nobj</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data2</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;total number of objects selected is </span><span class="si">%d</span><span class="s"> / </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">nobj</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rsd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="nb">dir</span> <span class="o">=</span> <span class="s">&quot;xyz&quot;</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsd</span><span class="p">)</span>
+            <span class="n">data2</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">][:,</span> <span class="nb">dir</span><span class="p">]</span> <span class="o">+=</span> <span class="n">data2</span><span class="p">[</span><span class="s">&#39;Velocity&#39;</span><span class="p">][:,</span> <span class="nb">dir</span><span class="p">]</span>
+            <span class="n">data2</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">][:,</span> <span class="nb">dir</span><span class="p">]</span> <span class="o">%=</span> <span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span><span class="p">[</span><span class="nb">dir</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">data2</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span></div></div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

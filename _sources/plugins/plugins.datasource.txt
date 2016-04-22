@@ -1,0 +1,23 @@
+plugins.datasource package
+==========================
+
+.. automodule:: plugins.datasource
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   plugins.datasource.FOFGroups
+   plugins.datasource.FastPM
+   plugins.datasource.Gadget
+   plugins.datasource.Grid
+   plugins.datasource.HaloLabel
+   plugins.datasource.Pandas
+   plugins.datasource.PlainText
+   plugins.datasource.TPMLabel
+   plugins.datasource.TPMSnapshot
+

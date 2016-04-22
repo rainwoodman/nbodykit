@@ -1,0 +1,16 @@
+plugins.painter package
+=======================
+
+.. automodule:: plugins.painter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   plugins.painter.DefaultPainter
+   plugins.painter.GridPainter
+

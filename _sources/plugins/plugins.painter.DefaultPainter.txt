@@ -1,0 +1,7 @@
+plugins.painter.DefaultPainter module
+=====================================
+
+.. automodule:: plugins.painter.DefaultPainter
+    :members:
+    :undoc-members:
+    :show-inheritance:

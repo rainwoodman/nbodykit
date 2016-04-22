@@ -1,0 +1,22 @@
+plugins.algorithms package
+==========================
+
+.. automodule:: plugins.algorithms
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   plugins.algorithms.ExampleAlgorithm
+   plugins.algorithms.FOF
+   plugins.algorithms.FOF6D
+   plugins.algorithms.PairCountCorrelation
+   plugins.algorithms.PeriodicBox
+   plugins.algorithms.Subsample
+   plugins.algorithms.TidalTensor
+   plugins.algorithms.TraceHalo
+

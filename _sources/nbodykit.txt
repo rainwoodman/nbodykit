@@ -1,0 +1,33 @@
+nbodykit package
+================
+
+.. automodule:: nbodykit
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+    nbodykit.utils
+
+Submodules
+----------
+
+.. toctree::
+
+   nbodykit.corrfrompower
+   nbodykit.dataset
+   nbodykit.distributedarray
+   nbodykit.extensionpoints
+   nbodykit.files
+   nbodykit.fof
+   nbodykit.halos
+   nbodykit.measurecorrelation
+   nbodykit.measurestats
+   nbodykit.ndarray
+   nbodykit.pluginmanager
+   nbodykit.stripedfile
+

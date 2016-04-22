@@ -1,0 +1,7 @@
+plugins.datasource.Gadget module
+================================
+
+.. automodule:: plugins.datasource.Gadget
+    :members:
+    :undoc-members:
+    :show-inheritance:

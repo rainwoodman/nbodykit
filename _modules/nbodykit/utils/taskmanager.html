@@ -1,0 +1,549 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nbodykit.utils.taskmanager &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for nbodykit.utils.taskmanager</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Formatter</span>
+
+<span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">Algorithm</span><span class="p">,</span> <span class="n">algorithms</span>
+<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">set_plugin_comm</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;taskmanager&#39;</span><span class="p">)</span>
+
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c"># tools</span>
+<span class="c">#------------------------------------------------------------------------------        </span>
+<div class="viewcode-block" id="split_ranks"><a class="viewcode-back" href="../../../nbodykit.utils.taskmanager.html#nbodykit.utils.taskmanager.split_ranks">[docs]</a><span class="k">def</span> <span class="nf">split_ranks</span><span class="p">(</span><span class="n">N_ranks</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Divide the ranks into chunks, attempting to have `N` ranks</span>
+<span class="sd">    in each chunk. This removes the master (0) rank, such </span>
+<span class="sd">    that `N_ranks - 1` ranks are available to be grouped</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N_ranks : int</span>
+<span class="sd">        the total number of ranks available</span>
+<span class="sd">    N : int</span>
+<span class="sd">        the desired number of ranks per worker</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">available</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N_ranks</span><span class="p">))</span> <span class="c"># available ranks to do work</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">available</span><span class="p">)</span>
+    <span class="n">extra_ranks</span> <span class="o">=</span> <span class="n">total</span> <span class="o">%</span> <span class="n">N</span>
+  
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total</span><span class="o">//</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">i</span><span class="p">,</span> <span class="n">available</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">N</span><span class="p">:(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">N</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">extra_ranks</span> <span class="ow">and</span> <span class="n">extra_ranks</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="o">//</span><span class="mi">2</span><span class="p">:</span>
+        <span class="n">remove</span> <span class="o">=</span> <span class="n">extra_ranks</span> <span class="o">%</span> <span class="mi">2</span> <span class="c"># make it an even number</span>
+        <span class="n">ranks</span> <span class="o">=</span> <span class="n">available</span><span class="p">[</span><span class="o">-</span><span class="n">extra_ranks</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="n">remove</span><span class="p">:</span> <span class="n">ranks</span> <span class="o">=</span> <span class="n">ranks</span><span class="p">[:</span><span class="o">-</span><span class="n">remove</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ranks</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">ranks</span></div>
+        
+<div class="viewcode-block" id="enum"><a class="viewcode-back" href="../../../nbodykit.utils.taskmanager.html#nbodykit.utils.taskmanager.enum">[docs]</a><span class="k">def</span> <span class="nf">enum</span><span class="p">(</span><span class="o">*</span><span class="n">sequential</span><span class="p">,</span> <span class="o">**</span><span class="n">named</span><span class="p">):</span>
+    <span class="n">enums</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">sequential</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sequential</span><span class="p">))),</span> <span class="o">**</span><span class="n">named</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="s">&#39;Enum&#39;</span><span class="p">,</span> <span class="p">(),</span> <span class="n">enums</span><span class="p">)</span></div>
+    
+                    
+<div class="viewcode-block" id="replacements_from_file"><a class="viewcode-back" href="../../../nbodykit.utils.taskmanager.html#nbodykit.utils.taskmanager.replacements_from_file">[docs]</a><span class="k">def</span> <span class="nf">replacements_from_file</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provided an existing file name, read the file into </span>
+<span class="sd">    a dictionary. The keys are interpreted as the string format name, </span>
+<span class="sd">    and the values are a list of values to iterate over for each job</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;for `replacements_from_file`, file `</span><span class="si">%s</span><span class="s">` does not exist&quot;</span> <span class="o">%</span><span class="n">value</span><span class="p">)</span>
+    
+    <span class="n">toret</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">value</span><span class="p">,</span> <span class="s">&#39;exec&#39;</span><span class="p">)</span>
+        <span class="k">exec</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="nb">globals</span><span class="p">(),</span> <span class="n">toret</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">toret</span></div>
+        
+<div class="viewcode-block" id="tasks_parser"><a class="viewcode-back" href="../../../nbodykit.utils.taskmanager.html#nbodykit.utils.taskmanager.tasks_parser">[docs]</a><span class="k">def</span> <span class="nf">tasks_parser</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a string of the format ``key tasks``, split the string and then</span>
+<span class="sd">    try to parse the ``tasks``, by first trying to evaluate it, and then</span>
+<span class="sd">    simply splitting it and interpreting the results as the tasks. </span>
+<span class="sd">    </span>
+<span class="sd">    The general use cases are: </span>
+<span class="sd">    </span>
+<span class="sd">    1) &quot;box: range(2)&quot; -&gt; key = `box`, tasks = `[0, 1]`</span>
+<span class="sd">    2) &quot;box: [&#39;A&#39;, &#39;B&#39; &#39;C&#39;]&quot; -&gt; key = `box`, tasks = `[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;]`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">yaml</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;specify iteration tasks via the format: ``-i key: [task1, task2]``&quot;</span><span class="p">)</span>
+    
+    <span class="n">key</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">parsed</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># try to eval into a list</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">parsed</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;result of `eval` on iteration string should be list&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;tried but failed to `eval` iteration string `</span><span class="si">%s</span><span class="s">`&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">key</span><span class="p">,</span> <span class="n">parsed</span><span class="p">]</span></div>
+
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c"># task manager</span>
+<span class="c">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TaskManager"><a class="viewcode-back" href="../../../nbodykit.utils.taskmanager.html#nbodykit.utils.taskmanager.TaskManager">[docs]</a><span class="k">class</span> <span class="nc">TaskManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Task manager for running a set of `Algorithm` computations,</span>
+<span class="sd">    possibly in parallel using MPI</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">algorithm_name</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">cpus_per_worker</span><span class="p">,</span> <span class="n">task_dims</span><span class="p">,</span> 
+                    <span class="n">task_values</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">extras</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comm : MPI communicator</span>
+<span class="sd">            the global communicator that will be split and divided</span>
+<span class="sd">            amongs the independent workers</span>
+<span class="sd">        algorithm_name : str</span>
+<span class="sd">            the string name of the `Algorithm` we are running</span>
+<span class="sd">        config : str</span>
+<span class="sd">            the name of the file holding the template config file, which</span>
+<span class="sd">            will be updated for each task that is performed</span>
+<span class="sd">        cpus_per_worker : int</span>
+<span class="sd">            the desired number of ranks assigned to each independent</span>
+<span class="sd">            worker, when iterating over the tasks in parallel</span>
+<span class="sd">        task_dims : list</span>
+<span class="sd">            a list of strings specifying the names of the task dimensions -- </span>
+<span class="sd">            these specify the string formatting key when updating the config</span>
+<span class="sd">            template file for each task value</span>
+<span class="sd">        task_value : list</span>
+<span class="sd">            a list of tuples specifying the task values which will be iterated </span>
+<span class="sd">            over -- each tuple should be the length of `task_dims`</span>
+<span class="sd">        log_level : int, optional</span>
+<span class="sd">            an integer specifying the logging level to use -- default</span>
+<span class="sd">            is the `INFO` level</span>
+<span class="sd">        extras : dict, optional</span>
+<span class="sd">            a dictionary where the values are lists of string replacements, with</span>
+<span class="sd">            length equal to the total number of tasks -- if the keys are present</span>
+<span class="sd">            in the config file, the string formatting will update the config</span>
+<span class="sd">            file with the `ith` element of the list for the `ith` iteration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">log_level</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_name</span>  <span class="o">=</span> <span class="n">algorithm_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_class</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">algorithms</span><span class="p">,</span> <span class="n">algorithm_name</span><span class="p">)</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span>        <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cpus_per_worker</span> <span class="o">=</span> <span class="n">cpus_per_worker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_dims</span>       <span class="o">=</span> <span class="n">task_dims</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_values</span>     <span class="o">=</span> <span class="n">task_values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extras</span>          <span class="o">=</span> <span class="n">extras</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm</span>      <span class="o">=</span> <span class="n">comm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span>      <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rank</span>      <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">rank</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span> <span class="o">=</span> <span class="bp">None</span>
+                
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="TaskManager.create"><a class="viewcode-back" href="../../../nbodykit.utils.taskmanager.html#nbodykit.utils.taskmanager.TaskManager.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse the task manager and return the ``TaskManager`` instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">inspect</span> 
+        
+        <span class="k">if</span> <span class="n">comm</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">comm</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span>
+        <span class="n">args_dict</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">desc</span><span class="p">)</span>
+        <span class="n">args_dict</span><span class="p">[</span><span class="s">&#39;comm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">comm</span>
+        
+        <span class="c"># inspect the __init__ function</span>
+        <span class="n">args</span><span class="p">,</span> <span class="n">varargs</span><span class="p">,</span> <span class="n">varkw</span><span class="p">,</span> <span class="n">defaults</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getargspec</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__init__</span><span class="p">)</span>
+        
+        <span class="c"># determine the required arguments</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="c"># remove &#39;self&#39;</span>
+        <span class="k">if</span> <span class="n">defaults</span><span class="p">:</span>
+            <span class="n">required</span> <span class="o">=</span> <span class="n">args</span><span class="p">[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">defaults</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">required</span> <span class="o">=</span> <span class="n">args</span>
+            
+        <span class="c"># get the args, kwargs to pass to __init__</span>
+        <span class="n">fargs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">args_dict</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">required</span><span class="p">)</span>
+        <span class="n">fkwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">defaults</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">defaults</span><span class="p">):</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">defaults</span><span class="p">)</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">fkwargs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">defaults</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="o">*</span><span class="n">fargs</span><span class="p">,</span> <span class="o">**</span><span class="n">fkwargs</span><span class="p">)</span></div>
+        
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="TaskManager.parse_args"><a class="viewcode-back" href="../../../nbodykit.utils.taskmanager.html#nbodykit.utils.taskmanager.TaskManager.parse_args">[docs]</a>    <span class="k">def</span> <span class="nf">parse_args</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse command-line arguments that are needed to initialize a </span>
+<span class="sd">        `TaskManager` class</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        desc : str, optional</span>
+<span class="sd">            the description of to use for this parser</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">argparse</span>
+        <span class="kn">import</span> <span class="nn">itertools</span>
+        
+        <span class="c"># parse</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">desc</span><span class="p">)</span> 
+        
+        <span class="c"># first argument is the algorithm name</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="s">&#39;the name of the `Algorithm` to run in batch mode&#39;</span>
+        <span class="n">valid_algorithms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">algorithms</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>  
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s">&#39;algorithm_name&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">valid_algorithms</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>  
+        
+        <span class="c"># the number of independent workers</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;the desired number of ranks assigned to each independent</span>
+<span class="s">                worker, when iterating over the tasks in parallel&quot;&quot;&quot;</span> 
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;cpus_per_worker&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
+    
+        <span class="c"># now do the required named arguments</span>
+        <span class="n">required_named</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s">&#39;required named arguments&#39;</span><span class="p">)</span>
+        
+        <span class="c"># specify the tasks along one dimension </span>
+        <span class="n">h</span> <span class="o">=</span>  <span class="s">&quot;&quot;&quot;given a string of the format ``key: tasks``, split the string and then</span>
+<span class="s">                try to parse the ``tasks``, by first trying to evaluate it, and then</span>
+<span class="s">                simply splitting it and interpreting the results as the tasks. </span>
+<span class="s">        </span>
+<span class="s">                The general use cases are: </span>
+<span class="s">        </span>
+<span class="s">                1) &quot;box: range(2)&quot; -&gt; key = `box`, tasks = `[0, 1]`</span>
+<span class="s">                2) &quot;box: [A, B, C]&quot; -&gt; key = `box`, tasks = `[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;]`</span>
+<span class="s">                </span>
+<span class="s">                If multiple options passed with `-i` flag, then the total tasks to </span>
+<span class="s">                perform will be the product of the tasks lists passed&quot;&quot;&quot;</span>
+        <span class="n">required_named</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-i&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;tasks&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;append&#39;</span><span class="p">,</span> 
+                <span class="nb">type</span><span class="o">=</span><span class="n">tasks_parser</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
+    
+        <span class="c"># the template config file</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;the name of the template config file (using YAML synatx) that </span>
+<span class="s">                provides the `Algorithm` parameters; the file should use </span>
+<span class="s">                ``string.format`` syntax to indicate which variables will be </span>
+<span class="s">                updated for each task, i.e., an input file could be specified </span>
+<span class="s">                as &#39;input/DataSource_box{box}.dat&#39;, if `box` were one of the task </span>
+<span class="s">                dimensions&quot;&quot;&quot;</span>
+        <span class="n">required_named</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-c&#39;</span><span class="p">,</span> <span class="s">&#39;--config&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
+    
+        <span class="c"># read any extra string replacements from file</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;file providing extra string replaces, with lines of the form </span>
+<span class="s">                 `tag = [&#39;tag1&#39;, &#39;tag2&#39;]`; if the keys match keywords in the </span>
+<span class="s">                 template param file, the file with be updated with</span>
+<span class="s">                 the `ith` value for the `ith` task&quot;&quot;&quot;</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;--extras&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;extras&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">{},</span> <span class="nb">type</span><span class="o">=</span><span class="n">replacements_from_file</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">h</span><span class="p">)</span>
+    
+        <span class="n">h</span> <span class="o">=</span> <span class="s">&quot;set the logging output to debug, with lots more info printed&quot;</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;--debug&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store_const&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;log_level&quot;</span><span class="p">,</span> 
+                            <span class="n">const</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+                                
+        <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+        
+        <span class="c"># format the tasks, taking the product of multiple task lists</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="p">[</span><span class="n">key</span><span class="p">,</span> <span class="n">tasks</span><span class="p">]</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">tasks</span><span class="p">:</span>
+            <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
+
+        <span class="c"># take the product</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">values</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            
+        <span class="c"># save</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">task_dims</span> <span class="o">=</span> <span class="n">keys</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">task_values</span> <span class="o">=</span> <span class="n">values</span>
+        
+        <span class="k">return</span> <span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
+    
+    <span class="k">def</span> <span class="nf">_initialize_pool_comm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Internal function that initializes the `MPI.Intracomm` used by the </span>
+<span class="sd">        pool of workers. This will be passed to the task function and used </span>
+<span class="sd">        in task computation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># split the ranks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">chain_ranks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">total_ranks</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ranks</span> <span class="ow">in</span> <span class="n">split_ranks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpus_per_worker</span><span class="p">):</span>
+            <span class="n">chain_ranks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ranks</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="ow">in</span> <span class="n">ranks</span><span class="p">:</span> <span class="n">color</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">total_ranks</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ranks</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">workers</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="c"># store the total number of workers</span>
+        <span class="n">leftover</span><span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">total_ranks</span>
+        <span class="k">if</span> <span class="n">leftover</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cpus_per_worker</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">leftover</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;with `cpus_per_worker` = </span><span class="si">%d</span><span class="s"> and </span><span class="si">%d</span><span class="s"> available ranks, </span><span class="si">%d</span><span class="s"> ranks will do no work&quot;</span> <span class="o">%</span><span class="n">args</span><span class="p">)</span>
+            
+        <span class="c"># crash if we only have one process or one worker</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;only have </span><span class="si">%d</span><span class="s"> ranks; need at least </span><span class="si">%d</span><span class="s"> to use the desired </span><span class="si">%d</span><span class="s"> workers&quot;</span> <span class="o">%</span><span class="n">args</span><span class="p">)</span>
+            
+        <span class="c"># ranks that will do work have a nonzero color now</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_valid_worker</span> <span class="o">=</span> <span class="n">color</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        
+        <span class="c"># split the comm between the workers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">Split</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        
+        <span class="c"># set the global extension point comm</span>
+        <span class="n">set_plugin_comm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="TaskManager.run_all"><a class="viewcode-back" href="../../../nbodykit.utils.taskmanager.html#nbodykit.utils.taskmanager.TaskManager.run_all">[docs]</a>    <span class="k">def</span> <span class="nf">run_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run all of the tasks</span>
+<span class="sd">        &quot;&quot;&quot;</span>    
+        <span class="c"># define MPI message tags</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="n">enum</span><span class="p">(</span><span class="s">&#39;READY&#39;</span><span class="p">,</span> <span class="s">&#39;DONE&#39;</span><span class="p">,</span> <span class="s">&#39;EXIT&#39;</span><span class="p">,</span> <span class="s">&#39;START&#39;</span><span class="p">)</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">Status</span><span class="p">()</span>
+         
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c"># make the pool comm</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_pool_comm</span><span class="p">()</span>
+    
+            <span class="c"># the total numbe rof tasks</span>
+            <span class="n">num_tasks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_values</span><span class="p">)</span>
+    
+            <span class="c"># master distributes the tasks</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        
+                <span class="c"># initialize</span>
+                <span class="n">task_index</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">closed_workers</span> <span class="o">=</span> <span class="mi">0</span>
+        
+                <span class="c"># loop until all workers have finished with no more tasks</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;master starting with </span><span class="si">%d</span><span class="s"> worker(s) with </span><span class="si">%d</span><span class="s"> total tasks&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="p">,</span> <span class="n">num_tasks</span><span class="p">))</span>
+                <span class="k">while</span> <span class="n">closed_workers</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">MPI</span><span class="o">.</span><span class="n">ANY_SOURCE</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">MPI</span><span class="o">.</span><span class="n">ANY_TAG</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">)</span>
+                    <span class="n">source</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">Get_source</span><span class="p">()</span>
+                    <span class="n">tag</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">Get_tag</span><span class="p">()</span>
+            
+                    <span class="c"># worker is ready, so send it a task</span>
+                    <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">tags</span><span class="o">.</span><span class="n">READY</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">task_index</span> <span class="o">&lt;</span> <span class="n">num_tasks</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">task_index</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">source</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="o">.</span><span class="n">START</span><span class="p">)</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;sending task `</span><span class="si">%s</span><span class="s">` to worker </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_values</span><span class="p">[</span><span class="n">task_index</span><span class="p">]),</span> <span class="n">source</span><span class="p">))</span>
+                            <span class="n">task_index</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">source</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="o">.</span><span class="n">EXIT</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">tags</span><span class="o">.</span><span class="n">DONE</span><span class="p">:</span>
+                        <span class="n">results</span> <span class="o">=</span> <span class="n">data</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;received result from worker </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">source</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">tags</span><span class="o">.</span><span class="n">EXIT</span><span class="p">:</span>
+                        <span class="n">closed_workers</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;worker </span><span class="si">%d</span><span class="s"> has exited, closed workers = </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">closed_workers</span><span class="p">))</span>
+    
+            <span class="c"># worker processes wait and execute single jobs</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valid_worker</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span> <span class="n">MPI</span><span class="o">.</span><span class="n">Get_processor_name</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;pool master rank is </span><span class="si">%d</span><span class="s"> on </span><span class="si">%s</span><span class="s"> with </span><span class="si">%d</span><span class="s"> processes available&quot;</span> <span class="o">%</span><span class="n">args</span><span class="p">)</span>
+                <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                    <span class="n">itask</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                    <span class="n">tag</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        
+                    <span class="c"># have the master rank of the pool ask for task and then broadcast</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="o">.</span><span class="n">READY</span><span class="p">)</span>
+                        <span class="n">itask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">MPI</span><span class="o">.</span><span class="n">ANY_TAG</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">)</span>
+                        <span class="n">tag</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">Get_tag</span><span class="p">()</span>
+                    <span class="n">itask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">itask</span><span class="p">)</span>
+                    <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        
+                    <span class="c"># do the work here</span>
+                    <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">tags</span><span class="o">.</span><span class="n">START</span><span class="p">:</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_algorithm</span><span class="p">(</span><span class="n">itask</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">Barrier</span><span class="p">()</span> <span class="c"># wait for everyone</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="o">.</span><span class="n">DONE</span><span class="p">)</span> <span class="c"># done this task</span>
+                    <span class="k">elif</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">tags</span><span class="o">.</span><span class="n">EXIT</span><span class="p">:</span>
+                        <span class="k">break</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">Barrier</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tags</span><span class="o">.</span><span class="n">EXIT</span><span class="p">)</span> <span class="c"># exiting</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;an exception has occurred on one of the ranks...all ranks exiting&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+            
+            <span class="c"># bit of hack that forces mpi4py to exit all ranks</span>
+            <span class="c"># see https://groups.google.com/forum/embed/#!topic/mpi4py/RovYzJ8qkbc</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="c"># free and exit</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;rank </span><span class="si">%d</span><span class="s"> process finished&quot;</span> <span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">Barrier</span><span class="p">()</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;master is finished; terminating&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">Free</span><span class="p">()</span></div>
+            
+            
+    <span class="k">def</span> <span class="nf">_run_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">itask</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the algorithm once, using the parameters specified for this task</span>
+<span class="sd">        iteration specified by `itask`</span>
+<span class="sd">    </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        itask : int</span>
+<span class="sd">            the integer index of this task</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_values</span><span class="p">[</span><span class="n">itask</span><span class="p">]</span>
+
+        <span class="c"># if you are the pool&#39;s root, write out the temporary parameter file</span>
+        <span class="n">this_config</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            
+            <span class="c"># extract the keywords that we need to format from template file</span>
+            <span class="n">formatter</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">()</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">[</span><span class="n">kw</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">kw</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">formatter</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="p">)</span> <span class="k">if</span> <span class="n">kw</span><span class="p">]</span>
+                
+            <span class="c"># initialize a temporary file</span>
+            <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">delete</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+                
+                <span class="n">this_config</span> <span class="o">=</span> <span class="n">ff</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;creating temporary file: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">this_config</span><span class="p">)</span>
+                
+                <span class="c"># key/values for this task </span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">possible_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">task</span><span class="p">}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">possible_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dims</span><span class="p">,</span> <span class="n">task</span><span class="p">))</span>
+                    
+                <span class="c"># any extra key/value pairs for this tasks</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extras</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">:</span>
+                        <span class="n">possible_kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">itask</span><span class="p">]</span>
+                        
+                <span class="c"># do the string formatting if the key is present in template</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">possible_kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">possible_kwargs</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">}</span>
+                <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">valid</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        
+        <span class="c"># bcast the file name to all in the worker pool</span>
+        <span class="n">this_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">this_config</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c"># configuration file passed via -c</span>
+        <span class="n">params</span><span class="p">,</span> <span class="n">extra</span> <span class="o">=</span> <span class="n">Algorithm</span><span class="o">.</span><span class="n">parse_known_yaml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">algorithm_name</span><span class="p">,</span> <span class="n">this_config</span><span class="p">)</span>
+        
+        <span class="c"># output is required</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">extra</span><span class="p">,</span> <span class="s">&#39;output&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;argument `output` is required in config file&quot;</span><span class="p">)</span>
+            
+        <span class="c"># initialize the algorithm and run</span>
+        <span class="n">alg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm_class</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="n">alg</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+        <span class="c"># remove temporary files</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">this_config</span><span class="p">):</span> 
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;removing temporary file: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">this_config</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">this_config</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

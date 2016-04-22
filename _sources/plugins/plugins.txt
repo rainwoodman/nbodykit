@@ -1,0 +1,19 @@
+plugins package
+===============
+
+.. automodule:: plugins
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+    plugins.algorithms
+    plugins.datasource
+    plugins.painter
+    plugins.storage
+    plugins.transfer
+

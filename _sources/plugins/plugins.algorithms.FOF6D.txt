@@ -1,0 +1,7 @@
+plugins.algorithms.FOF6D module
+===============================
+
+.. automodule:: plugins.algorithms.FOF6D
+    :members:
+    :undoc-members:
+    :show-inheritance:

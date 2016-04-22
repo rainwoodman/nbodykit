@@ -1,0 +1,7 @@
+nbodykit.distributedarray module
+================================
+
+.. automodule:: nbodykit.distributedarray
+    :members:
+    :undoc-members:
+    :show-inheritance:

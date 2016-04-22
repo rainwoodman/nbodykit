@@ -1,0 +1,7 @@
+plugins.datasource.FastPM module
+================================
+
+.. automodule:: plugins.datasource.FastPM
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+nbodykit.corrfrompower module
+=============================
+
+.. automodule:: nbodykit.corrfrompower
+    :members:
+    :undoc-members:
+    :show-inheritance:

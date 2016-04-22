@@ -1,0 +1,7 @@
+nbodykit.dataset module
+=======================
+
+.. automodule:: nbodykit.dataset
+    :members:
+    :undoc-members:
+    :show-inheritance:

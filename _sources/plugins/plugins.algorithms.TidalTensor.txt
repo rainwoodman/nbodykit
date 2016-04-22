@@ -1,0 +1,7 @@
+plugins.algorithms.TidalTensor module
+=====================================
+
+.. automodule:: plugins.algorithms.TidalTensor
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+nbodykit.extensionpoints module
+===============================
+
+.. automodule:: nbodykit.extensionpoints
+    :members:
+    :undoc-members:
+    :show-inheritance:

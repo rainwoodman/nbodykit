@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nbodykit.utils.taskmanager module &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="index.html" />
+    <link rel="up" title="nbodykit.utils package" href="nbodykit.utils.html" />
+    <link rel="next" title="nbodykit.corrfrompower module" href="nbodykit.corrfrompower.html" />
+    <link rel="prev" title="nbodykit.utils.selectionlanguage module" href="nbodykit.utils.selectionlanguage.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.corrfrompower.html" title="nbodykit.corrfrompower module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.utils.selectionlanguage.html" title="nbodykit.utils.selectionlanguage module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" >nbodykit package</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="nbodykit.utils.html" accesskey="U">nbodykit.utils package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-nbodykit.utils.taskmanager">
+<span id="nbodykit-utils-taskmanager-module"></span><h1>nbodykit.utils.taskmanager module<a class="headerlink" href="#module-nbodykit.utils.taskmanager" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nbodykit.utils.taskmanager.TaskManager">
+<em class="property">class </em><code class="descclassname">nbodykit.utils.taskmanager.</code><code class="descname">TaskManager</code><span class="sig-paren">(</span><em>comm</em>, <em>algorithm_name</em>, <em>config</em>, <em>cpus_per_worker</em>, <em>task_dims</em>, <em>task_values</em>, <em>log_level=20</em>, <em>extras={}</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/utils/taskmanager.html#TaskManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.taskmanager.TaskManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Task manager for running a set of <cite>Algorithm</cite> computations,
+possibly in parallel using MPI</p>
+<dl class="classmethod">
+<dt id="nbodykit.utils.taskmanager.TaskManager.create">
+<em class="property">classmethod </em><code class="descname">create</code><span class="sig-paren">(</span><em>comm=None</em>, <em>desc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/utils/taskmanager.html#TaskManager.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.taskmanager.TaskManager.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the task manager and return the <code class="docutils literal"><span class="pre">TaskManager</span></code> instance</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.utils.taskmanager.TaskManager.parse_args">
+<em class="property">classmethod </em><code class="descname">parse_args</code><span class="sig-paren">(</span><em>desc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/utils/taskmanager.html#TaskManager.parse_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.taskmanager.TaskManager.parse_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse command-line arguments that are needed to initialize a 
+<cite>TaskManager</cite> class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>desc</strong> : str, optional</p>
+<blockquote class="last">
+<div><p>the description of to use for this parser</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.taskmanager.TaskManager.run_all">
+<code class="descname">run_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/utils/taskmanager.html#TaskManager.run_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.taskmanager.TaskManager.run_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run all of the tasks</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.taskmanager.enum">
+<code class="descclassname">nbodykit.utils.taskmanager.</code><code class="descname">enum</code><span class="sig-paren">(</span><em>*sequential</em>, <em>**named</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/utils/taskmanager.html#enum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.taskmanager.enum" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.taskmanager.replacements_from_file">
+<code class="descclassname">nbodykit.utils.taskmanager.</code><code class="descname">replacements_from_file</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/utils/taskmanager.html#replacements_from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.taskmanager.replacements_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provided an existing file name, read the file into 
+a dictionary. The keys are interpreted as the string format name, 
+and the values are a list of values to iterate over for each job</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.taskmanager.split_ranks">
+<code class="descclassname">nbodykit.utils.taskmanager.</code><code class="descname">split_ranks</code><span class="sig-paren">(</span><em>N_ranks</em>, <em>N</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/utils/taskmanager.html#split_ranks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.taskmanager.split_ranks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide the ranks into chunks, attempting to have <cite>N</cite> ranks
+in each chunk. This removes the master (0) rank, such 
+that <cite>N_ranks - 1</cite> ranks are available to be grouped</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>N_ranks</strong> : int</p>
+<blockquote>
+<div><p>the total number of ranks available</p>
+</div></blockquote>
+<p><strong>N</strong> : int</p>
+<blockquote class="last">
+<div><p>the desired number of ranks per worker</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.taskmanager.tasks_parser">
+<code class="descclassname">nbodykit.utils.taskmanager.</code><code class="descname">tasks_parser</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/utils/taskmanager.html#tasks_parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.taskmanager.tasks_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a string of the format <code class="docutils literal"><span class="pre">key</span> <span class="pre">tasks</span></code>, split the string and then
+try to parse the <code class="docutils literal"><span class="pre">tasks</span></code>, by first trying to evaluate it, and then
+simply splitting it and interpreting the results as the tasks.</p>
+<p>The general use cases are:</p>
+<ol class="arabic simple">
+<li>&#8220;box: range(2)&#8221; -&gt; key = <cite>box</cite>, tasks = <cite>[0, 1]</cite></li>
+<li>&#8220;box: [&#8216;A&#8217;, &#8216;B&#8217; &#8216;C&#8217;]&#8221; -&gt; key = <cite>box</cite>, tasks = <cite>[&#8216;A&#8217;, &#8216;B&#8217;, &#8216;C&#8217;]</cite></li>
+</ol>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nbodykit.utils.selectionlanguage.html"
+                        title="previous chapter">nbodykit.utils.selectionlanguage module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nbodykit.corrfrompower.html"
+                        title="next chapter">nbodykit.corrfrompower module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/nbodykit.utils.taskmanager.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.corrfrompower.html" title="nbodykit.corrfrompower module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.utils.selectionlanguage.html" title="nbodykit.utils.selectionlanguage module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" >nbodykit package</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="nbodykit.utils.html" >nbodykit.utils package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

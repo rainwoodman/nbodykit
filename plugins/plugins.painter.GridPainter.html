@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>plugins.painter.GridPainter module &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
+    <link rel="up" title="plugins.painter package" href="plugins.painter.html" />
+    <link rel="next" title="plugins.storage package" href="plugins.storage.html" />
+    <link rel="prev" title="plugins.painter.DefaultPainter module" href="plugins.painter.DefaultPainter.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plugins.storage.html" title="plugins.storage package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="plugins.painter.DefaultPainter.html" title="plugins.painter.DefaultPainter module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="plugins.html" >plugins package</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="plugins.painter.html" accesskey="U">plugins.painter package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-plugins.painter.GridPainter">
+<span id="plugins-painter-gridpainter-module"></span><h1>plugins.painter.GridPainter module<a class="headerlink" href="#module-plugins.painter.GridPainter" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="plugins.painter.GridPainter.GridPainter">
+<em class="property">class </em><code class="descclassname">plugins.painter.GridPainter.</code><code class="descname">GridPainter</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/painter/GridPainter.html#GridPainter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.painter.GridPainter.GridPainter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Painter" title="nbodykit.extensionpoints.Painter"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Painter</span></code></a></p>
+<p>Painter that reads a flattened 1D quantity from a binary file, 
+which corresponds to gridded field values on a (Nmesh, Nmesh, Nmesh)
+mesh</p>
+<dl class="method">
+<dt id="plugins.painter.GridPainter.GridPainter.paint">
+<code class="descname">paint</code><span class="sig-paren">(</span><em>pm</em>, <em>datasource</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/painter/GridPainter.html#GridPainter.paint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.painter.GridPainter.GridPainter.paint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the datasource (which specifies the binary file) and
+set <code class="docutils literal"><span class="pre">pm.real</span></code> appropriately given the gridded data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pm</strong> : <code class="docutils literal"><span class="pre">ParticleMesh</span></code></p>
+<blockquote>
+<div><p>particle mesh object that does the painting</p>
+</div></blockquote>
+<p><strong>datasource</strong> : <code class="docutils literal"><span class="pre">DataSource</span></code></p>
+<blockquote>
+<div><p>the data source object representing the field to paint onto the mesh</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>Ntot</strong> : int</p>
+<blockquote class="last">
+<div><p>returns <code class="docutils literal"><span class="pre">0</span></code> for the moment, since we don&#8217;t have info
+on the total number of particles</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="plugins.painter.GridPainter.GridPainter.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = 'GridPainter'</em><a class="headerlink" href="#plugins.painter.GridPainter.GridPainter.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="plugins.painter.GridPainter.GridPainter.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/painter/GridPainter.html#GridPainter.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.painter.GridPainter.GridPainter.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="plugins.painter.DefaultPainter.html"
+                        title="previous chapter">plugins.painter.DefaultPainter module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plugins.storage.html"
+                        title="next chapter">plugins.storage package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/plugins/plugins.painter.GridPainter.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plugins.storage.html" title="plugins.storage package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="plugins.painter.DefaultPainter.html" title="plugins.painter.DefaultPainter module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="plugins.html" >plugins package</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="plugins.painter.html" >plugins.painter package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

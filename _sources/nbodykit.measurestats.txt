@@ -1,0 +1,7 @@
+nbodykit.measurestats module
+============================
+
+.. automodule:: nbodykit.measurestats
+    :members:
+    :undoc-members:
+    :show-inheritance:

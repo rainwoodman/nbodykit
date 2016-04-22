@@ -1,0 +1,7 @@
+nbodykit.stripedfile module
+===========================
+
+.. automodule:: nbodykit.stripedfile
+    :members:
+    :undoc-members:
+    :show-inheritance:

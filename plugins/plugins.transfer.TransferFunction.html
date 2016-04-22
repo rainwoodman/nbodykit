@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>plugins.transfer.TransferFunction module &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
+    <link rel="up" title="plugins.transfer package" href="plugins.transfer.html" />
+    <link rel="prev" title="plugins.transfer package" href="plugins.transfer.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plugins.transfer.html" title="plugins.transfer package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="plugins.html" >plugins package</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="plugins.transfer.html" accesskey="U">plugins.transfer package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-plugins.transfer.TransferFunction">
+<span id="plugins-transfer-transferfunction-module"></span><h1>plugins.transfer.TransferFunction module<a class="headerlink" href="#module-plugins.transfer.TransferFunction" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="plugins.transfer.TransferFunction.AnisotropicCIC">
+<em class="property">class </em><code class="descclassname">plugins.transfer.TransferFunction.</code><code class="descname">AnisotropicCIC</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#AnisotropicCIC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicCIC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Transfer" title="nbodykit.extensionpoints.Transfer"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Transfer</span></code></a></p>
+<p>Divide by a kernel in Fourier space to account for
+the convolution of the gridded quantity with the 
+cloud-in-cell window function in configuration space</p>
+<dl class="attribute">
+<dt id="plugins.transfer.TransferFunction.AnisotropicCIC.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = 'AnisotropicCIC'</em><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicCIC.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="plugins.transfer.TransferFunction.AnisotropicCIC.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#AnisotropicCIC.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicCIC.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="plugins.transfer.TransferFunction.NormalizeDC">
+<em class="property">class </em><code class="descclassname">plugins.transfer.TransferFunction.</code><code class="descname">NormalizeDC</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#NormalizeDC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.NormalizeDC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Transfer" title="nbodykit.extensionpoints.Transfer"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Transfer</span></code></a></p>
+<p>Removes the DC amplitude in Fourier space, which effectively
+divides by the mean in configuration space</p>
+<dl class="attribute">
+<dt id="plugins.transfer.TransferFunction.NormalizeDC.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = 'NormalizeDC'</em><a class="headerlink" href="#plugins.transfer.TransferFunction.NormalizeDC.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="plugins.transfer.TransferFunction.NormalizeDC.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#NormalizeDC.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.NormalizeDC.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="plugins.transfer.TransferFunction.RemoveDC">
+<em class="property">class </em><code class="descclassname">plugins.transfer.TransferFunction.</code><code class="descname">RemoveDC</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#RemoveDC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.RemoveDC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Transfer" title="nbodykit.extensionpoints.Transfer"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Transfer</span></code></a></p>
+<p>Remove the DC amplitude, which sets the mean of the 
+field in configuration space to zero</p>
+<dl class="attribute">
+<dt id="plugins.transfer.TransferFunction.RemoveDC.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = 'RemoveDC'</em><a class="headerlink" href="#plugins.transfer.TransferFunction.RemoveDC.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="plugins.transfer.TransferFunction.RemoveDC.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#RemoveDC.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.RemoveDC.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="plugins.transfer.html"
+                        title="previous chapter">plugins.transfer package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/plugins/plugins.transfer.TransferFunction.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plugins.transfer.html" title="plugins.transfer package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="plugins.html" >plugins package</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="plugins.transfer.html" >plugins.transfer package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

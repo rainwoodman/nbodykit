@@ -1,0 +1,15 @@
+plugins.transfer package
+========================
+
+.. automodule:: plugins.transfer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   plugins.transfer.TransferFunction
+

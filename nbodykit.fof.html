@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nbodykit.fof module &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="index.html" />
+    <link rel="up" title="nbodykit package" href="nbodykit.html" />
+    <link rel="next" title="nbodykit.halos module" href="nbodykit.halos.html" />
+    <link rel="prev" title="nbodykit.files module" href="nbodykit.files.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.halos.html" title="nbodykit.halos module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.files.html" title="nbodykit.files module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" accesskey="U">nbodykit package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-nbodykit.fof">
+<span id="nbodykit-fof-module"></span><h1>nbodykit.fof module<a class="headerlink" href="#module-nbodykit.fof" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="nbodykit.fof.assign_halo_label">
+<code class="descclassname">nbodykit.fof.</code><code class="descname">assign_halo_label</code><span class="sig-paren">(</span><em>data</em>, <em>comm</em>, <em>thresh</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/fof.html#assign_halo_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.fof.assign_halo_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert minid to sequential labels starting from 0.</p>
+<p>This routine is used to assign halo label to particles with
+the same minid.
+Halos with less than thresh particles are reclassified to 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>minid</strong> : array_like, (&#8216;i8&#8217;)</p>
+<blockquote>
+<div><p>The minimum particle id of the halo. All particles of a halo 
+have the same minid</p>
+</div></blockquote>
+<p><strong>thresh</strong> : int</p>
+<blockquote>
+<div><p>halo with less than thresh particles are merged into halo 0</p>
+</div></blockquote>
+<p><strong>comm</strong> : py:class:<cite>MPI.Comm</cite></p>
+<blockquote>
+<div><p>communicator. since this is a collective operation</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>labels</strong> : array_like (&#8216;i8&#8217;)</p>
+<blockquote class="last">
+<div><p>The new labels of particles. Note that this is ordered
+by the size of halo, with the exception 0 represents all
+particles that are in halos that contain less than thresh particles.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.fof.fof">
+<code class="descclassname">nbodykit.fof.</code><code class="descname">fof</code><span class="sig-paren">(</span><em>datasource</em>, <em>linking_length</em>, <em>nmin</em>, <em>comm=&lt;mpi4py.MPI.Intracomm object&gt;</em>, <em>return_labels=False</em>, <em>log_level=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/fof.html#fof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.fof.fof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run Friend-of-friend halo finder.</p>
+<p>Friend-of-friend was first used by Davis et al 1985 to define
+halos in hierachical structure formation of cosmological simulations.
+The algorithm is also known as DBSCAN in computer science. 
+The subroutine here implements a parallel version of the FOF.</p>
+<p>The underlying local FOF algorithm is from <cite>kdcount.cluster</cite>, 
+which is an adaptation of the implementation in Volker Springel&#8217;s 
+Gadget and Martin White&#8217;s PM. It could have been done faster.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>datasource: DataSource</strong></p>
+<blockquote>
+<div><p>datasource; must support Position and Velocity.
+datasource.BoxSize is used too.</p>
+</div></blockquote>
+<p><strong>linking_length: float</strong></p>
+<blockquote>
+<div><p>linking length in terms of mean particle seperation.
+Typical values are 0.2 or 0.168.</p>
+</div></blockquote>
+<p><strong>nmin: int</strong></p>
+<blockquote>
+<div><p>Minimal length (number of particles) of a halo. Features
+with less than nmin particles are considered noise, and
+removed from the catalogue</p>
+</div></blockquote>
+<p><strong>return_labels: boolean</strong></p>
+<blockquote>
+<div><p>If true, return the labels. The labels can be a large chunk
+of memory. Default: False</p>
+</div></blockquote>
+<p><strong>comm: MPI.Comm</strong></p>
+<blockquote>
+<div><p>The mpi communicator.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">catalogue: array_like</p>
+<blockquote>
+<div><p>A 1-d array of type &#8216;Position&#8217;, &#8216;Velocity&#8217;, &#8216;Length&#8217;. 
+The center mass position and velocity of the FOF halo, and
+Length is the number of particles in a halo. The catalogue is
+sorted such that the most massive halo is first. catalogue[0]
+does not correspond to any halo.</p>
+</div></blockquote>
+<p>label: array_like</p>
+<blockquote class="last">
+<div><p>The halo label of each particle, as the sequence they were
+in the data source. A label of 0 standands for not in any halo.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.fof.local_fof">
+<code class="descclassname">nbodykit.fof.</code><code class="descname">local_fof</code><span class="sig-paren">(</span><em>pos</em>, <em>ll</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/fof.html#local_fof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.fof.local_fof" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.fof.split_size_2d">
+<code class="descclassname">nbodykit.fof.</code><code class="descname">split_size_2d</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/fof.html#split_size_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.fof.split_size_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split <cite>s</cite> into two integers, 
+a and d, such that a * d == s and a &lt;= d</p>
+<p>returns:  a, d</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nbodykit.files.html"
+                        title="previous chapter">nbodykit.files module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nbodykit.halos.html"
+                        title="next chapter">nbodykit.halos module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/nbodykit.fof.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.halos.html" title="nbodykit.halos module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.files.html" title="nbodykit.files module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" >nbodykit package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

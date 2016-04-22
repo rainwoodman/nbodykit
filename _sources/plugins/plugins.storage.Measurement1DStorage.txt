@@ -1,0 +1,7 @@
+plugins.storage.Measurement1DStorage module
+===========================================
+
+.. automodule:: plugins.storage.Measurement1DStorage
+    :members:
+    :undoc-members:
+    :show-inheritance:

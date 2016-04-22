@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>plugins.algorithms.FOF6D &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for plugins.algorithms.FOF6D</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">Algorithm</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="c"># for output</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+<span class="kn">import</span> <span class="nn">mpsort</span>
+<span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+<span class="kn">from</span> <span class="nn">kdcount</span> <span class="kn">import</span> <span class="n">cluster</span>
+
+<div class="viewcode-block" id="FOF6DAlgorithm"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.FOF6D.html#plugins.algorithms.FOF6D.FOF6DAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">FOF6DAlgorithm</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
+    <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;FOF6D&quot;</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="FOF6DAlgorithm.register"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.FOF6D.html#plugins.algorithms.FOF6D.FOF6DAlgorithm.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">DataSource</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">parser</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s">&quot;Finding subhalos from FOF groups. This is a variant of FOF6D.&quot;</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;datasource&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">DataSource</span><span class="o">.</span><span class="n">fromstring</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s">&#39;`DataSource` objects to run FOF against; run --list-datasource for specifics&#39;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;halolabel&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">DataSource</span><span class="o">.</span><span class="n">fromstring</span><span class="p">,</span>
+                <span class="n">help</span><span class="o">=</span><span class="s">&#39;data source for the halo label files; column name is Label.&#39;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--linklength&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.078</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;Link Length.&#39;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--vfactor&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.368</span><span class="p">,</span>
+                <span class="n">help</span><span class="o">=</span><span class="s">&#39;velocity linking length in units of 1d velocity dispersion.&#39;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--nmin&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;minimum number of particles in a halo&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FOF6DAlgorithm.run"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.FOF6D.html#plugins.algorithms.FOF6D.FOF6DAlgorithm.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">comm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="p">[[</span><span class="n">Label</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">halolabel</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="s">&#39;Label&#39;</span><span class="p">],</span> <span class="n">stats</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">Label</span> <span class="o">!=</span> <span class="mi">0</span>
+        <span class="n">PIG</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">(</span><span class="s">&#39;Position&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> 
+                <span class="p">(</span><span class="s">&#39;Velocity&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> 
+                <span class="p">(</span><span class="s">&#39;Label&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;i4&#39;</span><span class="p">)),</span> 
+                <span class="p">(</span><span class="s">&#39;Rank&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;i4&#39;</span><span class="p">)),</span> 
+                <span class="p">])</span>
+        <span class="n">PIG</span><span class="p">[</span><span class="s">&#39;Label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Label</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">Label</span>
+        <span class="p">[[</span><span class="n">Position</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasource</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="s">&#39;Position&#39;</span><span class="p">],</span> <span class="n">stats</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">PIG</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Position</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">Position</span>
+        <span class="p">[[</span><span class="n">Velocity</span><span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasource</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="s">&#39;Velocity&#39;</span><span class="p">],</span> <span class="n">stats</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">PIG</span><span class="p">[</span><span class="s">&#39;Velocity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Velocity</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">Velocity</span>
+     
+        <span class="n">Ntot</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mask</span><span class="p">))</span>
+        <span class="k">del</span> <span class="n">mask</span>
+
+        <span class="n">Nhalo</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span>
+            <span class="n">PIG</span><span class="p">[</span><span class="s">&#39;Label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">PIG</span><span class="p">[</span><span class="s">&#39;Label&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="n">MPI</span><span class="o">.</span><span class="n">MAX</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c"># now count number of particles per halo</span>
+        <span class="n">PIG</span><span class="p">[</span><span class="s">&#39;Rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PIG</span><span class="p">[</span><span class="s">&#39;Label&#39;</span><span class="p">]</span> <span class="o">%</span> <span class="n">comm</span><span class="o">.</span><span class="n">size</span>
+
+        <span class="n">Nlocal</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span>
+                    <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">PIG</span><span class="p">[</span><span class="s">&#39;Rank&#39;</span><span class="p">],</span> <span class="n">minlength</span><span class="o">=</span><span class="n">comm</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+                 <span class="p">)[</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span><span class="p">]</span>
+
+        <span class="n">PIG2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">Nlocal</span><span class="p">,</span> <span class="n">PIG</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="n">mpsort</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">PIG</span><span class="p">,</span> <span class="n">orderby</span><span class="o">=</span><span class="s">&#39;Rank&#39;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">PIG2</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">PIG</span>
+
+        <span class="k">assert</span> <span class="p">(</span><span class="n">PIG2</span><span class="p">[</span><span class="s">&#39;Rank&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">comm</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+        <span class="n">PIG2</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;Label&#39;</span><span class="p">])</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;halos = </span><span class="si">%d</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">Nhalo</span><span class="p">)</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">haloid</span> <span class="ow">in</span> <span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">PIG2</span><span class="p">[</span><span class="s">&#39;Label&#39;</span><span class="p">]):</span>
+            <span class="n">hstart</span> <span class="o">=</span> <span class="n">PIG2</span><span class="p">[</span><span class="s">&#39;Label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">haloid</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s">&#39;left&#39;</span><span class="p">)</span>
+            <span class="n">hend</span> <span class="o">=</span> <span class="n">PIG2</span><span class="p">[</span><span class="s">&#39;Label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">haloid</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s">&#39;right&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">hend</span> <span class="o">-</span> <span class="n">hstart</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">nmin</span><span class="p">:</span> <span class="k">continue</span>
+            <span class="k">assert</span><span class="p">(</span><span class="n">PIG2</span><span class="p">[</span><span class="s">&#39;Label&#39;</span><span class="p">][</span><span class="n">hstart</span><span class="p">:</span><span class="n">hend</span><span class="p">]</span> <span class="o">==</span> <span class="n">haloid</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="n">cat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">subfof</span><span class="p">(</span>
+                    <span class="n">PIG2</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">][</span><span class="n">hstart</span><span class="p">:</span><span class="n">hend</span><span class="p">],</span> 
+                    <span class="n">PIG2</span><span class="p">[</span><span class="s">&#39;Velocity&#39;</span><span class="p">][</span><span class="n">hstart</span><span class="p">:</span><span class="n">hend</span><span class="p">],</span> 
+                    <span class="bp">self</span><span class="o">.</span><span class="n">linklength</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datasource</span><span class="o">.</span><span class="n">BoxSize</span><span class="o">.</span><span class="n">prod</span><span class="p">()</span> <span class="o">/</span> <span class="n">Ntot</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.3333</span><span class="p">,</span> 
+                    <span class="bp">self</span><span class="o">.</span><span class="n">vfactor</span><span class="p">,</span> <span class="n">haloid</span><span class="p">,</span> <span class="n">Ntot</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasource</span><span class="o">.</span><span class="n">BoxSize</span><span class="p">))</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cat</span><span class="p">,</span> <span class="n">Ntot</span></div>
+
+<div class="viewcode-block" id="FOF6DAlgorithm.save"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.FOF6D.html#plugins.algorithms.FOF6D.FOF6DAlgorithm.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">comm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span>
+        <span class="n">cat</span><span class="p">,</span> <span class="n">Ntot</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">dataset</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&#39;Subhalos&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">cat</span><span class="p">)</span>
+                <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&#39;LinkingLength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linklength</span>
+                <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&#39;VFactor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vfactor</span>
+                <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&#39;Ntot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ntot</span>
+                <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s">&#39;BoxSize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasource</span><span class="o">.</span><span class="n">BoxSize</span></div></div>
+
+<div class="viewcode-block" id="subfof"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.FOF6D.html#plugins.algorithms.FOF6D.subfof">[docs]</a><span class="k">def</span> <span class="nf">subfof</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">vel</span><span class="p">,</span> <span class="n">ll</span><span class="p">,</span> <span class="n">vfactor</span><span class="p">,</span> <span class="n">haloid</span><span class="p">,</span> <span class="n">Ntot</span><span class="p">,</span> <span class="n">boxsize</span><span class="p">):</span>
+    <span class="n">nbar</span> <span class="o">=</span> <span class="n">Ntot</span> <span class="o">/</span> <span class="n">boxsize</span><span class="o">.</span><span class="n">prod</span><span class="p">()</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">pos</span> <span class="o">-=</span> <span class="n">first</span>
+    <span class="n">pos</span> <span class="o">/=</span> <span class="n">boxsize</span>
+    <span class="n">pos</span><span class="p">[</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">]</span>  <span class="o">-=</span> <span class="mf">1.0</span> 
+    <span class="n">pos</span><span class="p">[</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">1.0</span> 
+    <span class="n">pos</span> <span class="o">*=</span> <span class="n">boxsize</span>
+    <span class="n">pos</span> <span class="o">+=</span> <span class="n">first</span>
+
+    <span class="n">oldvel</span> <span class="o">=</span> <span class="n">vel</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">vmean</span> <span class="o">=</span> <span class="n">vel</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f8&#39;</span><span class="p">)</span>
+    <span class="n">vel</span> <span class="o">-=</span> <span class="n">vmean</span>
+    <span class="n">sigma_1d</span> <span class="o">=</span> <span class="p">(</span><span class="n">vel</span><span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f8&#39;</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+    <span class="n">vel</span> <span class="o">/=</span> <span class="p">(</span><span class="n">vfactor</span> <span class="o">*</span> <span class="n">sigma_1d</span><span class="p">)</span>
+    <span class="n">vel</span> <span class="o">*=</span> <span class="n">ll</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span> <span class="n">pos</span><span class="p">,</span> <span class="n">vel</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c">#data = pos</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">Nsub</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">thresh</span> <span class="o">=</span> <span class="mi">80</span>
+    <span class="n">fof</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">fof</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">linking_length</span><span class="o">=</span><span class="n">ll</span><span class="p">,</span> <span class="n">np</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">Nsub</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">thresh</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c"># reducing the threshold till we find something..</span>
+        <span class="n">Nsub</span> <span class="o">=</span> <span class="p">(</span><span class="n">fof</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">thresh</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">thresh</span> <span class="o">*=</span> <span class="mf">0.9</span>
+    <span class="c"># if nothing is found then assume this FOF group is a fluke.</span>
+ 
+    <span class="n">output</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">Nsub</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s">&#39;Position&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;Velocity&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s">&#39;LinkingLength&#39;</span><span class="p">,</span> <span class="s">&#39;f4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;R200&#39;</span><span class="p">,</span> <span class="s">&#39;f4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;R500&#39;</span><span class="p">,</span> <span class="s">&#39;f4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;R1200&#39;</span><span class="p">,</span> <span class="s">&#39;f4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;R2400&#39;</span><span class="p">,</span> <span class="s">&#39;f4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;R6000&#39;</span><span class="p">,</span> <span class="s">&#39;f4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;Length&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;HaloID&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span>
+        <span class="p">])</span>
+
+    <span class="n">output</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">fof</span><span class="o">.</span><span class="n">center</span><span class="p">()[:</span><span class="n">Nsub</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">output</span><span class="p">[</span><span class="s">&#39;Length&#39;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">fof</span><span class="o">.</span><span class="n">length</span><span class="p">[:</span><span class="n">Nsub</span><span class="p">]</span>
+    <span class="n">output</span><span class="p">[</span><span class="s">&#39;HaloID&#39;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">haloid</span>
+    <span class="n">output</span><span class="p">[</span><span class="s">&#39;LinkingLength&#39;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">ll</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">output</span><span class="p">[</span><span class="s">&#39;Velocity&#39;</span><span class="p">][</span><span class="o">...</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fof</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">oldvel</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])[:</span><span class="n">Nsub</span><span class="p">]</span> <span class="o">/</span> <span class="n">output</span><span class="p">[</span><span class="s">&#39;Length&#39;</span><span class="p">]</span>
+
+    <span class="k">del</span> <span class="n">fof</span>
+    <span class="k">del</span> <span class="n">data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Nsub</span><span class="p">):</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> 
+        <span class="n">rmax</span> <span class="o">=</span> <span class="p">(((</span><span class="n">pos</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">r1</span> <span class="o">=</span> <span class="n">rmax</span>
+        <span class="n">output</span><span class="p">[</span><span class="s">&#39;R200&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">so</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">nbar</span><span class="p">,</span> <span class="mf">200.</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">[</span><span class="s">&#39;R500&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">so</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">nbar</span><span class="p">,</span> <span class="mf">500.</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">[</span><span class="s">&#39;R1200&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">so</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">output</span><span class="p">[</span><span class="s">&#39;R200&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">nbar</span><span class="p">,</span> <span class="mf">1200.</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">[</span><span class="s">&#39;R2400&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">so</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">output</span><span class="p">[</span><span class="s">&#39;R1200&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">nbar</span><span class="p">,</span> <span class="mf">2400.</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">[</span><span class="s">&#39;R6000&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">so</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">output</span><span class="p">[</span><span class="s">&#39;R2400&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">nbar</span><span class="p">,</span> <span class="mf">6000.</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="so"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.FOF6D.html#plugins.algorithms.FOF6D.so">[docs]</a><span class="k">def</span> <span class="nf">so</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">nbar</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">center</span><span class="p">])</span>
+    <span class="n">dcenter</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">dataset</span><span class="p">(</span><span class="n">center</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">delta</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="mf">1e-7</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">dcenter</span><span class="o">.</span><span class="n">tree</span><span class="p">,</span> <span class="p">[</span><span class="n">r</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">N</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">r</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">n</span> <span class="o">/</span> <span class="n">nbar</span> <span class="o">-</span> <span class="mi">1</span>
+     
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="n">delta</span><span class="p">(</span><span class="n">r1</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">d1</span> <span class="o">&gt;</span> <span class="n">thresh</span><span class="p">:</span>
+            <span class="n">r1</span> <span class="o">*=</span> <span class="mf">1.4</span>
+            <span class="n">d1</span> <span class="o">=</span> <span class="n">delta</span><span class="p">(</span><span class="n">r1</span><span class="p">)</span>
+        <span class="c"># d1 &lt; 200</span>
+        <span class="n">r2</span> <span class="o">=</span> <span class="n">r1</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="n">d1</span>
+        <span class="k">while</span> <span class="n">d2</span> <span class="o">&lt;</span> <span class="n">thresh</span><span class="p">:</span>
+            <span class="n">r2</span> <span class="o">*=</span> <span class="mf">0.7</span>
+            <span class="n">d2</span> <span class="o">=</span> <span class="n">delta</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span>
+        <span class="c"># d2 &gt; 200</span>
+
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">r1</span> <span class="o">*</span> <span class="n">r2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">delta</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span> <span class="o">-</span> <span class="n">thresh</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">:</span>
+                <span class="n">r2</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">:</span>
+                <span class="n">r1</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">r</span>
+
+    <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">nan</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

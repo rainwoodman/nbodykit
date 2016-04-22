@@ -1,0 +1,7 @@
+nbodykit.plugins module
+=======================
+
+.. automodule:: nbodykit.plugins
+    :members:
+    :undoc-members:
+    :show-inheritance:

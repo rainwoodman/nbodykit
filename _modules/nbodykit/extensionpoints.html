@@ -1,0 +1,672 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nbodykit.extensionpoints &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for nbodykit.extensionpoints</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Declare PluginMount and various extension points.</span>
+
+<span class="sd">    To define a Plugin, </span>
+
+<span class="sd">    1. subclass from the extension point class</span>
+<span class="sd">    2. define a class method `register`, that calls add_argument</span>
+<span class="sd">       to kls.parser.</span>
+<span class="sd">    3. define a plugin_name member.</span>
+
+<span class="sd">    To define an ExtensionPoint,</span>
+
+<span class="sd">    1. add a class decorator @ExtensionPoint</span>
+<span class="sd">    </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="c"># MPI will be required because</span>
+<span class="c"># a plugin instance will be created for a MPI communicator.</span>
+<span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+
+<span class="kn">from</span> <span class="nn">nbodykit.pluginmanager</span> <span class="kn">import</span> <span class="n">HelpFormatterColon</span><span class="p">,</span> <span class="n">load</span>
+<span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">Namespace</span><span class="p">,</span> <span class="n">SUPPRESS</span><span class="p">,</span> <span class="n">ArgumentParser</span><span class="p">,</span> <span class="n">HelpFormatter</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+
+<span class="n">algorithms</span> <span class="o">=</span> <span class="n">Namespace</span><span class="p">()</span>
+<span class="n">datasources</span> <span class="o">=</span> <span class="n">Namespace</span><span class="p">()</span>
+<span class="n">painters</span> <span class="o">=</span> <span class="n">Namespace</span><span class="p">()</span>
+<span class="n">transfers</span> <span class="o">=</span> <span class="n">Namespace</span><span class="p">()</span>
+<span class="n">mstorages</span> <span class="o">=</span> <span class="n">Namespace</span><span class="p">()</span>
+
+<span class="c"># private variable to store global MPI communicator </span>
+<span class="c"># that all plugins are initialized with</span>
+<span class="n">_comm</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span>
+
+<span class="k">def</span> <span class="nf">get_plugin_comm</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the global MPI communicator that all plugins </span>
+<span class="sd">    will be instantiated with (stored in `comm` attribute of plugin)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_comm</span>
+    
+<span class="k">def</span> <span class="nf">set_plugin_comm</span><span class="p">(</span><span class="n">comm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the global MPI communicator that all plugins </span>
+<span class="sd">    will be instantiated with (stored in `comm` attribute of plugin)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_comm</span>
+    <span class="n">_comm</span> <span class="o">=</span> <span class="n">comm</span>
+
+<span class="k">class</span> <span class="nc">PluginInterface</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    The basic interface of a plugin </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="nf">finalize_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># override to finalize the attributes based on parsed attributes.</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">string</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">string</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">string</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">string</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    
+        <span class="c"># automatically set the communicator for each plugin</span>
+        <span class="c"># to the global communicator, stored in _comm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm</span> <span class="o">=</span> <span class="n">_comm</span> 
+
+        <span class="c"># FIXME: set unique string by default</span>
+        <span class="c"># directly created object does not have a string!</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> 
+
+        <span class="n">missing</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+       
+        <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">_actions</span><span class="p">:</span>
+            <span class="n">argname</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">dest</span>
+            <span class="k">if</span> <span class="n">action</span><span class="o">.</span><span class="n">default</span> <span class="o">==</span> <span class="n">SUPPRESS</span><span class="p">:</span>
+                <span class="k">continue</span>
+                    
+            <span class="k">if</span> <span class="n">argname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">action</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
+                    <span class="n">d</span><span class="p">[</span><span class="n">argname</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">default</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">missing</span> <span class="o">+=</span> <span class="n">argname</span> 
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">argname</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">argname</span><span class="p">]</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">argname</span><span class="p">)</span>
+                
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Missing arguments : </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">missing</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Extra arguments : </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        
+<span class="k">def</span> <span class="nf">ExtensionPoint</span><span class="p">(</span><span class="n">registry</span><span class="p">,</span> <span class="n">help_formatter</span><span class="o">=</span><span class="n">HelpFormatter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Declares a class as an extension point, registering to registry &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">wrapped</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="n">cls</span> <span class="o">=</span> <span class="n">add_metaclass</span><span class="p">(</span><span class="n">PluginMount</span><span class="p">)(</span><span class="n">cls</span><span class="p">)</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">registry</span> <span class="o">=</span> <span class="n">registry</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">help_formatter</span> <span class="o">=</span> <span class="n">help_formatter</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">plugins</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">cls</span>
+    <span class="k">return</span> <span class="n">wrapped</span>
+
+<span class="k">class</span> <span class="nc">PluginMount</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Metaclass for an extension point that provides</span>
+<span class="sd">        the methods to manage</span>
+<span class="sd">        plugins attached to the extension point.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+        <span class="c"># Add PluginInterface to the ExtensionPoint,</span>
+        <span class="c"># Plugins at an extensioni point will inherit from PluginInterface</span>
+        <span class="c"># This is more twisted than it could have been!</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bases</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bases</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">bases</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="nb">object</span><span class="p">):</span>
+            <span class="n">bases</span> <span class="o">=</span> <span class="p">(</span><span class="n">PluginInterface</span><span class="p">,)</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+        <span class="c"># only executes when processing the mount point itself.</span>
+        <span class="c"># the extension mount point only declares a PluginInterface</span>
+        <span class="c"># the plugins at an extension point will always be its subclass</span>
+        
+        <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">__bases__</span> <span class="o">==</span> <span class="p">(</span><span class="n">PluginInterface</span><span class="p">,</span> <span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="s">&#39;plugin_name&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Plugin class must carry a plugin_name.&quot;</span><span class="p">)</span>
+        
+        <span class="c"># register, if this plugin isn&#39;t yet</span>
+        <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">plugin_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">plugins</span><span class="p">:</span>
+            <span class="c"># add a commandline argument parser for each plugin</span>
+            <span class="c"># NOTE: we don&#39;t want every plugin to preparse sys.argv</span>
+            <span class="c"># so set args = ()</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">plugin_name</span><span class="p">,</span> 
+                                        <span class="n">usage</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                                        <span class="n">add_help</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> 
+                                        <span class="n">formatter_class</span><span class="o">=</span><span class="n">cls</span><span class="o">.</span><span class="n">help_formatter</span><span class="p">)</span>
+
+            <span class="c"># track names of classes</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">plugin_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">cls</span>
+        
+            <span class="c"># store as part of the algorithms namespace</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">registry</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">plugin_name</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span>
+
+            <span class="c"># try to call register class method</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="s">&#39;register&#39;</span><span class="p">):</span>
+                <span class="n">cls</span><span class="o">.</span><span class="n">register</span><span class="p">()</span>
+
+            <span class="c"># set the class documentation automatically</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__doc__</span>
+            <span class="k">if</span> <span class="n">doc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">cls</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="o">+</span><span class="n">cls</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cls</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">kls</span><span class="p">,</span> <span class="n">argv</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot; Instantiate a plugin from this extension point,</span>
+<span class="sd">            based on the cmdline string. The arguments in string</span>
+<span class="sd">            will be parsed and the attributes of the instance will</span>
+<span class="sd">            be populated.</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            argv: list of strings</span>
+<span class="sd">                The first field specifies the type of the plugin</span>
+<span class="sd">                to create.</span>
+<span class="sd">                The reset depends on the type of the plugin.</span>
+
+<span class="sd">            Notes</span>
+<span class="sd">            -----</span>
+<span class="sd">            2nd stage parsing: A plugin can override </span>
+<span class="sd">            `finalize_attributes` to finalize the</span>
+<span class="sd">            attribute values based on currently parsed attribute values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">klass</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="n">klass</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        
+        <span class="bp">self</span> <span class="o">=</span> <span class="n">klass</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">finalize_attributes</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">format_help</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
+        
+        <span class="n">rt</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kls</span><span class="o">.</span><span class="n">plugins</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="s">&quot;Plugin : </span><span class="si">%s</span><span class="s">  ExtensionPoint : </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">kls</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="n">rt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+            <span class="n">rt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;=&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)))</span>
+            <span class="n">rt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kls</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">rt</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">&quot;No available Plugins registered at </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">kls</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rt</span><span class="p">)</span>
+
+<span class="c"># copied from six</span>
+<span class="k">def</span> <span class="nf">add_metaclass</span><span class="p">(</span><span class="n">metaclass</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class decorator for creating a class with a metaclass.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="n">orig_vars</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">slots</span> <span class="o">=</span> <span class="n">orig_vars</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;__slots__&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">slots</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slots</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">slots</span> <span class="o">=</span> <span class="p">[</span><span class="n">slots</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">slots_var</span> <span class="ow">in</span> <span class="n">slots</span><span class="p">:</span>
+                <span class="n">orig_vars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">slots_var</span><span class="p">)</span>
+        <span class="n">orig_vars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;__dict__&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">orig_vars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;__weakref__&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">metaclass</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">__bases__</span><span class="p">,</span> <span class="n">orig_vars</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="nd">@ExtensionPoint</span><span class="p">(</span><span class="n">transfers</span><span class="p">,</span> <span class="n">HelpFormatterColon</span><span class="p">)</span>
+<div class="viewcode-block" id="Transfer"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Transfer">[docs]</a><span class="k">class</span> <span class="nc">Transfer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mount point for plugins which apply a k-space transfer function</span>
+<span class="sd">    to the Fourier transfrom of a datasource field</span>
+<span class="sd">    </span>
+<span class="sd">    Plugins implementing this reference should provide the following </span>
+<span class="sd">    attributes:</span>
+
+<span class="sd">    plugin_name : str</span>
+<span class="sd">        class attribute giving the name of the subparser which </span>
+<span class="sd">        defines the necessary command line arguments for the plugin</span>
+<span class="sd">    </span>
+<span class="sd">    register : classmethod</span>
+<span class="sd">        A class method taking no arguments that adds a subparser</span>
+<span class="sd">        and the necessary command line arguments for the plugin</span>
+<span class="sd">    </span>
+<span class="sd">    __call__ : method</span>
+<span class="sd">        function that will apply the transfer function to the complex array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Apply the transfer function to the complex field</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pm : ParticleMesh</span>
+<span class="sd">            the particle mesh object which holds possibly useful</span>
+<span class="sd">            information, i.e, `w` or `k` arrays</span>
+<span class="sd">        complex : array_like</span>
+<span class="sd">            the complex array to apply the transfer to</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Transfer.fromstring"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Transfer.fromstring">[docs]</a>    <span class="k">def</span> <span class="nf">fromstring</span><span class="p">(</span><span class="n">kls</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span> 
+        <span class="k">return</span> <span class="n">kls</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">))</span></div></div>
+
+<span class="nd">@ExtensionPoint</span><span class="p">(</span><span class="n">datasources</span><span class="p">,</span> <span class="n">HelpFormatterColon</span><span class="p">)</span>
+<div class="viewcode-block" id="DataSource"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource">[docs]</a><span class="k">class</span> <span class="nc">DataSource</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mount point for plugins which refer to the reading of input files </span>
+<span class="sd">    and the subsequent painting of those fields.</span>
+
+<span class="sd">    Plugins implementing this reference should provide the following </span>
+<span class="sd">    attributes:</span>
+
+<span class="sd">    plugin_name : str</span>
+<span class="sd">        class attribute giving the name of the subparser which </span>
+<span class="sd">        defines the necessary command line arguments for the plugin</span>
+<span class="sd">    </span>
+<span class="sd">    register : classmethod</span>
+<span class="sd">        A class method taking no arguments that adds a subparser</span>
+<span class="sd">        and the necessary command line arguments for the plugin</span>
+<span class="sd">    </span>
+<span class="sd">    readall: method</span>
+<span class="sd">        A method that performs the reading of the field. This method</span>
+<span class="sd">        reads in the full data set. It shall</span>
+<span class="sd">        returns the position (in 0 to BoxSize) and velocity (in the</span>
+<span class="sd">        same units as position). This method is called by the default</span>
+<span class="sd">        read method on the root rank for reading small data sets.</span>
+
+<span class="sd">    read: method</span>
+<span class="sd">        A method that performs the reading of the field. It shall</span>
+<span class="sd">        returns the position (in 0 to BoxSize) and velocity (in the</span>
+<span class="sd">        same units as position), in chunks as an iterator. The</span>
+<span class="sd">        default behavior is to use Rank 0 to read in the full data</span>
+<span class="sd">        and yield an empty data. </span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DataSource.BoxSizeParser"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource.BoxSizeParser">[docs]</a>    <span class="k">def</span> <span class="nf">BoxSizeParser</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse a string of either a single float, or </span>
+<span class="sd">        a space-separated string of 3 floats, representing </span>
+<span class="sd">        a box size. Designed to be used by the DataSource plugins</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        BoxSize : array_like</span>
+<span class="sd">            an array of size 3 giving the box size in each dimension</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">boxsize</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f8&#39;</span><span class="p">)</span>
+        <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">sizes</span> <span class="o">=</span> <span class="n">sizes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">boxsize</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">sizes</span>
+        <span class="k">return</span> <span class="n">boxsize</span></div>
+
+<div class="viewcode-block" id="DataSource.readall"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource.readall">[docs]</a>    <span class="k">def</span> <span class="nf">readall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Override to provide a method to read in all data at once,</span>
+<span class="sd">            uncollectively. </span>
+
+<span class="sd">            Notes</span>
+<span class="sd">            -----</span>
+
+<span class="sd">            This function will be called by the default &#39;read&#39; function</span>
+<span class="sd">            on the root rank to read in the data set.</span>
+<span class="sd">            The intention is to reduce the complexity of implementing a</span>
+<span class="sd">            simple and small data source.</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="DataSource.read"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">stat</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">            Yield the data in the columns. If full is True, read all</span>
+<span class="sd">            particles in one run; otherwise try to read in chunks.</span>
+
+<span class="sd">            Override this function for complex, large data sets. The read</span>
+<span class="sd">            operation shall be collective, each yield generates different</span>
+<span class="sd">            sections of the datasource.</span>
+
+<span class="sd">            On every iteration `stat` shall be updated with the global </span>
+<span class="sd">            statistics. Current keys are `Ntot`.</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            
+            <span class="c"># make sure we have at least one column to read</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;DataSource::read received no columns to read&quot;</span><span class="p">)</span>
+            
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readall</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>    
+            <span class="n">shape_and_dtype</span> <span class="o">=</span> <span class="p">[(</span><span class="n">d</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+            <span class="n">Ntot</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c"># columns has to have length &gt;= 1, or we crashed already</span>
+            
+            <span class="c"># make sure the number of rows in each column read is equal</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">==</span> <span class="n">Ntot</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;column length mismatch in DataSource::read&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">shape_and_dtype</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">Ntot</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">shape_and_dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">shape_and_dtype</span><span class="p">)</span>
+        <span class="n">stat</span><span class="p">[</span><span class="s">&#39;Ntot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">Ntot</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+                <span class="k">for</span> <span class="n">shape</span><span class="p">,</span><span class="n">dtype</span> <span class="ow">in</span> <span class="n">shape_and_dtype</span>
+            <span class="p">]</span>
+
+        <span class="k">yield</span> <span class="n">data</span> </div>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DataSource.fromstring"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource.fromstring">[docs]</a>    <span class="k">def</span> <span class="nf">fromstring</span><span class="p">(</span><span class="n">kls</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span> 
+        <span class="k">return</span> <span class="n">kls</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">))</span></div></div>
+
+
+
+<span class="nd">@ExtensionPoint</span><span class="p">(</span><span class="n">painters</span><span class="p">,</span> <span class="n">HelpFormatterColon</span><span class="p">)</span>
+<div class="viewcode-block" id="Painter"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Painter">[docs]</a><span class="k">class</span> <span class="nc">Painter</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mount point for plugins which refer to the painting of input files.</span>
+
+<span class="sd">    Plugins implementing this reference should provide the following </span>
+<span class="sd">    attributes:</span>
+
+<span class="sd">    plugin_name : str</span>
+<span class="sd">        class attribute giving the name of the subparser which </span>
+<span class="sd">        defines the necessary command line arguments for the plugin</span>
+<span class="sd">    </span>
+<span class="sd">    register : classmethod</span>
+<span class="sd">        A class method taking no arguments that adds a subparser</span>
+<span class="sd">        and the necessary command line arguments for the plugin</span>
+<span class="sd">    </span>
+<span class="sd">    paint : method</span>
+<span class="sd">        A method that performs the painting of the field.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="Painter.paint"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Painter.paint">[docs]</a>    <span class="k">def</span> <span class="nf">paint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">datasource</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">            Paint from a data source. It shall loop over self.read_and_decompose(...)</span>
+<span class="sd">            and paint the data in chunks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Painter.read_and_decompose"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Painter.read_and_decompose">[docs]</a>    <span class="k">def</span> <span class="nf">read_and_decompose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">datasource</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">stats</span><span class="p">):</span>
+
+        <span class="k">assert</span> <span class="s">&#39;Position&#39;</span> <span class="ow">in</span> <span class="n">columns</span>
+        <span class="k">assert</span> <span class="n">pm</span><span class="o">.</span><span class="n">comm</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span> <span class="c"># pm must be from the same communicator!</span>
+
+        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">datasource</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+            <span class="n">position</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">]</span>
+
+            <span class="n">layout</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">decompose</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">exchange</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+                
+            <span class="k">yield</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span></div>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Painter.fromstring"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Painter.fromstring">[docs]</a>    <span class="k">def</span> <span class="nf">fromstring</span><span class="p">(</span><span class="n">kls</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span> 
+        <span class="k">return</span> <span class="n">kls</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">))</span></div></div>
+
+<span class="nd">@ExtensionPoint</span><span class="p">(</span><span class="n">mstorages</span><span class="p">,</span> <span class="n">HelpFormatterColon</span><span class="p">)</span>
+<div class="viewcode-block" id="MeasurementStorage"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.MeasurementStorage">[docs]</a><span class="k">class</span> <span class="nc">MeasurementStorage</span><span class="p">:</span>
+
+    <span class="n">plugin_name</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">klasses</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="MeasurementStorage.add_storage_klass"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.MeasurementStorage.add_storage_klass">[docs]</a>    <span class="k">def</span> <span class="nf">add_storage_klass</span><span class="p">(</span><span class="n">kls</span><span class="p">,</span> <span class="n">klass</span><span class="p">):</span>
+        <span class="n">kls</span><span class="o">.</span><span class="n">klasses</span><span class="p">[</span><span class="n">klass</span><span class="o">.</span><span class="n">plugin_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">klass</span></div>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="MeasurementStorage.new"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.MeasurementStorage.new">[docs]</a>    <span class="k">def</span> <span class="nf">new</span><span class="p">(</span><span class="n">kls</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="n">klass</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">klasses</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">klass</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">obj</span></div>
+        
+    <span class="nd">@contextlib.contextmanager</span>
+<div class="viewcode-block" id="MeasurementStorage.open"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.MeasurementStorage.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">!=</span> <span class="s">&#39;-&#39;</span><span class="p">:</span>
+            <span class="n">ff</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ff</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+            
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">ff</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ff</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+                <span class="n">ff</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MeasurementStorage.write"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.MeasurementStorage.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span></div></div>
+
+
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="c"># plugin classes implementing `Algorithm`        </span>
+<span class="c">#------------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">ReadConfigFile</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read parameters from a file using YAML syntax</span>
+<span class="sd">    </span>
+<span class="sd">    The function uses the specified ArgumentParser to:</span>
+<span class="sd">        * infer default values</span>
+<span class="sd">        * check if parameter values are consistent with `choices`</span>
+<span class="sd">        * infer the `type` of each parameter</span>
+<span class="sd">        * check if any required parameters are missing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">yaml</span>
+    
+    <span class="c"># make a new namespace</span>
+    <span class="n">ns</span><span class="p">,</span> <span class="n">unknown</span> <span class="o">=</span> <span class="n">Namespace</span><span class="p">(),</span> <span class="n">Namespace</span><span class="p">()</span>
+
+    <span class="c"># read the yaml config file</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">config_file</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">))</span>
+    
+    <span class="c"># first search for plugins</span>
+    <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="s">&#39;X&#39;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s">&#39;X&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugins</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">plugins</span> <span class="o">=</span> <span class="p">[</span><span class="n">plugins</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span> <span class="n">load</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+        <span class="n">unknown</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">plugins</span> 
+        <span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;X&#39;</span><span class="p">)</span>
+
+    
+    <span class="c"># set defaults, check required and choices</span>
+    <span class="n">argnames</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">dest</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">parser</span><span class="o">.</span><span class="n">_actions</span><span class="p">])</span>
+    <span class="n">missing</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">parser</span><span class="o">.</span><span class="n">_actions</span><span class="p">:</span>
+        
+        <span class="c"># set the default, if not suppressed</span>
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">default</span> <span class="o">!=</span> <span class="n">SUPPRESS</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">dest</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
+            
+        <span class="c"># check for choices</span>
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">dest</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span> 
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">choices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">dest</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">choices</span><span class="p">:</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dest</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">dest</span><span class="p">],</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&quot;&#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">choices</span><span class="p">]))</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;argument </span><span class="si">%s</span><span class="s">: invalid choice &#39;</span><span class="si">%s</span><span class="s">&#39; (choose from </span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">dest</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">types</span> <span class="ow">and</span> <span class="n">a</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">types</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">dest</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">type</span>
+        <span class="k">else</span><span class="p">:</span>        
+            <span class="c"># track missing        </span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">required</span><span class="p">:</span> <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span>
+                
+    <span class="c"># raise error if missing</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
+        <span class="n">missing</span> <span class="o">=</span> <span class="s">&quot;(</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&quot;&#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">missing</span><span class="p">)</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">format_usage</span><span class="p">(),</span> <span class="n">parser</span><span class="o">.</span><span class="n">prog</span><span class="p">,</span> <span class="n">missing</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="se">\n\n</span><span class="si">%s</span><span class="s">: too few arguments, missing: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">args</span><span class="p">)</span>
+                
+    <span class="c"># set the values, casting if available</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">argnames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span> <span class="n">v</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">k</span><span class="p">](</span><span class="n">v</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">unknown</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">ns</span><span class="p">,</span> <span class="n">unknown</span>
+    
+    
+<span class="nd">@ExtensionPoint</span><span class="p">(</span><span class="n">algorithms</span><span class="p">)</span>
+<div class="viewcode-block" id="Algorithm"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Algorithm">[docs]</a><span class="k">class</span> <span class="nc">Algorithm</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mount point for plugins which provide an interface for running</span>
+<span class="sd">    one of the high-level algorithms, i.e, power spectrum calculation</span>
+<span class="sd">    or FOF halo finder</span>
+<span class="sd">    </span>
+<span class="sd">    Plugins implementing this reference should provide the following </span>
+<span class="sd">    attributes:</span>
+
+<span class="sd">    plugin_name : str</span>
+<span class="sd">        class attribute giving the name of the subparser which </span>
+<span class="sd">        defines the necessary command line arguments for the plugin</span>
+<span class="sd">    </span>
+<span class="sd">    register : classmethod</span>
+<span class="sd">        A class method taking no arguments that adds a subparser</span>
+<span class="sd">        and the necessary command line arguments for the plugin</span>
+<span class="sd">    </span>
+<span class="sd">    __call__ : method</span>
+<span class="sd">        function that will apply the transfer function to the complex array</span>
+<span class="sd">    &quot;&quot;&quot;</span>        
+<div class="viewcode-block" id="Algorithm.run"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Algorithm.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+    
+<div class="viewcode-block" id="Algorithm.save"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Algorithm.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+    
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Algorithm.parse_known_yaml"><a class="viewcode-back" href="../../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Algorithm.parse_known_yaml">[docs]</a>    <span class="k">def</span> <span class="nf">parse_known_yaml</span><span class="p">(</span><span class="n">kls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">config_file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse the known (and unknown) attributes from a YAML, where `known`</span>
+<span class="sd">        arguments must be part of the Algorithm.parser instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># get the class for this algorithm name</span>
+        <span class="n">klass</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        
+        <span class="c"># get the namespace from the config file</span>
+        <span class="k">return</span> <span class="n">ReadConfigFile</span><span class="p">(</span><span class="n">klass</span><span class="o">.</span><span class="n">parser</span><span class="p">,</span> <span class="n">config_file</span><span class="p">)</span></div></div>
+        
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;DataSource&#39;</span><span class="p">,</span> <span class="s">&#39;Painter&#39;</span><span class="p">,</span> <span class="s">&#39;Transfer&#39;</span><span class="p">,</span> <span class="s">&#39;MeasurementStorage&#39;</span><span class="p">,</span> <span class="s">&#39;Algorithm&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">plugin_isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">extensionpt</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return `True` if the string representation of an extension point</span>
+<span class="sd">    is an instance of the extension point class `extensionpt`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">extensionpt</span><span class="p">,</span> <span class="s">&#39;plugins&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;please specify a valid extension point as the second argument&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">extensionpt</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

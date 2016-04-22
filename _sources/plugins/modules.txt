@@ -1,0 +1,7 @@
+Plugins Reference
+=================
+
+.. toctree::
+   :maxdepth: 4
+
+   plugins

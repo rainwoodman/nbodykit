@@ -1,0 +1,505 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nbodykit.files &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for nbodykit.files</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">.stripedfile</span> <span class="kn">import</span> <span class="n">StripeFile</span><span class="p">,</span> <span class="n">DataStorage</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;TPMSnapshotFile&#39;</span><span class="p">,</span> <span class="s">&#39;SnapshotFile&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="TPMSnapshotFile"><a class="viewcode-back" href="../../nbodykit.files.html#nbodykit.files.TPMSnapshotFile">[docs]</a><span class="k">class</span> <span class="nc">TPMSnapshotFile</span><span class="p">(</span><span class="n">StripeFile</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&quot;.</span><span class="si">%02d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">fid</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;i4&#39;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">npart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offset_table</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;Position&#39;</span> <span class="p">:</span> <span class="p">((</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">4</span><span class="p">),</span> 
+            <span class="s">&#39;Velocity&#39;</span> <span class="p">:</span> <span class="p">((</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">12</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span><span class="p">),</span>
+            <span class="s">&#39;ID&#39;</span> <span class="p">:</span> <span class="p">((</span><span class="s">&#39;u8&#39;</span><span class="p">),</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">12</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="TPMSnapshotFile.create"><a class="viewcode-back" href="../../nbodykit.files.html#nbodykit.files.TPMSnapshotFile.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">kls</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">npart</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&quot;.</span><span class="si">%02d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">fid</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;i4&#39;</span><span class="p">)</span>
+        <span class="n">header</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">npart</span>
+        <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+            <span class="n">header</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">ff</span><span class="p">)</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="n">kls</span><span class="p">(</span><span class="n">basename</span><span class="p">,</span> <span class="n">fid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+ 
+<div class="viewcode-block" id="TPMSnapshotFile.read"><a class="viewcode-back" href="../../nbodykit.files.html#nbodykit.files.TPMSnapshotFile.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">mystart</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">myend</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">dtype</span><span class="p">,</span> <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset_table</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">myend</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">myend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+            <span class="c"># skip header</span>
+            <span class="n">ff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="c"># jump to mystart of positions</span>
+            <span class="n">ff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">mystart</span> <span class="o">*</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">myend</span> <span class="o">-</span> <span class="n">mystart</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TPMSnapshotFile.write"><a class="viewcode-back" href="../../nbodykit.files.html#nbodykit.files.TPMSnapshotFile.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">mystart</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">dtype</span><span class="p">,</span> <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset_table</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rb+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+            <span class="c"># skip header</span>
+            <span class="n">ff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="c"># jump to mystart of positions</span>
+            <span class="n">ff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">mystart</span> <span class="o">*</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">base</span><span class="p">)</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">ff</span><span class="p">)</span></div></div>
+
+<span class="k">class</span> <span class="nc">GadgetSnapshotFile</span><span class="p">(</span><span class="n">StripeFile</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">ptype</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">posdtype</span><span class="o">=</span><span class="s">&#39;f8&#39;</span><span class="p">,</span> <span class="n">veldtype</span><span class="o">=</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="n">massdtype</span><span class="o">=</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="n">iddtype</span><span class="o">=</span><span class="s">&#39;u8&#39;</span><span class="p">)):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ptype</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;ptype&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&quot;.</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">fid</span>
+        <span class="n">posdtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;posdtype&#39;</span><span class="p">])</span>
+        <span class="n">veldtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;veldtype&#39;</span><span class="p">])</span>
+        <span class="n">massdtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;massdtype&#39;</span><span class="p">])</span>
+        <span class="n">iddtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;iddtype&#39;</span><span class="p">])</span>
+        
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;u1&#39;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">256</span><span class="o">+</span><span class="mi">8</span><span class="p">)</span>
+
+        <span class="n">headerdtype</span> <span class="o">=</span> <span class="p">[</span>
+          <span class="p">(</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;u4&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">)),</span> <span class="p">(</span><span class="s">&#39;mass&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;f8&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">)),</span>
+          <span class="p">(</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="s">&#39;f8&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;redshift&#39;</span><span class="p">,</span> <span class="s">&#39;f8&#39;</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">&#39;flag_sfr&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;flag_feedback&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">&#39;Ntot_low&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;u4&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">)),</span> <span class="p">(</span><span class="s">&#39;flag_cool&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">&#39;Nfiles&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;boxsize&#39;</span><span class="p">,</span> <span class="s">&#39;f8&#39;</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">&#39;OmegaM&#39;</span><span class="p">,</span> <span class="s">&#39;f8&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;OmegaL&#39;</span><span class="p">,</span> <span class="s">&#39;f8&#39;</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="s">&#39;f8&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;flag_sft&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">&#39;flag_met&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Ntot_high&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;u4&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">)),</span>
+          <span class="p">(</span><span class="s">&#39;flag_entropy&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;flag_double&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">&#39;flag_ic_info&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;flag_lpt_scalingfactor&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">&#39;flag_pressure_entropy&#39;</span><span class="p">,</span> <span class="s">&#39;i1&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Ndims&#39;</span><span class="p">,</span> <span class="s">&#39;i1&#39;</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">&#39;densitykerneltype&#39;</span><span class="p">,</span> <span class="s">&#39;i1&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;unused&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;u1&#39;</span><span class="p">,</span> <span class="mi">45</span><span class="p">)),</span>
+        <span class="p">]</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">headerdtype</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">npart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;N&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">])</span>
+
+        <span class="n">nall</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="n">nmass</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;N&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;mass&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="n">nallc</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;N&#39;</span><span class="p">][:</span><span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="n">nmassc</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;N&#39;</span><span class="p">][:</span><span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">]</span> <span class="o">*</span> 
+                        <span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;mass&#39;</span><span class="p">][:</span><span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="mi">256</span> <span class="o">+</span> <span class="mi">8</span>
+        <span class="n">o</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">posdtype</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">nallc</span> <span class="o">*</span>
+                <span class="n">posdtype</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span> 
+        <span class="n">offset</span> <span class="o">+=</span> <span class="n">posdtype</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">nall</span> <span class="o">+</span> <span class="mi">8</span>
+        <span class="n">o</span><span class="p">[</span><span class="s">&#39;Velocity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">veldtype</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">nallc</span> <span class="o">*</span>
+                <span class="n">veldtype</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span> 
+        <span class="n">offset</span> <span class="o">+=</span> <span class="n">veldtype</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">*</span> <span class="mi">3</span><span class="o">*</span> <span class="n">nall</span> <span class="o">+</span> <span class="mi">8</span>
+        <span class="n">o</span><span class="p">[</span><span class="s">&#39;ID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">iddtype</span><span class="p">,</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">nallc</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">+=</span> <span class="n">iddtype</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">nall</span>
+        <span class="n">o</span><span class="p">[</span><span class="s">&#39;Mass&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">massdtype</span><span class="p">,</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">nmassc</span> <span class="o">*</span> <span class="n">massdtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">),</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offset_table</span> <span class="o">=</span> <span class="n">o</span>
+
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">mystart</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">myend</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">dtype</span><span class="p">,</span> <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset_table</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">myend</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">myend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span>
+
+        <span class="k">if</span> <span class="n">column</span> <span class="o">==</span> <span class="s">&#39;Mass&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;mass&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">myend</span> <span class="o">-</span> <span class="n">mystart</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;mass&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">ptype</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+            <span class="c"># skip header</span>
+            <span class="n">ff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="c"># jump to mystart of positions</span>
+            <span class="n">ff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">mystart</span> <span class="o">*</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">myend</span> <span class="o">-</span> <span class="n">mystart</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">GadgetGroupTabFile</span><span class="p">(</span><span class="n">StripeFile</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">posdtype</span><span class="o">=</span><span class="s">&#39;f8&#39;</span><span class="p">,</span> <span class="n">veldtype</span><span class="o">=</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="n">massdtype</span><span class="o">=</span><span class="s">&#39;f4&#39;</span><span class="p">)):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span> <span class="o">+</span> <span class="s">&quot;.</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">fid</span>
+        <span class="n">posdtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;posdtype&#39;</span><span class="p">])</span>
+        <span class="n">veldtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;veldtype&#39;</span><span class="p">])</span>
+        <span class="n">massdtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;massdtype&#39;</span><span class="p">])</span>
+
+        <span class="n">headerdtype</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;i4&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))),</span>
+                <span class="p">(</span><span class="s">&#39;Ntot&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;i4&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))),</span>
+                <span class="p">(</span><span class="s">&#39;Nids&#39;</span><span class="p">,</span>  <span class="s">&#39;i4&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s">&#39;TotNids&#39;</span><span class="p">,</span> <span class="s">&#39;u8&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s">&#39;Nfiles&#39;</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">headerdtype</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">npart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s">&#39;N&#39;</span><span class="p">])</span>
+
+        <span class="n">o</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">itemsize</span>
+        <span class="n">o</span><span class="p">[</span><span class="s">&#39;Length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;i4&#39;</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">+=</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span>
+        <span class="n">o</span><span class="p">[</span><span class="s">&#39;Offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;i4&#39;</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">+=</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span>
+        <span class="n">o</span><span class="p">[</span><span class="s">&#39;Mass&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="p">(</span><span class="n">massdtype</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">+=</span> <span class="n">massdtype</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span>
+        <span class="n">o</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">posdtype</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">offset</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">+=</span> <span class="n">posdtype</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span>
+        <span class="n">o</span><span class="p">[</span><span class="s">&#39;Velocity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">veldtype</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">offset</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">+=</span> <span class="n">veldtype</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offset_table</span> <span class="o">=</span> <span class="n">o</span>
+
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">mystart</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">myend</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">dtype</span><span class="p">,</span> <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset_table</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">myend</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">myend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+            <span class="c"># skip header</span>
+            <span class="n">ff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="c"># jump to mystart of positions</span>
+            <span class="n">ff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">mystart</span> <span class="o">*</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">myend</span> <span class="o">-</span> <span class="n">mystart</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Snapshot</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filetype</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">npart</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">ff</span><span class="o">.</span><span class="n">npart</span> <span class="k">for</span> <span class="n">ff</span> <span class="ow">in</span> <span class="n">filetype</span><span class="o">.</span><span class="n">enum</span><span class="p">(</span><span class="n">filename</span><span class="p">)],</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;i8&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filetype</span> <span class="o">=</span> <span class="n">filetype</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npart</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&quot;No files were found under `</span><span class="si">%s</span><span class="s">`&quot;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">kls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filetype</span><span class="p">,</span> <span class="n">npart</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; create a striped snapshot. </span>
+<span class="sd">            npart is a list of npart for each file </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">fid</span><span class="p">,</span> <span class="n">npart1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">npart</span><span class="p">):</span>
+            <span class="n">filetype</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">npart1</span><span class="p">)</span>
+
+        <span class="bp">self</span> <span class="o">=</span> <span class="n">kls</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">filetype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">get_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filetype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;this function provides a continuous view of multiple files&quot;&quot;&quot;</span>
+
+        <span class="n">NpartPerFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span>
+        <span class="n">NpartCumFile</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="n">numpy</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npart</span><span class="p">)])</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c"># add an empty item</span>
+        <span class="n">ff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filetype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ff</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">NpartPerFile</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">end</span> <span class="o">&lt;=</span> <span class="n">NpartCumFile</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="n">NpartCumFile</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span> <span class="k">continue</span>
+            <span class="c"># find the intersection in this file</span>
+            <span class="n">mystart</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">start</span> <span class="o">-</span> <span class="n">NpartCumFile</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">myend</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">NpartCumFile</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">NpartPerFile</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+            <span class="n">ff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filetype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ff</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">mystart</span><span class="p">,</span> <span class="n">myend</span><span class="p">))</span>
+    
+        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;this function provides a continuous view of multiple files&quot;&quot;&quot;</span>
+
+        <span class="n">NpartPerFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">npart</span>
+        <span class="n">NpartCumFile</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="n">numpy</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npart</span><span class="p">)])</span>
+        <span class="n">ff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filetype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">NpartPerFile</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">end</span> <span class="o">&lt;=</span> <span class="n">NpartCumFile</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="n">NpartCumFile</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span> <span class="k">continue</span>
+            <span class="c"># find the intersection in this file</span>
+            <span class="n">mystart</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">start</span> <span class="o">-</span> <span class="n">NpartCumFile</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">myend</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">NpartCumFile</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">NpartPerFile</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+            <span class="n">ff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filetype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">ff</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">mystart</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">offset</span><span class="p">:</span><span class="n">offset</span> <span class="o">+</span> <span class="n">myend</span> <span class="o">-</span> <span class="n">mystart</span><span class="p">])</span>
+            <span class="n">offset</span> <span class="o">+=</span> <span class="n">myend</span> <span class="o">-</span> <span class="n">mystart</span>
+    
+        <span class="k">return</span> 
+
+<span class="k">class</span> <span class="nc">HaloLabelFile</span><span class="p">(</span><span class="n">StripeFile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    nbodykit halo label file</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    npart : int</span>
+<span class="sd">        Number of particles in this file</span>
+<span class="sd">    linking_length : float</span>
+<span class="sd">        linking length. For example, 0.2 or 0.168</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s">&quot;.</span><span class="si">%02d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">fid</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">npart</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span> <span class="s">&#39;i4&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linking_length</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span> <span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offset_table</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;Label&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s">&#39;i4&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read</span> <span class="o">=</span> <span class="n">TPMSnapshotFile</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span> <span class="o">=</span> <span class="n">TPMSnapshotFile</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">Read2DPlainText</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads the plain text storage of a 2D measurement,</span>
+<span class="sd">    as output by the `nbodykit.plugins.Measurement2DStorage` plugin</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : dict</span>
+<span class="sd">        dictionary holding the `edges` data, as well as the</span>
+<span class="sd">        data columns for the P(k,mu) measurement</span>
+<span class="sd">    metadata : dict</span>
+<span class="sd">        any additional metadata to store as part of the </span>
+<span class="sd">        P(k,mu) measurement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">toret</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+        
+        <span class="c"># read number of k and mu bins are first line</span>
+        <span class="n">Nk</span><span class="p">,</span> <span class="n">Nmu</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">ff</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">Nk</span><span class="o">*</span><span class="n">Nmu</span>
+        
+        <span class="c"># names of data columns on second line</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="n">ff</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">ff</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[:</span><span class="n">N</span><span class="p">]])</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">Nk</span><span class="p">,</span> <span class="n">Nmu</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="c">#reshape properly to (Nk, Nmu)</span>
+                        
+        <span class="c"># store as return dict, making complex arrays from real/imag parts</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">nextname</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>
+            <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.real&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nextname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.imag&#39;</span><span class="p">):</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.real&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">toret</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1j</span><span class="o">*</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">toret</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="c"># read the edges for k and mu bins</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">l1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">N</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span> <span class="n">N</span> <span class="o">=</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">lines</span><span class="p">[</span><span class="n">N</span><span class="p">:</span><span class="n">N</span><span class="o">+</span><span class="n">l1</span><span class="p">])))</span>
+        <span class="n">l2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">N</span><span class="o">+</span><span class="n">l1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span> <span class="n">N</span> <span class="o">=</span> <span class="n">N</span><span class="o">+</span><span class="n">l1</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">lines</span><span class="p">[</span><span class="n">N</span><span class="p">:</span><span class="n">N</span><span class="o">+</span><span class="n">l2</span><span class="p">])))</span>
+        <span class="n">toret</span><span class="p">[</span><span class="s">&#39;edges&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edges</span>
+        
+        <span class="c"># read any metadata</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">N</span><span class="o">+</span><span class="n">l2</span><span class="p">:</span>
+            <span class="n">N_meta</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">N</span><span class="o">+</span><span class="n">l2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">N</span> <span class="o">=</span> <span class="n">N</span> <span class="o">+</span> <span class="n">l2</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">meta</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">N</span><span class="p">:</span><span class="n">N</span><span class="o">+</span><span class="n">N_meta</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">meta</span><span class="p">:</span>
+                <span class="n">fields</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">cast</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">cast</span> <span class="ow">in</span> <span class="n">__builtins__</span><span class="p">:</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">__builtins__</span><span class="p">[</span><span class="n">cast</span><span class="p">](</span><span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">numpy</span><span class="p">,</span> <span class="n">cast</span><span class="p">):</span>
+                     <span class="n">metadata</span><span class="p">[</span><span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">numpy</span><span class="p">,</span> <span class="n">cast</span><span class="p">)(</span><span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Metadata must have builtin or numpy type&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">toret</span><span class="p">,</span> <span class="n">metadata</span>
+    
+<span class="k">def</span> <span class="nf">Read1DPlainText</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads the plain text storage of a 1D measurement,</span>
+<span class="sd">    as output by the `nbodykit.plugins.Measurement1DStorage` plugin.</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    *   If `edges` is present in the file, they will be returned</span>
+<span class="sd">        as part of the metadata, with the key `edges`</span>
+<span class="sd">    *   If the first line of the file specifies column names, </span>
+<span class="sd">        they will be returned as part of the metadata with the</span>
+<span class="sd">        `columns` key</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : array_like</span>
+<span class="sd">        the 1D data stacked vertically, such that each columns</span>
+<span class="sd">        represents a separate data variable</span>
+<span class="sd">    metadata : dict</span>
+<span class="sd">        any additional metadata to store as part of the </span>
+<span class="sd">        P(k) measurement </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># data list</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c"># extract the metadata</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">make_float</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+        
+        <span class="n">currline</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">ff</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        
+        <span class="n">metadata</span><span class="p">[</span><span class="s">&#39;columns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">metadata</span><span class="p">[</span><span class="s">&#39;columns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+        
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            
+            <span class="c"># break if we are at the EOF</span>
+            <span class="k">if</span> <span class="n">currline</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span> <span class="k">break</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">currline</span><span class="p">]</span>
+            
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span> 
+                <span class="n">currline</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">continue</span>
+                
+            <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                
+                <span class="c"># read edges</span>
+                <span class="k">if</span> <span class="s">&#39;edges&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="n">fields</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="c"># number of edges</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="s">&#39;edges&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">make_float</span><span class="p">,</span> <span class="n">lines</span><span class="p">[</span><span class="n">currline</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">currline</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">N</span><span class="p">]))</span>
+                    <span class="n">currline</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">+</span><span class="n">N</span>
+                    <span class="k">continue</span>
+        
+                <span class="c"># read metadata</span>
+                <span class="k">if</span> <span class="s">&#39;metadata&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>                
+                    <span class="c"># read and cast the metadata properly</span>
+                    <span class="n">fields</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="c"># number of individual metadata lines</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+                        <span class="n">fields</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">currline</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                        <span class="n">cast</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">cast</span> <span class="ow">in</span> <span class="n">__builtins__</span><span class="p">:</span>
+                            <span class="n">metadata</span><span class="p">[</span><span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">__builtins__</span><span class="p">[</span><span class="n">cast</span><span class="p">](</span><span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">numpy</span><span class="p">,</span> <span class="n">cast</span><span class="p">):</span>
+                             <span class="n">metadata</span><span class="p">[</span><span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">numpy</span><span class="p">,</span> <span class="n">cast</span><span class="p">)(</span><span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;metadata must have builtin or numpy type&quot;</span><span class="p">)</span>
+                    <span class="n">currline</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">+</span><span class="n">N</span>
+                    <span class="k">continue</span>
+                
+            <span class="c"># add to the data</span>
+            <span class="n">currline</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">metadata</span>
+                
+            
+                
+        
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

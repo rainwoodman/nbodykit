@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>plugins.transfer.TransferFunction &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for plugins.transfer.TransferFunction</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">Transfer</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<div class="viewcode-block" id="AnisotropicCIC"><a class="viewcode-back" href="../../../plugins/plugins.transfer.TransferFunction.html#plugins.transfer.TransferFunction.AnisotropicCIC">[docs]</a><span class="k">class</span> <span class="nc">AnisotropicCIC</span><span class="p">(</span><span class="n">Transfer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Divide by a kernel in Fourier space to account for</span>
+<span class="sd">    the convolution of the gridded quantity with the </span>
+<span class="sd">    cloud-in-cell window function in configuration space</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;AnisotropicCIC&quot;</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="AnisotropicCIC.register"><a class="viewcode-back" href="../../../plugins/plugins.transfer.TransferFunction.html#plugins.transfer.TransferFunction.AnisotropicCIC.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">wi</span> <span class="ow">in</span> <span class="n">pm</span><span class="o">.</span><span class="n">w</span><span class="p">:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">2.</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">wi</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+            <span class="nb">complex</span><span class="p">[:]</span> <span class="o">/=</span> <span class="n">tmp</span></div>
+            
+            
+<div class="viewcode-block" id="NormalizeDC"><a class="viewcode-back" href="../../../plugins/plugins.transfer.TransferFunction.html#plugins.transfer.TransferFunction.NormalizeDC">[docs]</a><span class="k">class</span> <span class="nc">NormalizeDC</span><span class="p">(</span><span class="n">Transfer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Removes the DC amplitude in Fourier space, which effectively</span>
+<span class="sd">    divides by the mean in configuration space</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;NormalizeDC&quot;</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="NormalizeDC.register"><a class="viewcode-back" href="../../../plugins/plugins.transfer.TransferFunction.html#plugins.transfer.TransferFunction.NormalizeDC.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">for</span> <span class="n">wi</span> <span class="ow">in</span> <span class="n">pm</span><span class="o">.</span><span class="n">w</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">wi</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="k">break</span>
+            <span class="n">ind</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">wi</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">found</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="nb">complex</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="nb">complex</span><span class="p">[:]</span> <span class="o">/=</span> <span class="n">value</span></div>
+        
+<div class="viewcode-block" id="RemoveDC"><a class="viewcode-back" href="../../../plugins/plugins.transfer.TransferFunction.html#plugins.transfer.TransferFunction.RemoveDC">[docs]</a><span class="k">class</span> <span class="nc">RemoveDC</span><span class="p">(</span><span class="n">Transfer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove the DC amplitude, which sets the mean of the </span>
+<span class="sd">    field in configuration space to zero</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;RemoveDC&quot;</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="RemoveDC.register"><a class="viewcode-back" href="../../../plugins/plugins.transfer.TransferFunction.html#plugins.transfer.TransferFunction.RemoveDC.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">wi</span> <span class="ow">in</span> <span class="n">pm</span><span class="o">.</span><span class="n">w</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">wi</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="k">return</span>
+            <span class="n">ind</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">wi</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+        <span class="nb">complex</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span></div>
+            
+
+
+        
+            
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

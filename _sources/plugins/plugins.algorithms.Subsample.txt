@@ -1,0 +1,7 @@
+plugins.algorithms.Subsample module
+===================================
+
+.. automodule:: plugins.algorithms.Subsample
+    :members:
+    :undoc-members:
+    :show-inheritance:

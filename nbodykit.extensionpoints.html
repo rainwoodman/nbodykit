@@ -1,0 +1,426 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nbodykit.extensionpoints module &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="index.html" />
+    <link rel="up" title="nbodykit package" href="nbodykit.html" />
+    <link rel="next" title="nbodykit.files module" href="nbodykit.files.html" />
+    <link rel="prev" title="nbodykit.distributedarray module" href="nbodykit.distributedarray.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.files.html" title="nbodykit.files module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.distributedarray.html" title="nbodykit.distributedarray module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" accesskey="U">nbodykit package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-nbodykit.extensionpoints">
+<span id="nbodykit-extensionpoints-module"></span><h1>nbodykit.extensionpoints module<a class="headerlink" href="#module-nbodykit.extensionpoints" title="Permalink to this headline">¶</a></h1>
+<p>Declare PluginMount and various extension points.</p>
+<p>To define a Plugin,</p>
+<ol class="arabic simple">
+<li>subclass from the extension point class</li>
+<li>define a class method <cite>register</cite>, that calls add_argument
+to kls.parser.</li>
+<li>define a plugin_name member.</li>
+</ol>
+<p>To define an ExtensionPoint,</p>
+<ol class="arabic simple">
+<li>add a class decorator &#64;ExtensionPoint</li>
+</ol>
+<dl class="class">
+<dt id="nbodykit.extensionpoints.DataSource">
+<em class="property">class </em><code class="descclassname">nbodykit.extensionpoints.</code><code class="descname">DataSource</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#DataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.DataSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.PluginInterface</span></code></p>
+<p>Mount point for plugins which refer to the reading of input files 
+and the subsequent painting of those fields.</p>
+<p>Plugins implementing this reference should provide the following 
+attributes:</p>
+<dl class="docutils">
+<dt>plugin_name</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>class attribute giving the name of the subparser which 
+defines the necessary command line arguments for the plugin</dd>
+<dt>register</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">classmethod</span><dd>A class method taking no arguments that adds a subparser
+and the necessary command line arguments for the plugin</dd>
+<dt>readall: method</dt>
+<dd>A method that performs the reading of the field. This method
+reads in the full data set. It shall
+returns the position (in 0 to BoxSize) and velocity (in the
+same units as position). This method is called by the default
+read method on the root rank for reading small data sets.</dd>
+<dt>read: method</dt>
+<dd>A method that performs the reading of the field. It shall
+returns the position (in 0 to BoxSize) and velocity (in the
+same units as position), in chunks as an iterator. The
+default behavior is to use Rank 0 to read in the full data
+and yield an empty data.</dd>
+</dl>
+<dl class="staticmethod">
+<dt id="nbodykit.extensionpoints.DataSource.BoxSizeParser">
+<em class="property">static </em><code class="descname">BoxSizeParser</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#DataSource.BoxSizeParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.DataSource.BoxSizeParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a string of either a single float, or 
+a space-separated string of 3 floats, representing 
+a box size. Designed to be used by the DataSource plugins</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>BoxSize</strong> : array_like</p>
+<blockquote class="last">
+<div><p>an array of size 3 giving the box size in each dimension</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.extensionpoints.DataSource.fromstring">
+<em class="property">classmethod </em><code class="descname">fromstring</code><span class="sig-paren">(</span><em>kls</em>, <em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#DataSource.fromstring"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.DataSource.fromstring" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.DataSource.help_formatter">
+<code class="descname">help_formatter</code><a class="headerlink" href="#nbodykit.extensionpoints.DataSource.help_formatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">HelpFormatterColon</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.DataSource.plugins">
+<code class="descname">plugins</code><em class="property"> = {'FOFGroups': &lt;class 'FOFDataSource'&gt;, 'FastPM': &lt;class 'FastPMDataSource'&gt;, 'HaloLabel': &lt;class 'HaloLabel'&gt;, 'PlainText': &lt;class 'PlainTextDataSource'&gt;, 'TPMLabel': &lt;class 'TPMLabel'&gt;, 'Gadget': &lt;class 'GadgetDataSource'&gt;, 'TPMSnapshot': &lt;class 'TPMSnapshotDataSource'&gt;, 'Grid': &lt;class 'GridDataSource'&gt;, 'GadgetGroupTab': &lt;class 'GadgetGroupTabDataSource'&gt;, 'Pandas': &lt;class 'PandasDataSource'&gt;}</em><a class="headerlink" href="#nbodykit.extensionpoints.DataSource.plugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.extensionpoints.DataSource.read">
+<code class="descname">read</code><span class="sig-paren">(</span><em>columns</em>, <em>stat</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#DataSource.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.DataSource.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield the data in the columns. If full is True, read all
+particles in one run; otherwise try to read in chunks.</p>
+<p>Override this function for complex, large data sets. The read
+operation shall be collective, each yield generates different
+sections of the datasource.</p>
+<p>On every iteration <cite>stat</cite> shall be updated with the global 
+statistics. Current keys are <cite>Ntot</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.extensionpoints.DataSource.readall">
+<code class="descname">readall</code><span class="sig-paren">(</span><em>columns</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#DataSource.readall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.DataSource.readall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override to provide a method to read in all data at once,
+uncollectively.</p>
+<p class="rubric">Notes</p>
+<p>This function will be called by the default &#8216;read&#8217; function
+on the root rank to read in the data set.
+The intention is to reduce the complexity of implementing a
+simple and small data source.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.DataSource.registry">
+<code class="descname">registry</code><em class="property"> = Namespace(FOFGroups=&lt;class 'FOFDataSource'&gt;, FastPM=&lt;class 'FastPMDataSource'&gt;, Gadget=&lt;class 'GadgetDataSource'&gt;, GadgetGroupTab=&lt;class 'GadgetGroupTabDataSource'&gt;, Grid=&lt;class 'GridDataSource'&gt;, HaloLabel=&lt;class 'HaloLabel'&gt;, Pandas=&lt;class 'PandasDataSource'&gt;, PlainText=&lt;class 'PlainTextDataSource'&gt;, TPMLabel=&lt;class 'TPMLabel'&gt;, TPMSnapshot=&lt;class 'TPMSnapshotDataSource'&gt;)</em><a class="headerlink" href="#nbodykit.extensionpoints.DataSource.registry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.extensionpoints.Painter">
+<em class="property">class </em><code class="descclassname">nbodykit.extensionpoints.</code><code class="descname">Painter</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#Painter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.Painter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.PluginInterface</span></code></p>
+<p>Mount point for plugins which refer to the painting of input files.</p>
+<p>Plugins implementing this reference should provide the following 
+attributes:</p>
+<dl class="docutils">
+<dt>plugin_name</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>class attribute giving the name of the subparser which 
+defines the necessary command line arguments for the plugin</dd>
+<dt>register</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">classmethod</span><dd>A class method taking no arguments that adds a subparser
+and the necessary command line arguments for the plugin</dd>
+<dt>paint</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">method</span><dd>A method that performs the painting of the field.</dd>
+</dl>
+<dl class="classmethod">
+<dt id="nbodykit.extensionpoints.Painter.fromstring">
+<em class="property">classmethod </em><code class="descname">fromstring</code><span class="sig-paren">(</span><em>kls</em>, <em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#Painter.fromstring"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.Painter.fromstring" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.Painter.help_formatter">
+<code class="descname">help_formatter</code><a class="headerlink" href="#nbodykit.extensionpoints.Painter.help_formatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">HelpFormatterColon</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.extensionpoints.Painter.paint">
+<code class="descname">paint</code><span class="sig-paren">(</span><em>pm</em>, <em>datasource</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#Painter.paint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.Painter.paint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Paint from a data source. It shall loop over self.read_and_decompose(...)
+and paint the data in chunks.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.Painter.plugins">
+<code class="descname">plugins</code><em class="property"> = {'GridPainter': &lt;class 'GridPainter'&gt;, 'DefaultPainter': &lt;class 'DefaultPainter'&gt;}</em><a class="headerlink" href="#nbodykit.extensionpoints.Painter.plugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.extensionpoints.Painter.read_and_decompose">
+<code class="descname">read_and_decompose</code><span class="sig-paren">(</span><em>pm</em>, <em>datasource</em>, <em>columns</em>, <em>stats</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#Painter.read_and_decompose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.Painter.read_and_decompose" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.Painter.registry">
+<code class="descname">registry</code><em class="property"> = Namespace(DefaultPainter=&lt;class 'DefaultPainter'&gt;, GridPainter=&lt;class 'GridPainter'&gt;)</em><a class="headerlink" href="#nbodykit.extensionpoints.Painter.registry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.extensionpoints.Transfer">
+<em class="property">class </em><code class="descclassname">nbodykit.extensionpoints.</code><code class="descname">Transfer</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#Transfer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.Transfer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.PluginInterface</span></code></p>
+<p>Mount point for plugins which apply a k-space transfer function
+to the Fourier transfrom of a datasource field</p>
+<p>Plugins implementing this reference should provide the following 
+attributes:</p>
+<dl class="docutils">
+<dt>plugin_name</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>class attribute giving the name of the subparser which 
+defines the necessary command line arguments for the plugin</dd>
+<dt>register</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">classmethod</span><dd>A class method taking no arguments that adds a subparser
+and the necessary command line arguments for the plugin</dd>
+<dt>__call__</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">method</span><dd>function that will apply the transfer function to the complex array</dd>
+</dl>
+<dl class="classmethod">
+<dt id="nbodykit.extensionpoints.Transfer.fromstring">
+<em class="property">classmethod </em><code class="descname">fromstring</code><span class="sig-paren">(</span><em>kls</em>, <em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#Transfer.fromstring"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.Transfer.fromstring" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.Transfer.help_formatter">
+<code class="descname">help_formatter</code><a class="headerlink" href="#nbodykit.extensionpoints.Transfer.help_formatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">HelpFormatterColon</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.Transfer.plugins">
+<code class="descname">plugins</code><em class="property"> = {'AnisotropicCIC': &lt;class 'AnisotropicCIC'&gt;, 'NormalizeDC': &lt;class 'NormalizeDC'&gt;, 'RemoveDC': &lt;class 'RemoveDC'&gt;}</em><a class="headerlink" href="#nbodykit.extensionpoints.Transfer.plugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.Transfer.registry">
+<code class="descname">registry</code><em class="property"> = Namespace(AnisotropicCIC=&lt;class 'AnisotropicCIC'&gt;, NormalizeDC=&lt;class 'NormalizeDC'&gt;, RemoveDC=&lt;class 'RemoveDC'&gt;)</em><a class="headerlink" href="#nbodykit.extensionpoints.Transfer.registry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.extensionpoints.MeasurementStorage">
+<em class="property">class </em><code class="descclassname">nbodykit.extensionpoints.</code><code class="descname">MeasurementStorage</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#MeasurementStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.MeasurementStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.PluginInterface</span></code></p>
+<dl class="classmethod">
+<dt id="nbodykit.extensionpoints.MeasurementStorage.add_storage_klass">
+<em class="property">classmethod </em><code class="descname">add_storage_klass</code><span class="sig-paren">(</span><em>kls</em>, <em>klass</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#MeasurementStorage.add_storage_klass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.MeasurementStorage.add_storage_klass" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.MeasurementStorage.help_formatter">
+<code class="descname">help_formatter</code><a class="headerlink" href="#nbodykit.extensionpoints.MeasurementStorage.help_formatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">HelpFormatterColon</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.MeasurementStorage.klasses">
+<code class="descname">klasses</code><em class="property"> = {'2d': &lt;class 'Measurement2DStorage'&gt;, '1d': &lt;class 'Measurement1DStorage'&gt;}</em><a class="headerlink" href="#nbodykit.extensionpoints.MeasurementStorage.klasses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.extensionpoints.MeasurementStorage.new">
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>kls</em>, <em>dim</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#MeasurementStorage.new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.MeasurementStorage.new" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.extensionpoints.MeasurementStorage.open">
+<code class="descname">open</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#MeasurementStorage.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.MeasurementStorage.open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.MeasurementStorage.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = None</em><a class="headerlink" href="#nbodykit.extensionpoints.MeasurementStorage.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.MeasurementStorage.plugins">
+<code class="descname">plugins</code><em class="property"> = {'2d': &lt;class 'Measurement2DStorage'&gt;, '1d': &lt;class 'Measurement1DStorage'&gt;}</em><a class="headerlink" href="#nbodykit.extensionpoints.MeasurementStorage.plugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.MeasurementStorage.registry">
+<code class="descname">registry</code><em class="property"> = Namespace(1d=&lt;class 'Measurement1DStorage'&gt;, 2d=&lt;class 'Measurement2DStorage'&gt;)</em><a class="headerlink" href="#nbodykit.extensionpoints.MeasurementStorage.registry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.extensionpoints.MeasurementStorage.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>cols</em>, <em>data</em>, <em>**meta</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#MeasurementStorage.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.MeasurementStorage.write" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.extensionpoints.Algorithm">
+<em class="property">class </em><code class="descclassname">nbodykit.extensionpoints.</code><code class="descname">Algorithm</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#Algorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.Algorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.PluginInterface</span></code></p>
+<p>Mount point for plugins which provide an interface for running
+one of the high-level algorithms, i.e, power spectrum calculation
+or FOF halo finder</p>
+<p>Plugins implementing this reference should provide the following 
+attributes:</p>
+<dl class="docutils">
+<dt>plugin_name</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str</span><dd>class attribute giving the name of the subparser which 
+defines the necessary command line arguments for the plugin</dd>
+<dt>register</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">classmethod</span><dd>A class method taking no arguments that adds a subparser
+and the necessary command line arguments for the plugin</dd>
+<dt>__call__</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">method</span><dd>function that will apply the transfer function to the complex array</dd>
+</dl>
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.Algorithm.help_formatter">
+<code class="descname">help_formatter</code><a class="headerlink" href="#nbodykit.extensionpoints.Algorithm.help_formatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">HelpFormatter</span></code></p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.extensionpoints.Algorithm.parse_known_yaml">
+<em class="property">classmethod </em><code class="descname">parse_known_yaml</code><span class="sig-paren">(</span><em>kls</em>, <em>name</em>, <em>config_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#Algorithm.parse_known_yaml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.Algorithm.parse_known_yaml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the known (and unknown) attributes from a YAML, where <cite>known</cite>
+arguments must be part of the Algorithm.parser instance</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.Algorithm.plugins">
+<code class="descname">plugins</code><em class="property"> = {'FFTPower': &lt;class 'FFTPowerAlgorithm'&gt;, 'TidalTensor': &lt;class 'TidalTensor'&gt;, 'FFTCorrelation': &lt;class 'FFTCorrelationAlgorithm'&gt;, 'Describe': &lt;class 'Describe'&gt;, 'FOF6D': &lt;class 'FOF6DAlgorithm'&gt;, 'PairCountCorrelation': &lt;class 'PairCountCorrelationAlgorithm'&gt;, 'Subsample': &lt;class 'Subsample'&gt;, 'FOF': &lt;class 'FOFAlgorithm'&gt;, 'TraceHalo': &lt;class 'TraceHaloAlgorithm'&gt;}</em><a class="headerlink" href="#nbodykit.extensionpoints.Algorithm.plugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.extensionpoints.Algorithm.registry">
+<code class="descname">registry</code><em class="property"> = Namespace(Describe=&lt;class 'Describe'&gt;, FFTCorrelation=&lt;class 'FFTCorrelationAlgorithm'&gt;, FFTPower=&lt;class 'FFTPowerAlgorithm'&gt;, FOF=&lt;class 'FOFAlgorithm'&gt;, FOF6D=&lt;class 'FOF6DAlgorithm'&gt;, PairCountCorrelation=&lt;class 'PairCountCorrelationAlgorithm'&gt;, Subsample=&lt;class 'Subsample'&gt;, TidalTensor=&lt;class 'TidalTensor'&gt;, TraceHalo=&lt;class 'TraceHaloAlgorithm'&gt;)</em><a class="headerlink" href="#nbodykit.extensionpoints.Algorithm.registry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.extensionpoints.Algorithm.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#Algorithm.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.Algorithm.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.extensionpoints.Algorithm.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nbodykit/extensionpoints.html#Algorithm.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.extensionpoints.Algorithm.save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nbodykit.distributedarray.html"
+                        title="previous chapter">nbodykit.distributedarray module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nbodykit.files.html"
+                        title="next chapter">nbodykit.files module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/nbodykit.extensionpoints.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.files.html" title="nbodykit.files module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.distributedarray.html" title="nbodykit.distributedarray module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" >nbodykit package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

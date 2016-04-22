@@ -1,0 +1,7 @@
+plugins.datasource.TPMLabel module
+==================================
+
+.. automodule:: plugins.datasource.TPMLabel
+    :members:
+    :undoc-members:
+    :show-inheritance:

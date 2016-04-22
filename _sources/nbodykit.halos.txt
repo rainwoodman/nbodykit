@@ -1,0 +1,7 @@
+nbodykit.halos module
+=====================
+
+.. automodule:: nbodykit.halos
+    :members:
+    :undoc-members:
+    :show-inheritance:

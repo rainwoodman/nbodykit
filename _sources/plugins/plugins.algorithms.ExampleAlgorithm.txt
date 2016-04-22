@@ -1,0 +1,7 @@
+plugins.algorithms.ExampleAlgorithm module
+==========================================
+
+.. automodule:: plugins.algorithms.ExampleAlgorithm
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -47,9 +47,7 @@
           <div class="body" role="main">
             
   <h1>Source code for plugins.algorithms.PairCountCorrelation</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">Algorithm</span>
-<span class="kn">from</span> <span class="nn">nbodykit.pluginmanager</span> <span class="kn">import</span> <span class="n">ListPluginsAction</span><span class="p">,</span> <span class="n">add_plugin_list_argument</span>
-
+<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">Algorithm</span><span class="p">,</span> <span class="n">DataSource</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
@@ -82,36 +80,38 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;PairCountCorrelation&quot;</span>
 
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="PairCountCorrelationAlgorithm.register"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PairCountCorrelation.html#plugins.algorithms.PairCountCorrelation.PairCountCorrelationAlgorithm.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Setup the argument parser needed for initialization via the command-line</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">DataSource</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">rbins</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">subsample</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+                    <span class="n">los</span><span class="o">=</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">Nmu</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">poles</span><span class="o">=</span><span class="p">[]):</span>
+                    
+        <span class="c"># construct the input fields list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">other</span><span class="p">)</span>
         
-        <span class="n">p</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">parser</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s">&quot;correlation function calculator via pair counting&quot;</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="PairCountCorrelationAlgorithm.register"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PairCountCorrelation.html#plugins.algorithms.PairCountCorrelation.PairCountCorrelationAlgorithm.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>  
+        <span class="n">s</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">schema</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s">&quot;correlation function calculator via pair counting&quot;</span>
     
         <span class="c"># the positional arguments</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;mode&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;1d&quot;</span><span class="p">,</span> <span class="s">&quot;2d&quot;</span><span class="p">],</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s">&#39;measure the correlation function in `1d` or `2d`&#39;</span><span class="p">)</span> 
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;rbins&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">binning_type</span><span class="p">,</span> 
-                        <span class="n">help</span><span class="o">=</span><span class="s">&#39;the string specifying the binning to use&#39;</span><span class="p">)</span> 
-        <span class="n">add_plugin_list_argument</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s">&quot;inputs&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="k">lambda</span> <span class="n">l</span><span class="p">:</span> <span class="p">[</span><span class="n">DataSource</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">l</span><span class="p">],</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s">&#39;1 or 2 input `DataSource` objects to correlate; run --list-datasource for specifics&#39;</span><span class="p">)</span>
-
-        <span class="c"># add the optional arguments</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--subsample&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s">&#39;use 1 out of every N points&#39;</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--los&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="s">&quot;xyz&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;z&#39;</span><span class="p">,</span> 
-                        <span class="n">help</span><span class="o">=</span><span class="s">&quot;the line-of-sight: the angle `mu` is defined with respect to&quot;</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--Nmu&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s">&#39;if `mode == 2d`, the number of mu bins covering mu=[-1,1]&#39;</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;--poles&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()],</span> <span class="n">metavar</span><span class="o">=</span><span class="s">&quot;0 2 4&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s">&#39;compute the multipoles for these `ell` values from xi(r,mu)&#39;</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--list-datasource&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">ListPluginsAction</span><span class="p">(</span><span class="n">DataSource</span><span class="p">),</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s">&#39;list the help for each available `DataSource`&#39;</span><span class="p">)</span></div>
-            
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;mode&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;1d&quot;</span><span class="p">,</span> <span class="s">&quot;2d&quot;</span><span class="p">],</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;measure the correlation function in `1d` or `2d`&#39;</span><span class="p">)</span> 
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;rbins&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">binning_type</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;the string specifying the binning to use&#39;</span><span class="p">)</span> 
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;field&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">DataSource</span><span class="o">.</span><span class="n">from_config</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;the first `DataSource` of objects to correlate; &#39;</span>
+                 <span class="s">&#39;run `nbkit.py --list-datasources` for all options&#39;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;other&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">DataSource</span><span class="o">.</span><span class="n">from_config</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;the other `DataSource` of objects to cross-correlate with; &#39;</span>
+                 <span class="s">&#39;run `nbkit.py --list-datasources` for all options&#39;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;subsample&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;use 1 out of every N points&#39;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;los&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="s">&quot;xyz&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;the line-of-sight: the angle `mu` is defined with respect to&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;Nmu&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;if `mode == 2d`, the number of mu bins covering mu=[-1,1]&#39;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;poles&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;compute the multipoles for these `ell` values from xi(r,mu)&#39;</span><span class="p">)</span></div>
+   
 <div class="viewcode-block" id="PairCountCorrelationAlgorithm.run"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PairCountCorrelation.html#plugins.algorithms.PairCountCorrelation.PairCountCorrelationAlgorithm.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run the pair-count correlation function and return the result</span>
@@ -164,13 +164,13 @@
 <span class="sd">            the tuple returned by `run()` -- first argument specifies the bin</span>
 <span class="sd">            edges and the second is a dictionary holding the data results</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">MeasurementStorage</span>
+        <span class="kn">from</span> <span class="nn">nbodykit.storage</span> <span class="kn">import</span> <span class="n">MeasurementStorage</span>
         
         <span class="c"># only master writes</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             
             <span class="n">edges</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">result</span>
-            <span class="n">storage</span> <span class="o">=</span> <span class="n">MeasurementStorage</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+            <span class="n">storage</span> <span class="o">=</span> <span class="n">MeasurementStorage</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
         
             <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
             <span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>

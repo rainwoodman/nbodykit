@@ -1,0 +1,579 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nbodykit.fkp &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for nbodykit.fkp</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">InterpolatedUnivariateSpline</span> <span class="k">as</span> <span class="n">spline</span>
+<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">Painter</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;FKPCatalog&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FKPCatalog"><a class="viewcode-back" href="../../api/nbodykit.fkp.html#nbodykit.fkp.FKPCatalog">[docs]</a><span class="k">class</span> <span class="nc">FKPCatalog</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A `DataSource` representing a catalog of tracer objects, </span>
+<span class="sd">    designed to be used in analysis similar to that first outlined </span>
+<span class="sd">    by Feldman, Kaiser, and Peacock (FKP) 1994 (astro-ph/9304022)</span>
+<span class="sd">    </span>
+<span class="sd">    In particular, the `FKPCatalog` uses a catalog of random objects</span>
+<span class="sd">    to define the mean density of the survey, in addition to the catalog</span>
+<span class="sd">    of data objects</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: DataSource</span>
+<span class="sd">        a `DataSource` that returns the position, weight, etc of the </span>
+<span class="sd">        true tracer objects, whose intrinsic clustering is non-zero</span>
+<span class="sd">    randoms: DataSource</span>
+<span class="sd">        a `DataSource` that returns the position, weight, etc </span>
+<span class="sd">        of a catalog of objects generated randomly to match the</span>
+<span class="sd">        survey geometry and whose instrinsic clustering is zero</span>
+<span class="sd">    BoxSize:</span>
+<span class="sd">        the size of the cartesian box -- the Cartesian coordinates</span>
+<span class="sd">        of the input objects are computed using the input cosmology,</span>
+<span class="sd">        and then placed into the box</span>
+<span class="sd">    mean_coordinate_offset: </span>
+<span class="sd">        the average coordinate value in each dimension -- this offset</span>
+<span class="sd">        is used to return cartesian coordinates translated into the</span>
+<span class="sd">        domain of [-BoxSize/2, BoxSize/2]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">data</span><span class="p">,</span> 
+                        <span class="n">randoms</span><span class="p">,</span> 
+                        <span class="n">BoxSize</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                        <span class="n">BoxPad</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> 
+                        <span class="n">compute_fkp_weights</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> 
+                        <span class="n">P0_fkp</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                        <span class="n">nbar</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                        <span class="n">fsky</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finalize by performing several steps:</span>
+<span class="sd">        </span>
+<span class="sd">            1. if `BoxSize` not provided, infer the value </span>
+<span class="sd">               from the Cartesian coordinates of the `data` catalog</span>
+<span class="sd">            2. compute the mean coordinate offset for each </span>
+<span class="sd">               Cartesian dimension -- used to re-center the </span>
+<span class="sd">               coordinates to the [-BoxSize/2, BoxSize/2] domain</span>
+<span class="sd">            3. compute the number density as a function of redshift</span>
+<span class="sd">               from the `data` and store a spline</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># set the cosmology</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cosmo</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">cosmo</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;FKPCatalog requires a cosmology&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">cosmo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">randoms</span><span class="o">.</span><span class="n">cosmo</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;mismatch between cosmology instances of `data` and `randoms` in `FKPCatalog`&quot;</span><span class="p">)</span>
+            
+        <span class="c"># set the comm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">comm</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">comm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">randoms</span><span class="o">.</span><span class="n">comm</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;mismatch between communicators of `data` and `randoms` in `FKPCatalog`&quot;</span><span class="p">)</span>
+        
+        <span class="c"># data and randoms datasources</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span>    <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">randoms</span> <span class="o">=</span> <span class="n">randoms</span>
+
+        <span class="c"># optional configuration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span>             <span class="o">=</span> <span class="n">BoxSize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BoxPad</span>              <span class="o">=</span> <span class="n">BoxPad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_fkp_weights</span> <span class="o">=</span> <span class="n">compute_fkp_weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">P0_fkp</span>              <span class="o">=</span> <span class="n">P0_fkp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbar</span>                <span class="o">=</span> <span class="n">nbar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fsky</span>                <span class="o">=</span> <span class="n">fsky</span>
+        
+        <span class="c"># default painter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">painter</span> <span class="o">=</span> <span class="n">Painter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s">&#39;DefaultPainter&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fsky</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The sky area fraction (relative to 4pi str); needed for the volume </span>
+<span class="sd">        computation when computing `n(z)`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fsky</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&quot;&#39;</span><span class="si">%s</span><span class="s">&#39; object has no attribute &#39;fsky&#39;&quot;</span> <span class="o">%</span><span class="n">cls</span><span class="p">)</span>
+            
+    <span class="nd">@fsky.setter</span>
+    <span class="k">def</span> <span class="nf">fsky</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the sky fraction, only if not None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fsky</span> <span class="o">=</span> <span class="n">val</span>
+        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the ``data`` attribute, keeping track of the total number </span>
+<span class="sd">        of objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&quot;&#39;</span><span class="si">%s</span><span class="s">&#39; object has no attribute &#39;data&#39;&quot;</span> <span class="o">%</span><span class="n">cls</span><span class="p">)</span>
+        
+    <span class="nd">@data.setter</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_data&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># open the new data automatically</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+                
+                <span class="c"># close the old data</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;data_stream&#39;</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span>
+                
+                <span class="c"># set and open the new data</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">val</span>
+                <span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;Redshift&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="s">&#39;Nbar&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="s">&#39;Weight&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">defaults</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">verify_data_size</span><span class="p">()</span> <span class="c"># verify the size</span>
+            
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">val</span>
+    
+<div class="viewcode-block" id="FKPCatalog.verify_data_size"><a class="viewcode-back" href="../../api/nbodykit.fkp.html#nbodykit.fkp.FKPCatalog.verify_data_size">[docs]</a>    <span class="k">def</span> <span class="nf">verify_data_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verify the size of the data, setting it if need be</span>
+<span class="sd">        &quot;&quot;&quot;</span>            
+        <span class="c"># make sure the size is set properly</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;data_stream&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>            
+                <span class="c"># compute the total number</span>
+                <span class="k">for</span> <span class="p">[</span><span class="n">Position</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="s">&#39;Position&#39;</span><span class="p">],</span> <span class="n">full</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">nread</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;setting `data` size to </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">)</span></div>
+                        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">closed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return `True` if the catalog has been setup and the</span>
+<span class="sd">        data and random streams are open</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;data_stream&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+            
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;randoms_stream&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">randoms_stream</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        
+        <span class="k">return</span> <span class="bp">False</span>
+        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nbar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A callable function that returns the number density ``n(z)`` </span>
+<span class="sd">        as a function of redshift (provided via argument)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nbar</span>
+        
+    <span class="nd">@nbar.setter</span>
+    <span class="k">def</span> <span class="nf">nbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the number density as a function of redshift n(z)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_nbar</span> <span class="o">=</span> <span class="n">spline</span><span class="p">(</span><span class="n">d</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">d</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_nbar</span><span class="o">.</span><span class="n">need_redshift</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;cannot initialize `n(z)` spline from file &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_nbar</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">val</span> <span class="c"># return a constant n(z)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_nbar</span><span class="o">.</span><span class="n">need_redshift</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;error setting n(z) from input value&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nbar</span> <span class="o">=</span> <span class="bp">None</span>
+             
+    <span class="k">def</span> <span class="nf">_define_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords_min</span><span class="p">,</span> <span class="n">coords_max</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Define the Cartesian box by:</span>
+<span class="sd">        </span>
+<span class="sd">            * computing the Cartesian coordinates for all objects</span>
+<span class="sd">            * setting the `BoxSize` attribute, if not provided</span>
+<span class="sd">            * computing the coorindate offset needed to center the</span>
+<span class="sd">              data onto the [-BoxSize/2, BoxSize/2] domain</span>
+<span class="sd">        &quot;&quot;&quot;</span>   
+        <span class="c"># center the data in the first cartesian quadrant</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coords_max</span> <span class="o">-</span> <span class="n">coords_min</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_coordinate_offset</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">coords_min</span> <span class="o">+</span> <span class="n">coords_max</span><span class="p">)</span>
+        
+        <span class="c"># set the box size automatically</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">delta</span> <span class="o">*=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">BoxPad</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="c"># round to nearest integer</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># check the input size</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">L</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">delta</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">L</span><span class="p">:</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;input BoxSize of </span><span class="si">%.2f</span><span class="s"> in dimension </span><span class="si">%d</span><span class="s"> smaller than coordinate range of randoms (</span><span class="si">%.2f</span><span class="s">)&quot;</span> <span class="o">%</span><span class="n">args</span><span class="p">)</span>
+                                    
+    <span class="k">def</span> <span class="nf">_compute_randoms_nbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">redshift</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute `n(z)` from the `randoms` by making a spline</span>
+<span class="sd">        of the redshift histogram for the randoms</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="c"># crash later if n(z) needed and fsky not provided</span>
+        <span class="n">fsky</span> <span class="o">=</span> <span class="mf">1.</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;fsky&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">fsky</span>
+    
+        <span class="k">def</span> <span class="nf">scotts_bin_width</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Return the optimal histogram bin width using Scott&#39;s rule</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">dx</span> <span class="o">=</span> <span class="mf">3.5</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mi">3</span><span class="p">))</span>
+            
+            <span class="n">Nbins</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">*</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">dx</span><span class="p">)</span>
+            <span class="n">Nbins</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nbins</span><span class="p">)</span>
+            <span class="n">bins</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">+</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">Nbins</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">dx</span><span class="p">,</span> <span class="n">bins</span>
+        
+        <span class="c"># do the histogram of N(z)</span>
+        <span class="n">dz</span><span class="p">,</span> <span class="n">zbins</span> <span class="o">=</span> <span class="n">scotts_bin_width</span><span class="p">(</span><span class="n">redshift</span><span class="p">)</span>
+        <span class="n">dig</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">zbins</span><span class="p">,</span> <span class="n">redshift</span><span class="p">,</span> <span class="s">&quot;right&quot;</span><span class="p">)</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">dig</span><span class="p">,</span> <span class="n">minlength</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">zbins</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        
+        <span class="c"># compute the volume</span>
+        <span class="n">R_hi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="n">zbins</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="n">R_lo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="n">zbins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">volume</span> <span class="o">=</span> <span class="p">(</span><span class="mf">4.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">R_hi</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="n">R_lo</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">fsky</span>
+        
+        <span class="c"># store the nbar </span>
+        <span class="n">z_cen</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">zbins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">zbins</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">randoms_nbar</span> <span class="o">=</span> <span class="n">spline</span><span class="p">(</span><span class="n">z_cen</span><span class="p">,</span> <span class="mf">1.</span><span class="o">*</span><span class="n">N</span><span class="o">/</span><span class="n">volume</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="FKPCatalog.open"><a class="viewcode-back" href="../../api/nbodykit.fkp.html#nbodykit.fkp.FKPCatalog.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open the catalog by defining the Cartesian box</span>
+<span class="sd">        and opening the `data` and `randoms` streams</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># open the streams</span>
+        <span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;Redshift&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="s">&#39;Nbar&#39;</span><span class="p">:</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="s">&#39;Weight&#39;</span><span class="p">:</span><span class="mf">1.</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">defaults</span><span class="o">=</span><span class="n">defaults</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">randoms_stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randoms</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">defaults</span><span class="o">=</span><span class="n">defaults</span><span class="p">)</span>
+                
+        <span class="c"># verify data size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verify_data_size</span><span class="p">()</span>
+    
+        <span class="c"># need to compute cartesian min/max</span>
+        <span class="n">pos_min</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">pos_max</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+        
+        <span class="n">redshifts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">,</span> <span class="s">&#39;Redshift&#39;</span><span class="p">,</span> <span class="s">&#39;Nbar&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="p">[</span><span class="n">pos</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">nbar</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">randoms_stream</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos</span><span class="p">):</span>
+                
+                <span class="c"># global min/max of cartesian coordinates</span>
+                <span class="n">pos_min</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">pos_min</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+                <span class="n">pos_max</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">pos_max</span><span class="p">,</span> <span class="n">pos</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        
+                <span class="c"># store redshifts for n(z)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">randoms_stream</span><span class="o">.</span><span class="n">isdefault</span><span class="p">(</span><span class="s">&#39;Redshift&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+                    <span class="n">redshifts</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">randoms</span><span class="p">,</span> <span class="s">&#39;size&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">randoms</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randoms_stream</span><span class="o">.</span><span class="n">nread</span>
+                
+        <span class="c"># gather everything to root</span>
+        <span class="n">pos_min</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">pos_min</span><span class="p">)</span>
+        <span class="n">pos_max</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">pos_max</span><span class="p">)</span>
+        <span class="n">redshifts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">redshifts</span><span class="p">)</span>
+        
+        <span class="c"># rank 0 setups up the box and computes nbar (if needed)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            
+            <span class="c"># find the global</span>
+            <span class="n">pos_min</span>   <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">pos_min</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">pos_max</span>   <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">pos_max</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">redshifts</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">redshifts</span><span class="p">)</span>
+            
+            <span class="c"># setup the box, using randoms to define it</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_define_box</span><span class="p">(</span><span class="n">pos_min</span><span class="p">,</span> <span class="n">pos_max</span><span class="p">)</span>
+    
+            <span class="c"># compute the number density from the randoms</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">redshifts</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_compute_randoms_nbar</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">redshifts</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">randoms_nbar</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">randoms_nbar</span>           <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mean_coordinate_offset</span> <span class="o">=</span> <span class="bp">None</span>
+            
+        <span class="c"># broadcast the results that rank 0 computed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span>                <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_coordinate_offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_coordinate_offset</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">randoms_nbar</span>           <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">randoms_nbar</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;BoxSize = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;cartesian coordinate range: </span><span class="si">%s</span><span class="s"> : </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pos_min</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">pos_max</span><span class="p">)))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;mean coordinate offset = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_coordinate_offset</span><span class="p">))</span></div>
+            
+<div class="viewcode-block" id="FKPCatalog.close"><a class="viewcode-back" href="../../api/nbodykit.fkp.html#nbodykit.fkp.FKPCatalog.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Close the FKPCatalog by close the `data` and `randoms` streams</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;data_stream&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;randoms_stream&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">randoms_stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">randoms_stream</span></div>
+                
+    <span class="k">def</span> <span class="nf">__enter__</span> <span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">__exit__</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                    
+<div class="viewcode-block" id="FKPCatalog.read"><a class="viewcode-back" href="../../api/nbodykit.fkp.html#nbodykit.fkp.FKPCatalog.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read data from `stream`, which is specified by the `name` argument</span>
+<span class="sd">        &quot;&quot;&quot;</span>   
+        <span class="c"># check valid columns</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">,</span> <span class="s">&#39;Weight&#39;</span><span class="p">,</span> <span class="s">&#39;Nbar&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;valid `columns` to read from FKPCatalog: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span><span class="nb">str</span><span class="p">(</span><span class="n">valid</span><span class="p">))</span>
+                             
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;data&#39;</span><span class="p">:</span>
+            <span class="n">stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_stream</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;randoms&#39;</span><span class="p">:</span>
+            <span class="n">stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randoms_stream</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;stream name for FKPCatalog must be &#39;data&#39; or &#39;randoms&#39;&quot;</span><span class="p">)</span>
+    
+        <span class="c"># read position, redshift, and weights from the stream</span>
+        <span class="n">columns0</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">,</span> <span class="s">&#39;Redshift&#39;</span><span class="p">,</span> <span class="s">&#39;Weight&#39;</span><span class="p">,</span> <span class="s">&#39;Nbar&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="p">[</span><span class="n">coords</span><span class="p">,</span> <span class="n">redshift</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">nbar</span><span class="p">]</span> <span class="ow">in</span> <span class="n">stream</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">columns0</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="n">full</span><span class="p">):</span>
+        
+            <span class="c"># determine if we have unique redshift, nbar arrays</span>
+            <span class="n">default_z</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">isdefault</span><span class="p">(</span><span class="s">&#39;Redshift&#39;</span><span class="p">,</span> <span class="n">redshift</span><span class="p">)</span>
+            <span class="n">default_nbar</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">isdefault</span><span class="p">(</span><span class="s">&#39;Nbar&#39;</span><span class="p">,</span> <span class="n">nbar</span><span class="p">)</span>
+        
+            <span class="c"># recentered cartesian coordinates</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">coords</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_coordinate_offset</span>
+
+            <span class="c"># number density from redshift</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbar</span><span class="o">.</span><span class="n">need_redshift</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">default_z</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;`n(z)` calculation requires redshift &quot;</span>
+                                         <span class="s">&quot;but &#39;</span><span class="si">%s</span><span class="s">&#39; DataSource does not support `Redshift` column&quot;</span> <span class="o">%</span><span class="n">name</span><span class="p">)</span>
+                    <span class="n">nbar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbar</span><span class="p">(</span><span class="n">redshift</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">nbar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbar</span><span class="p">()</span>
+        
+            <span class="k">elif</span> <span class="n">default_nbar</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">default_z</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;`n(z)` calculation requires redshift &quot;</span>
+                                     <span class="s">&quot;but &#39;</span><span class="si">%s</span><span class="s">&#39; DataSource does not support `Redshift` column&quot;</span> <span class="o">%</span><span class="n">name</span><span class="p">)</span>
+            
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;fsky&#39;</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;computing `n(z)` from &#39;randoms&#39; DataSource, but no `fsky` &quot;</span>
+                                     <span class="s">&quot;provided for volume calculation&quot;</span><span class="p">)</span>
+                <span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">randoms</span><span class="o">.</span><span class="n">size</span>
+                <span class="n">nbar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randoms_nbar</span><span class="p">(</span><span class="n">redshift</span><span class="p">)</span> <span class="o">*</span> <span class="n">alpha</span>
+        
+            <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;randoms&#39;</span><span class="p">:</span>
+                <span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">randoms</span><span class="o">.</span><span class="n">size</span>
+                <span class="n">nbar</span> <span class="o">=</span> <span class="n">nbar</span> <span class="o">*</span> <span class="n">alpha</span>
+                
+            <span class="c"># update the weights with new FKP</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_fkp_weights</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">P0_fkp</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;if &#39;compute_fkp_weights&#39; is set, please specify a value for &#39;P0_fkp&#39;&quot;</span><span class="p">)</span>
+                <span class="n">weight</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="n">nbar</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">P0_fkp</span><span class="p">)</span>
+            
+            <span class="n">P</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">P</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+            <span class="n">P</span><span class="p">[</span><span class="s">&#39;Weight&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">weight</span>
+            <span class="n">P</span><span class="p">[</span><span class="s">&#39;Nbar&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">nbar</span>
+        
+            <span class="k">yield</span> <span class="p">[</span><span class="n">P</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span></div>
+            
+<div class="viewcode-block" id="FKPCatalog.paint"><a class="viewcode-back" href="../../api/nbodykit.fkp.html#nbodykit.fkp.FKPCatalog.paint">[docs]</a>    <span class="k">def</span> <span class="nf">paint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pm</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Paint the FKP weighted density field: ``data - alpha*randoms`` using</span>
+<span class="sd">        the input `ParticleMesh`</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pm : ParticleMesh</span>
+<span class="sd">            the particle mesh instance to paint the density field to</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        stats : dict</span>
+<span class="sd">            a dictionary of FKP statistics, including total number, normalization,</span>
+<span class="sd">            and shot noise parameters (see equations 13-15 of Beutler et al. 2013)</span>
+<span class="sd">        &quot;&quot;&quot;</span>  
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;&#39;paint&#39; operation on a closed FKPCatalog&quot;</span><span class="p">)</span>
+            
+        <span class="c"># setup</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">,</span> <span class="s">&#39;Weight&#39;</span><span class="p">,</span> <span class="s">&#39;Nbar&#39;</span><span class="p">]</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">A_ran</span> <span class="o">=</span> <span class="n">A_data</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="n">S_ran</span> <span class="o">=</span> <span class="n">S_data</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="n">N_ran</span> <span class="o">=</span> <span class="n">N_data</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="c"># clear the density mesh</span>
+        <span class="n">pm</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        
+        <span class="c"># alpha determined from size of data sources</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">randoms</span><span class="o">.</span><span class="n">size</span>
+        
+        <span class="c"># paint -1.0*alpha*N_randoms</span>
+        <span class="k">for</span> <span class="p">[</span><span class="n">position</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">nbar</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;randoms&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+            <span class="n">Nlocal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">painter</span><span class="o">.</span><span class="n">basepaint</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="o">-</span><span class="n">alpha</span><span class="o">*</span><span class="n">weight</span><span class="p">)</span>
+            <span class="n">A_ran</span> <span class="o">+=</span> <span class="p">(</span><span class="n">nbar</span><span class="o">*</span><span class="n">weight</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">N_ran</span> <span class="o">+=</span> <span class="n">Nlocal</span>
+            <span class="n">S_ran</span> <span class="o">+=</span> <span class="p">(</span><span class="n">weight</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="n">A_ran</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="n">A_ran</span><span class="p">)</span>
+        <span class="n">N_ran</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="n">N_ran</span><span class="p">)</span>
+        <span class="n">S_ran</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="n">S_ran</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">N_ran</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">randoms</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">N_ran</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">randoms</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;`size` mismatch when painting: `N_ran` = </span><span class="si">%d</span><span class="s">, `randoms.size` = </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="c"># paint the +data</span>
+        <span class="k">for</span> <span class="p">[</span><span class="n">position</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">nbar</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+            <span class="n">Nlocal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">painter</span><span class="o">.</span><span class="n">basepaint</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
+            <span class="n">A_data</span> <span class="o">+=</span> <span class="p">(</span><span class="n">nbar</span><span class="o">*</span><span class="n">weight</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">N_data</span> <span class="o">+=</span> <span class="n">Nlocal</span> 
+            <span class="n">S_data</span> <span class="o">+=</span> <span class="p">(</span><span class="n">weight</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            
+        <span class="n">A_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="n">A_data</span><span class="p">)</span>
+        <span class="n">N_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="n">N_data</span><span class="p">)</span>
+        <span class="n">S_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="n">S_data</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">N_data</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">N_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;`size` mismatch when painting: `N_data` = </span><span class="si">%d</span><span class="s">, `data.size` = </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="c"># store the stats (see equations 13-15 of Beutler et al 2013)</span>
+        <span class="c"># see equations 13-15 of Beutler et al 2013</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s">&#39;N_data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">N_data</span><span class="p">;</span> <span class="n">stats</span><span class="p">[</span><span class="s">&#39;N_ran&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">N_ran</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s">&#39;A_data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">A_data</span><span class="p">;</span> <span class="n">stats</span><span class="p">[</span><span class="s">&#39;A_ran&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">A_ran</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s">&#39;S_data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">S_data</span><span class="p">;</span> <span class="n">stats</span><span class="p">[</span><span class="s">&#39;S_ran&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">S_ran</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span>
+        
+        <span class="n">stats</span><span class="p">[</span><span class="s">&#39;A_ran&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">alpha</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s">&#39;S_ran&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">stats</span><span class="p">[</span><span class="s">&#39;shot_noise&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">S_ran</span> <span class="o">+</span> <span class="n">S_data</span><span class="p">)</span><span class="o">/</span><span class="n">A_ran</span> <span class="c"># the final shot noise estimate for monopole</span>
+        
+        <span class="k">return</span> <span class="n">stats</span></div></div>
+    
+        
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

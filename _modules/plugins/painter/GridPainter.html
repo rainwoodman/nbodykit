@@ -60,10 +60,13 @@
 <span class="sd">    mesh</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;GridPainter&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="GridPainter.register"><a class="viewcode-back" href="../../../plugins/plugins.painter.GridPainter.html#plugins.painter.GridPainter.GridPainter.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">parser</span></div>
+<div class="viewcode-block" id="GridPainter.register"><a class="viewcode-back" href="../../../plugins/plugins.painter.GridPainter.html#plugins.painter.GridPainter.GridPainter.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="k">pass</span></div>
         
 <div class="viewcode-block" id="GridPainter.paint"><a class="viewcode-back" href="../../../plugins/plugins.painter.GridPainter.html#plugins.painter.GridPainter.GridPainter.paint">[docs]</a>    <span class="k">def</span> <span class="nf">paint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">datasource</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -109,7 +112,7 @@
                         <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Nmesh</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
                         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;cannot read binary file using `Nmesh = </span><span class="si">%d</span><span class="s">`; original message: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">args</span><span class="p">)</span>
                         
-        <span class="k">return</span> <span class="mi">0</span></div></div>
+        <span class="k">return</span> <span class="p">{}</span></div></div>
             
 </pre></div>
 

@@ -1,7 +1,0 @@
-plugins.storage.Measurement2DStorage module
-===========================================
-
-.. automodule:: plugins.storage.Measurement2DStorage
-    :members:
-    :undoc-members:
-    :show-inheritance:

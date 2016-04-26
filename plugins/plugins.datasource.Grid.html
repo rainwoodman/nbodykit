@@ -60,25 +60,9 @@
 <span id="plugins-datasource-grid-module"></span><h1>plugins.datasource.Grid module<a class="headerlink" href="#module-plugins.datasource.Grid" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="plugins.datasource.Grid.GridDataSource">
-<em class="property">class </em><code class="descclassname">plugins.datasource.Grid.</code><code class="descname">GridDataSource</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Grid.html#GridDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Grid.GridDataSource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource" title="nbodykit.extensionpoints.DataSource"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></a></p>
-<p>Class to read field gridded data from a binary file.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path</strong> : str</p>
-<blockquote>
-<div><p>the path of the file to read the data from</p>
-</div></blockquote>
-<p><strong>BoxSize</strong> : float</p>
-<blockquote class="last">
-<div><p>the box size</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<em class="property">class </em><code class="descclassname">plugins.datasource.Grid.</code><code class="descname">GridDataSource</code><span class="sig-paren">(</span><em>path</em>, <em>BoxSize</em>, <em>dtype='f4'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Grid.html#GridDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Grid.GridDataSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></p>
+<p>Class to read field gridded data from a binary file</p>
 <p class="rubric">Notes</p>
 <ul class="simple">
 <li>Reading is designed to be done by <cite>GridPainter</cite>, which
@@ -91,7 +75,7 @@ reads gridded quantity straight into the <cite>ParticleMesh</cite></li>
 
 <dl class="classmethod">
 <dt id="plugins.datasource.Grid.GridDataSource.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Grid.html#GridDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Grid.GridDataSource.register" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Grid.html#GridDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Grid.GridDataSource.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

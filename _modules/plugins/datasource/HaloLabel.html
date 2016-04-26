@@ -52,23 +52,36 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">bigfile</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;FastPM&#39;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;HaloLabel&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="HaloLabel"><a class="viewcode-back" href="../../../plugins/plugins.datasource.HaloLabel.html#plugins.datasource.HaloLabel.HaloLabel">[docs]</a><span class="k">class</span> <span class="nc">HaloLabel</span><span class="p">(</span><span class="n">DataSource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    DataSource for reading a file of halo labels (halo id per particle), </span>
+<span class="sd">    as generated the FOF algorithm</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;HaloLabel&quot;</span>
     
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="HaloLabel.register"><a class="viewcode-back" href="../../../plugins/plugins.datasource.HaloLabel.html#plugins.datasource.HaloLabel.HaloLabel.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">parser</span>
-
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;path to file&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-bunchsize&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">4</span> <span class="o">*</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="s">&quot;number of particle to read in a bunch&quot;</span><span class="p">)</span></div>
-    
-<div class="viewcode-block" id="HaloLabel.read"><a class="viewcode-back" href="../../../plugins/plugins.datasource.HaloLabel.html#plugins.datasource.HaloLabel.HaloLabel.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">bunchsize</span><span class="o">=</span><span class="mi">4</span><span class="o">*</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">):</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">bigfile</span><span class="o">.</span><span class="n">BigFileMPI</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-        <span class="n">readcolumns</span> <span class="o">=</span> <span class="n">columns</span>
-        <span class="n">stats</span><span class="p">[</span><span class="s">&#39;Ntot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s">&#39;Label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+    
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="HaloLabel.register"><a class="viewcode-back" href="../../../plugins/plugins.datasource.HaloLabel.html#plugins.datasource.HaloLabel.HaloLabel.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        
+        <span class="n">s</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">schema</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s">&quot;read a file of halo labels (halo id per particle), as generated the FOF algorithm&quot;</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;the file path to load the data from&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;bunchsize&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;number of particle to read in a bunch&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HaloLabel.parallel_read"><a class="viewcode-back" href="../../../plugins/plugins.datasource.HaloLabel.html#plugins.datasource.HaloLabel.HaloLabel.parallel_read">[docs]</a>    <span class="k">def</span> <span class="nf">parallel_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">bigfile</span><span class="o">.</span><span class="n">BigFileMPI</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">readcolumns</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+        
+        <span class="c"># remove columns not in the file (None will be returned)</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">readcolumns</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">readcolumns</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+        
         <span class="n">done</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="n">numpy</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">allgather</span><span class="p">(</span><span class="n">done</span><span class="p">)):</span>
@@ -97,9 +110,8 @@
                 <span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="n">column</span><span class="p">][</span><span class="n">bunchstart</span><span class="p">:</span><span class="n">bunchend</span><span class="p">]</span>
                 <span class="n">P</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
 
-            <span class="n">stats</span><span class="p">[</span><span class="s">&#39;Ntot&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="n">bunchend</span> <span class="o">-</span> <span class="n">bunchstart</span><span class="p">)</span>
             <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">yield</span> <span class="p">[</span><span class="n">P</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span></div></div>
+            <span class="k">yield</span> <span class="p">[</span><span class="n">P</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span></div></div>
 </pre></div>
 
           </div>

@@ -1,0 +1,7 @@
+nbodykit.cosmology module
+=========================
+
+.. automodule:: nbodykit.cosmology
+    :members:
+    :undoc-members:
+    :show-inheritance:

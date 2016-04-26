@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nbodykit.measurestats module &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
+    <link rel="up" title="nbodykit package" href="nbodykit.html" />
+    <link rel="next" title="nbodykit.ndarray module" href="nbodykit.ndarray.html" />
+    <link rel="prev" title="nbodykit.halos module" href="nbodykit.halos.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.ndarray.html" title="nbodykit.ndarray module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.halos.html" title="nbodykit.halos module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" accesskey="U">nbodykit package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-nbodykit.measurestats">
+<span id="nbodykit-measurestats-module"></span><h1>nbodykit.measurestats module<a class="headerlink" href="#module-nbodykit.measurestats" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="nbodykit.measurestats.compute_3d_corr">
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_3d_corr</code><span class="sig-paren">(</span><em>fields</em>, <em>pm</em>, <em>comm=None</em>, <em>log_level=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#compute_3d_corr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.compute_3d_corr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the 3d correlation function by Fourier transforming 
+the 3d power spectrum</p>
+<p>See documentation of <cite>measurestats.compute_3d_power</cite></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.measurestats.compute_3d_power">
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_3d_power</code><span class="sig-paren">(</span><em>fields</em>, <em>pm</em>, <em>comm=None</em>, <em>log_level=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#compute_3d_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.compute_3d_power" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute and return the 3D power from two input fields</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fields</strong> : list of (<code class="docutils literal"><span class="pre">DataSource</span></code>, <code class="docutils literal"><span class="pre">Painter</span></code>, <code class="docutils literal"><span class="pre">Transfer</span></code>) tuples</p>
+<blockquote>
+<div><p>the list of fields which the 3D power will be computed</p>
+</div></blockquote>
+<p><strong>pm</strong> : <code class="docutils literal"><span class="pre">ParticleMesh</span></code></p>
+<blockquote>
+<div><p>particle mesh object that handles the painting and FFTs</p>
+</div></blockquote>
+<p><strong>comm</strong> : MPI.Communicator, optional</p>
+<blockquote>
+<div><p>the communicator to pass to the <code class="docutils literal"><span class="pre">ParticleMesh</span></code> object. If not
+provided, <code class="docutils literal"><span class="pre">MPI.COMM_WORLD</span></code> is used</p>
+</div></blockquote>
+<p><strong>log_level</strong> : int, optional</p>
+<blockquote>
+<div><p>logging level to use while computing. Default is <code class="docutils literal"><span class="pre">logging.DEBUG</span></code>
+which has numeric value of <cite>10</cite></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>p3d</strong> : array_like (real)</p>
+<blockquote>
+<div><p>the 3D power spectrum, corresponding to the gridded input fields</p>
+</div></blockquote>
+<p><strong>stats1</strong> : dict</p>
+<blockquote>
+<div><p>dictionary holding the statistics of the first field, as returned
+by the <cite>Painter</cite> used</p>
+</div></blockquote>
+<p><strong>stats2</strong> : dict</p>
+<blockquote class="last">
+<div><p>dictionary holding the statistics of the second field, as returned
+by the <cite>Painter</cite> used</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.measurestats.compute_bianchi_poles">
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_bianchi_poles</code><span class="sig-paren">(</span><em>comm</em>, <em>max_ell</em>, <em>catalog</em>, <em>Nmesh</em>, <em>log_level=10</em>, <em>factor_hexadecapole=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#compute_bianchi_poles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.compute_bianchi_poles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute and return the 3D power multipoles (ell = [0, 2, 4]) from one 
+input field, which contains non-trivial survey geometry.</p>
+<p>The estimator uses the FFT algorithm outlined in Bianchi et al. 2015 to compute
+the monopole, quadrupole, and hexadecapole</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>max_ell</strong> : int</p>
+<blockquote>
+<div><p>the maximum multipole number to compute up to (and including). Must be
+one of [0, 2, 4]</p>
+</div></blockquote>
+<p><strong>datasource</strong> : <code class="docutils literal"><span class="pre">DataSource</span></code></p>
+<blockquote>
+<div><p>the DataSource which will be return the Cartesian coordinates of the
+(ra, dec, z) survey</p>
+</div></blockquote>
+<p><strong>pm</strong> : <code class="docutils literal"><span class="pre">ParticleMesh</span></code></p>
+<blockquote>
+<div><p>particle mesh object that handles the painting and FFTs</p>
+</div></blockquote>
+<p><strong>log_level</strong> : int, optional</p>
+<blockquote>
+<div><p>logging level to use while computing. Default is <code class="docutils literal"><span class="pre">logging.DEBUG</span></code>
+which has numeric value of <cite>10</cite></p>
+</div></blockquote>
+<p><strong>factor_hexadecapole: bool, optional</strong></p>
+<blockquote>
+<div><p>if <cite>True</cite>, use the factored expression for the hexadecapole (ell=4) from
+eq. 27 of Scoccimarro 2015 (1506.02729); default is <cite>False</cite></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>poles</strong> : list</p>
+<blockquote>
+<div><p>list of the 3D power multipoles computed, up to and including <cite>ell=max_ell</cite></p>
+</div></blockquote>
+<p><strong>stats</strong> : dict</p>
+<blockquote class="last">
+<div><p>dictionary holding the statistics of the input datasource, as returned
+by the <cite>FKPPainter</cite> painter</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.measurestats.compute_brutal_corr">
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_brutal_corr</code><span class="sig-paren">(</span><em>datasources</em>, <em>rbins</em>, <em>Nmu=0</em>, <em>comm=None</em>, <em>subsample=1</em>, <em>los='z'</em>, <em>poles=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#compute_brutal_corr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.compute_brutal_corr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the correlation function by direct pair summation, projected
+into either 1d <cite>R</cite> bins or 2d (<cite>R</cite>, <cite>mu</cite>) bins</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>datasources</strong> : list of <code class="docutils literal"><span class="pre">DataSource</span></code> objects</p>
+<blockquote>
+<div><p>the list of datasources from which the 3D correlation will be computed</p>
+</div></blockquote>
+<p><strong>Rmax</strong> : float</p>
+<blockquote>
+<div><p>the maximum R value to compute, in the same units as the input
+datasources</p>
+</div></blockquote>
+<p><strong>Nmu</strong> : int, optional</p>
+<blockquote>
+<div><p>the number of desired <cite>mu</cite> bins, where <cite>mu</cite> is the cosine 
+of the angle from the line-of-sight. Default is 0, in 
+which case the correlation function is binned as a function of 
+<cite>R</cite> only</p>
+</div></blockquote>
+<p><strong>comm</strong> : MPI.Communicator, optional</p>
+<blockquote>
+<div><p>the communicator to pass to the <code class="docutils literal"><span class="pre">ParticleMesh</span></code> object. If not
+provided, <code class="docutils literal"><span class="pre">MPI.COMM_WORLD</span></code> is used</p>
+</div></blockquote>
+<p><strong>subsample</strong> : int, optional</p>
+<blockquote>
+<div><p>Down-sample the input datasources by choosing 1 out of every N points. 
+Default is <cite>1</cite></p>
+</div></blockquote>
+<p><strong>los</strong> : &#8216;x&#8217;, &#8216;y&#8217;, &#8216;z&#8217;, optional</p>
+<blockquote>
+<div><p>the dimension to treat as the line-of-sight; default is &#8216;z&#8217;</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pc</strong> : <code class="docutils literal"><span class="pre">correlate.paircount</span></code></p>
+<blockquote>
+<div><p>the <code class="docutils literal"><span class="pre">kdcount</span></code> pair counting instance</p>
+</div></blockquote>
+<p><strong>xi</strong> : array_like</p>
+<blockquote>
+<div><p>the correlation function</p>
+</div></blockquote>
+<p><strong>RR</strong> : array_like</p>
+<blockquote class="last">
+<div><p>the number of random-random pairs (used as normalization of the data-data pairs)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.measurestats.project_to_basis">
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">project_to_basis</code><span class="sig-paren">(</span><em>comm</em>, <em>x3d</em>, <em>y3d</em>, <em>edges</em>, <em>los='z'</em>, <em>poles=[]</em>, <em>symmetric=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#project_to_basis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.project_to_basis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Project a 3D statistic on to the specified basis.</p>
+<p>The projection will be onto 2d bins <cite>(x, mu)</cite>, where <cite>x</cite>
+is separation <cite>r</cite> in configuration space or wavenumber <cite>k</cite> in 
+Fourier space, and <cite>mu</cite> is the cosine of the angle to the 
+line-of-sight.</p>
+<p>Optionally, the multipoles of the 2d <cite>(x, mu)</cite> bins are 
+also returned, as specified by the multipole numbers in <cite>poles</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>comm</strong> : MPI.Comm</p>
+<blockquote>
+<div><p>the communicator for the decomposition of the power spectrum</p>
+</div></blockquote>
+<p><strong>x3d</strong> : list</p>
+<blockquote>
+<div><p>The list of x values for each item in the <cite>y3d</cite> array. The items
+must broadcast to the same shape of <cite>y3d</cite>.</p>
+</div></blockquote>
+<p><strong>y3d</strong> : array_like (real)</p>
+<blockquote>
+<div><p>a 3D statistic, either a power spectrum (defined in Fourier space),
+or a correlation function (defined in configuration space)</p>
+</div></blockquote>
+<p><strong>edges</strong> : array_like</p>
+<blockquote>
+<div><p>an array specifying the edges of the <cite>x</cite> bins, where <cite>x</cite> is 
+either Fourier space <cite>k</cite> or configuration space <cite>r</cite></p>
+</div></blockquote>
+<p><strong>Nmu</strong> : int</p>
+<blockquote>
+<div><p>the number of mu bins to use when binning in the 3d statistic</p>
+</div></blockquote>
+<p><strong>los</strong> : str, {&#8216;x&#8217;,&#8217;y&#8217;,&#8217;z&#8217;}</p>
+<blockquote>
+<div><p>the line-of-sight direction, which the angle <cite>mu</cite> is defined with
+respect to. Default is <cite>z</cite>.</p>
+</div></blockquote>
+<p><strong>poles</strong> : list of int, optional</p>
+<blockquote>
+<div><p>if provided, a list of integers specifying multipole numbers to
+project the 2d <cite>(x, mu)</cite> on to</p>
+</div></blockquote>
+<p><strong>symmetric</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If <cite>True</cite>, the <cite>y3d</cite> area is assumed to be symmetric about the <cite>z = 0</cite>
+plane. If <cite>y3d</cite> is a power spectrum, this should be set to <cite>True</cite>, 
+while if <cite>y3d</cite> is a correlation function, this should be <cite>False</cite></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>the mu range extends from 0 to 1.0</li>
+<li>the mu bins are half-inclusive half-exclusive, except the last bin
+is inclusive on both ends (to include mu = 1.0)</li>
+<li>when Nmu == 1, the case reduces to the isotropic 1D binning</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.measurestats.timer">
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">timer</code><span class="sig-paren">(</span><em>start</em>, <em>end</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#timer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.timer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nbodykit.halos.html"
+                        title="previous chapter">nbodykit.halos module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nbodykit.ndarray.html"
+                        title="next chapter">nbodykit.ndarray module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/nbodykit.measurestats.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.ndarray.html" title="nbodykit.ndarray module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.halos.html" title="nbodykit.halos module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" >nbodykit package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

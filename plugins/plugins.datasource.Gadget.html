@@ -60,30 +60,32 @@
 <span id="plugins-datasource-gadget-module"></span><h1>plugins.datasource.Gadget module<a class="headerlink" href="#module-plugins.datasource.Gadget" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="plugins.datasource.Gadget.GadgetDataSource">
-<em class="property">class </em><code class="descclassname">plugins.datasource.Gadget.</code><code class="descname">GadgetDataSource</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetDataSource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource" title="nbodykit.extensionpoints.DataSource"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></a></p>
+<em class="property">class </em><code class="descclassname">plugins.datasource.Gadget.</code><code class="descname">GadgetDataSource</code><span class="sig-paren">(</span><em>path</em>, <em>BoxSize</em>, <em>ptype=[]</em>, <em>posdtype='f4'</em>, <em>veldtype='f4'</em>, <em>iddtype='u8'</em>, <em>massdtype='f4'</em>, <em>rsd=None</em>, <em>bunchsize=4194304</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetDataSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></p>
+<p>A DataSource to read a flavor of Gadget 2 files (experimental)</p>
+<dl class="method">
+<dt id="plugins.datasource.Gadget.GadgetDataSource.parallel_read">
+<code class="descname">parallel_read</code><span class="sig-paren">(</span><em>columns</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetDataSource.parallel_read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetDataSource.parallel_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>read data in parallel. if Full is True, neglect bunchsize.</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="plugins.datasource.Gadget.GadgetDataSource.plugin_name">
 <code class="descname">plugin_name</code><em class="property"> = 'Gadget'</em><a class="headerlink" href="#plugins.datasource.Gadget.GadgetDataSource.plugin_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="plugins.datasource.Gadget.GadgetDataSource.read">
-<code class="descname">read</code><span class="sig-paren">(</span><em>columns</em>, <em>stats</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetDataSource.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetDataSource.read" title="Permalink to this definition">¶</a></dt>
-<dd><p>read data in parallel. if Full is True, neglect bunchsize.</p>
-</dd></dl>
-
 <dl class="classmethod">
 <dt id="plugins.datasource.Gadget.GadgetDataSource.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetDataSource.register" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetDataSource.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="plugins.datasource.Gadget.GadgetGroupTabDataSource">
-<em class="property">class </em><code class="descclassname">plugins.datasource.Gadget.</code><code class="descname">GadgetGroupTabDataSource</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetGroupTabDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetGroupTabDataSource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource" title="nbodykit.extensionpoints.DataSource"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></a></p>
+<em class="property">class </em><code class="descclassname">plugins.datasource.Gadget.</code><code class="descname">GadgetGroupTabDataSource</code><span class="sig-paren">(</span><em>path</em>, <em>BoxSize</em>, <em>mpch=1000.0</em>, <em>posdtype='f4'</em>, <em>veldtype='f4'</em>, <em>massdtype='f4'</em>, <em>rsd=None</em>, <em>bunchsize=4194304</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetGroupTabDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetGroupTabDataSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></p>
+<p>A DataSource to read a flavor of Gadget 2 FOF catalogs (experimental)</p>
 <dl class="attribute">
 <dt id="plugins.datasource.Gadget.GadgetGroupTabDataSource.plugin_name">
 <code class="descname">plugin_name</code><em class="property"> = 'GadgetGroupTab'</em><a class="headerlink" href="#plugins.datasource.Gadget.GadgetGroupTabDataSource.plugin_name" title="Permalink to this definition">¶</a></dt>
@@ -91,13 +93,13 @@
 
 <dl class="method">
 <dt id="plugins.datasource.Gadget.GadgetGroupTabDataSource.read">
-<code class="descname">read</code><span class="sig-paren">(</span><em>columns</em>, <em>stats</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetGroupTabDataSource.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetGroupTabDataSource.read" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read</code><span class="sig-paren">(</span><em>columns</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetGroupTabDataSource.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetGroupTabDataSource.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>read data in parallel. if Full is True, neglect bunchsize.</p>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="plugins.datasource.Gadget.GadgetGroupTabDataSource.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetGroupTabDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetGroupTabDataSource.register" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Gadget.html#GadgetGroupTabDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Gadget.GadgetGroupTabDataSource.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

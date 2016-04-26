@@ -11,9 +11,11 @@ Submodules
 
 .. toctree::
 
+   plugins.algorithms.BianchiFFTPower
    plugins.algorithms.ExampleAlgorithm
    plugins.algorithms.FOF
    plugins.algorithms.FOF6D
+   plugins.algorithms.FiberCollisions
    plugins.algorithms.PairCountCorrelation
    plugins.algorithms.PeriodicBox
    plugins.algorithms.Subsample

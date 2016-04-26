@@ -50,7 +50,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span>
 
 <span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">InterpolatedUnivariateSpline</span>
-<div class="viewcode-block" id="interp1d"><a class="viewcode-back" href="../../nbodykit.corrfrompower.html#nbodykit.corrfrompower.interp1d">[docs]</a><span class="k">class</span> <span class="nc">interp1d</span><span class="p">(</span><span class="n">InterpolatedUnivariateSpline</span><span class="p">):</span>
+<div class="viewcode-block" id="interp1d"><a class="viewcode-back" href="../../api/nbodykit.corrfrompower.html#nbodykit.corrfrompower.interp1d">[docs]</a><span class="k">class</span> <span class="nc">interp1d</span><span class="p">(</span><span class="n">InterpolatedUnivariateSpline</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot; this replaces the scipy interp1d which do not always</span>
 <span class="sd">      pass through the points</span>
 <span class="sd">      note that kind has to be an integer as it is actually</span>
@@ -79,7 +79,7 @@
     <span class="n">y</span><span class="p">[</span><span class="n">bad</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fill_value</span>
     <span class="k">return</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="corrfrompower"><a class="viewcode-back" href="../../nbodykit.corrfrompower.html#nbodykit.corrfrompower.corrfrompower">[docs]</a><span class="k">def</span> <span class="nf">corrfrompower</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+<div class="viewcode-block" id="corrfrompower"><a class="viewcode-back" href="../../api/nbodykit.corrfrompower.html#nbodykit.corrfrompower.corrfrompower">[docs]</a><span class="k">def</span> <span class="nf">corrfrompower</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;calculate correlation function from power spectrum,</span>
 <span class="sd">       P is 1d powerspectrum. if R is not None, estimate at</span>
 <span class="sd">       those points .</span>

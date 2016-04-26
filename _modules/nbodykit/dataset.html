@@ -51,7 +51,7 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
 
-<div class="viewcode-block" id="bin_ndarray"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.bin_ndarray">[docs]</a><span class="k">def</span> <span class="nf">bin_ndarray</span><span class="p">(</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">new_shape</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">):</span>
+<div class="viewcode-block" id="bin_ndarray"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.bin_ndarray">[docs]</a><span class="k">def</span> <span class="nf">bin_ndarray</span><span class="p">(</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">new_shape</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">operation</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Bins an ndarray in all axes based on the target shape, by summing </span>
 <span class="sd">    or averaging.</span>
@@ -119,7 +119,7 @@
     <span class="n">data</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;data&#39;</span><span class="p">),</span> <span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;mask&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">__construct_direct__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="o">**</span><span class="n">d</span><span class="p">)</span>    
     
-<div class="viewcode-block" id="DataSet"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.DataSet">[docs]</a><span class="k">class</span> <span class="nc">DataSet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DataSet"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.DataSet">[docs]</a><span class="k">class</span> <span class="nc">DataSet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Lightweight class to hold variables at fixed coordinates, i.e.,</span>
 <span class="sd">    a grid of (r,mu) or (k,mu) bins </span>
@@ -493,7 +493,7 @@
     <span class="c">#--------------------------------------------------------------------------</span>
     <span class="c"># user-called functions</span>
     <span class="c">#--------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="DataSet.copy"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.DataSet.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DataSet.copy"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.DataSet.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a copy of the `DataSet`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -501,7 +501,7 @@
         <span class="n">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span>
         <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">__construct_direct__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="o">**</span><span class="n">attrs</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="DataSet.rename_variable"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.DataSet.rename_variable">[docs]</a>    <span class="k">def</span> <span class="nf">rename_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span><span class="p">):</span>
+<div class="viewcode-block" id="DataSet.rename_variable"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.DataSet.rename_variable">[docs]</a>    <span class="k">def</span> <span class="nf">rename_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rename a variable in `data` from `old_name` to `new_name`.</span>
 <span class="sd">        </span>
@@ -517,7 +517,7 @@
         <span class="n">new_dtype</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">names</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">new_dtype</span></div>
         
-<div class="viewcode-block" id="DataSet.sel"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.DataSet.sel">[docs]</a>    <span class="k">def</span> <span class="nf">sel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">indexers</span><span class="p">):</span>
+<div class="viewcode-block" id="DataSet.sel"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.DataSet.sel">[docs]</a>    <span class="k">def</span> <span class="nf">sel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">indexers</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a new `DataSet` indexed by coordinate values along the </span>
 <span class="sd">        specified dimension(s). </span>
@@ -596,7 +596,7 @@
         <span class="k">return</span> <span class="n">toret</span></div>
                   
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="DataSet.from_nbkit"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.DataSet.from_nbkit">[docs]</a>    <span class="k">def</span> <span class="nf">from_nbkit</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">):</span>
+<div class="viewcode-block" id="DataSet.from_nbkit"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.DataSet.from_nbkit">[docs]</a>    <span class="k">def</span> <span class="nf">from_nbkit</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a DataSet object from a dictionary of data. Additional</span>
 <span class="sd">        metadata can be specified as keyword arguments</span>
@@ -623,7 +623,7 @@
         <span class="n">dims</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;dims&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span></div>
                 
-<div class="viewcode-block" id="DataSet.squeeze"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.DataSet.squeeze">[docs]</a>    <span class="k">def</span> <span class="nf">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DataSet.squeeze"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.DataSet.squeeze">[docs]</a>    <span class="k">def</span> <span class="nf">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Squeeze the `DataSet` along the specified dimension, which</span>
 <span class="sd">        removes that dimension from the `DataSet`. </span>
@@ -674,7 +674,7 @@
         <span class="n">m</span> <span class="o">=</span> <span class="n">toret</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__construct_direct__</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="o">**</span><span class="n">attrs</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="DataSet.average"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.DataSet.average">[docs]</a>    <span class="k">def</span> <span class="nf">average</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataSet.average"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.DataSet.average">[docs]</a>    <span class="k">def</span> <span class="nf">average</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the average of each variable over the specified dimension</span>
 <span class="sd">        </span>
@@ -697,7 +697,7 @@
         <span class="n">toret</span> <span class="o">=</span> <span class="n">toret</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">dim</span><span class="p">:</span><span class="n">toret</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">dim</span><span class="p">][</span><span class="mi">0</span><span class="p">]})</span>
         <span class="k">return</span> <span class="n">toret</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span></div>
         
-<div class="viewcode-block" id="DataSet.reindex"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.DataSet.reindex">[docs]</a>    <span class="k">def</span> <span class="nf">reindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+<div class="viewcode-block" id="DataSet.reindex"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.DataSet.reindex">[docs]</a>    <span class="k">def</span> <span class="nf">reindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
                     <span class="n">dim</span><span class="p">,</span> 
                     <span class="n">spacing</span><span class="p">,</span> 
                     <span class="n">weights</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
@@ -810,7 +810,7 @@
         
         
 
-<div class="viewcode-block" id="from_1d_measurement"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.from_1d_measurement">[docs]</a><span class="k">def</span> <span class="nf">from_1d_measurement</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="from_1d_measurement"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.from_1d_measurement">[docs]</a><span class="k">def</span> <span class="nf">from_1d_measurement</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a DataSet object from columns of data and</span>
 <span class="sd">    any additional meta data</span>
@@ -830,7 +830,7 @@
     <span class="n">meta</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">DataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span></div>
     
-<div class="viewcode-block" id="from_2d_measurement"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.from_2d_measurement">[docs]</a><span class="k">def</span> <span class="nf">from_2d_measurement</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="from_2d_measurement"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.from_2d_measurement">[docs]</a><span class="k">def</span> <span class="nf">from_2d_measurement</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a DataSet object from a dictionary of data </span>
 <span class="sd">    and any additional data</span>
@@ -843,7 +843,7 @@
     <span class="k">return</span> <span class="n">DataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Power1dDataSet"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.Power1dDataSet">[docs]</a><span class="k">class</span> <span class="nc">Power1dDataSet</span><span class="p">(</span><span class="n">DataSet</span><span class="p">):</span>
+<div class="viewcode-block" id="Power1dDataSet"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.Power1dDataSet">[docs]</a><span class="k">class</span> <span class="nc">Power1dDataSet</span><span class="p">(</span><span class="n">DataSet</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A `DataSet` that holds a 1D power spectrum in bins of `k`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -855,7 +855,7 @@
             <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields_to_sum</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
         
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Power1dDataSet.from_nbkit"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.Power1dDataSet.from_nbkit">[docs]</a>    <span class="k">def</span> <span class="nf">from_nbkit</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Power1dDataSet.from_nbkit"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.Power1dDataSet.from_nbkit">[docs]</a>    <span class="k">def</span> <span class="nf">from_nbkit</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a `Power1dDataSet` instance taking the return values</span>
 <span class="sd">        of `files.Read1DPlaintext` as input</span>
@@ -881,7 +881,7 @@
         <span class="n">toret</span><span class="o">.</span><span class="n">__class__</span> <span class="o">=</span> <span class="n">cls</span>
         <span class="k">return</span> <span class="n">toret</span></div></div>
         
-<div class="viewcode-block" id="Power2dDataSet"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.Power2dDataSet">[docs]</a><span class="k">class</span> <span class="nc">Power2dDataSet</span><span class="p">(</span><span class="n">DataSet</span><span class="p">):</span>
+<div class="viewcode-block" id="Power2dDataSet"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.Power2dDataSet">[docs]</a><span class="k">class</span> <span class="nc">Power2dDataSet</span><span class="p">(</span><span class="n">DataSet</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A `DataSet` that holds a 2D power spectrum in bins of `k` and `mu`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -891,7 +891,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">Power2dDataSet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">([</span><span class="s">&#39;k&#39;</span><span class="p">,</span><span class="s">&#39;mu&#39;</span><span class="p">],</span> <span class="n">edges</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Power2dDataSet.from_nbkit"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.Power2dDataSet.from_nbkit">[docs]</a>    <span class="k">def</span> <span class="nf">from_nbkit</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Power2dDataSet.from_nbkit"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.Power2dDataSet.from_nbkit">[docs]</a>    <span class="k">def</span> <span class="nf">from_nbkit</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a `Power2dDataSet` instance taking the return values</span>
 <span class="sd">        of `files.Read2DPlaintext` as input</span>
@@ -914,7 +914,7 @@
         <span class="n">toret</span><span class="o">.</span><span class="n">__class__</span> <span class="o">=</span> <span class="n">cls</span>
         <span class="k">return</span> <span class="n">toret</span></div></div>
         
-<div class="viewcode-block" id="Corr1dDataSet"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.Corr1dDataSet">[docs]</a><span class="k">class</span> <span class="nc">Corr1dDataSet</span><span class="p">(</span><span class="n">DataSet</span><span class="p">):</span>
+<div class="viewcode-block" id="Corr1dDataSet"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.Corr1dDataSet">[docs]</a><span class="k">class</span> <span class="nc">Corr1dDataSet</span><span class="p">(</span><span class="n">DataSet</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A `DataSet` that holds a 1D correlation function in bins of `r`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -927,7 +927,7 @@
             <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields_to_sum</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
             
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Corr1dDataSet.from_nbkit"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.Corr1dDataSet.from_nbkit">[docs]</a>    <span class="k">def</span> <span class="nf">from_nbkit</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Corr1dDataSet.from_nbkit"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.Corr1dDataSet.from_nbkit">[docs]</a>    <span class="k">def</span> <span class="nf">from_nbkit</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a `Corr1dDataSet` instance taking the return values</span>
 <span class="sd">        of `files.Read1DPlaintext` as input</span>
@@ -953,7 +953,7 @@
         <span class="n">toret</span><span class="o">.</span><span class="n">__class__</span> <span class="o">=</span> <span class="n">cls</span>
         <span class="k">return</span> <span class="n">toret</span></div></div>
         
-<div class="viewcode-block" id="Corr2dDataSet"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.Corr2dDataSet">[docs]</a><span class="k">class</span> <span class="nc">Corr2dDataSet</span><span class="p">(</span><span class="n">DataSet</span><span class="p">):</span>
+<div class="viewcode-block" id="Corr2dDataSet"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.Corr2dDataSet">[docs]</a><span class="k">class</span> <span class="nc">Corr2dDataSet</span><span class="p">(</span><span class="n">DataSet</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A `DataSet` that holds a 2D correlation in bins of `k` and `mu`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -963,7 +963,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">Corr2dDataSet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">([</span><span class="s">&#39;r&#39;</span><span class="p">,</span><span class="s">&#39;mu&#39;</span><span class="p">],</span> <span class="n">edges</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Corr2dDataSet.from_nbkit"><a class="viewcode-back" href="../../nbodykit.dataset.html#nbodykit.dataset.Corr2dDataSet.from_nbkit">[docs]</a>    <span class="k">def</span> <span class="nf">from_nbkit</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Corr2dDataSet.from_nbkit"><a class="viewcode-back" href="../../api/nbodykit.dataset.html#nbodykit.dataset.Corr2dDataSet.from_nbkit">[docs]</a>    <span class="k">def</span> <span class="nf">from_nbkit</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a `Corr2dDataSet` instance taking the return values</span>
 <span class="sd">        of `files.Read2DPlaintext` as input</span>

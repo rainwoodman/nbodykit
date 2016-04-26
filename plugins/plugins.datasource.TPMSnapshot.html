@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
     <link rel="up" title="plugins.datasource package" href="plugins.datasource.html" />
-    <link rel="next" title="plugins.painter package" href="plugins.painter.html" />
+    <link rel="next" title="plugins.datasource.UniformBox module" href="plugins.datasource.UniformBox.html" />
     <link rel="prev" title="plugins.datasource.TPMLabel module" href="plugins.datasource.TPMLabel.html" /> 
   </head>
   <body role="document">
@@ -39,7 +39,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="plugins.painter.html" title="plugins.painter package"
+          <a href="plugins.datasource.UniformBox.html" title="plugins.datasource.UniformBox module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="plugins.datasource.TPMLabel.html" title="plugins.datasource.TPMLabel module"
@@ -60,22 +60,24 @@
 <span id="plugins-datasource-tpmsnapshot-module"></span><h1>plugins.datasource.TPMSnapshot module<a class="headerlink" href="#module-plugins.datasource.TPMSnapshot" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="plugins.datasource.TPMSnapshot.TPMSnapshotDataSource">
-<em class="property">class </em><code class="descclassname">plugins.datasource.TPMSnapshot.</code><code class="descname">TPMSnapshotDataSource</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/TPMSnapshot.html#TPMSnapshotDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.TPMSnapshot.TPMSnapshotDataSource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource" title="nbodykit.extensionpoints.DataSource"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></a></p>
+<em class="property">class </em><code class="descclassname">plugins.datasource.TPMSnapshot.</code><code class="descname">TPMSnapshotDataSource</code><span class="sig-paren">(</span><em>path</em>, <em>BoxSize</em>, <em>rsd=None</em>, <em>bunchsize=4194304</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/TPMSnapshot.html#TPMSnapshotDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.TPMSnapshot.TPMSnapshotDataSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></p>
+<p>DataSource to read snapshot files from Martin White&#8217;s TPM simulations</p>
+<dl class="method">
+<dt id="plugins.datasource.TPMSnapshot.TPMSnapshotDataSource.parallel_read">
+<code class="descname">parallel_read</code><span class="sig-paren">(</span><em>columns</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/TPMSnapshot.html#TPMSnapshotDataSource.parallel_read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.TPMSnapshot.TPMSnapshotDataSource.parallel_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>read data in parallel. if Full is True, neglect bunchsize.</p>
+<p>This supports <cite>Position</cite>, <cite>Velocity</cite> columns</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="plugins.datasource.TPMSnapshot.TPMSnapshotDataSource.plugin_name">
 <code class="descname">plugin_name</code><em class="property"> = 'TPMSnapshot'</em><a class="headerlink" href="#plugins.datasource.TPMSnapshot.TPMSnapshotDataSource.plugin_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="plugins.datasource.TPMSnapshot.TPMSnapshotDataSource.read">
-<code class="descname">read</code><span class="sig-paren">(</span><em>columns</em>, <em>stats</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/TPMSnapshot.html#TPMSnapshotDataSource.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.TPMSnapshot.TPMSnapshotDataSource.read" title="Permalink to this definition">¶</a></dt>
-<dd><p>read data in parallel. if Full is True, neglect bunchsize.</p>
-</dd></dl>
-
 <dl class="classmethod">
 <dt id="plugins.datasource.TPMSnapshot.TPMSnapshotDataSource.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/TPMSnapshot.html#TPMSnapshotDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.TPMSnapshot.TPMSnapshotDataSource.register" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/TPMSnapshot.html#TPMSnapshotDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.TPMSnapshot.TPMSnapshotDataSource.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -92,8 +94,8 @@
   <p class="topless"><a href="plugins.datasource.TPMLabel.html"
                         title="previous chapter">plugins.datasource.TPMLabel module</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="plugins.painter.html"
-                        title="next chapter">plugins.painter package</a></p>
+  <p class="topless"><a href="plugins.datasource.UniformBox.html"
+                        title="next chapter">plugins.datasource.UniformBox module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -125,7 +127,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="plugins.painter.html" title="plugins.painter package"
+          <a href="plugins.datasource.UniformBox.html" title="plugins.datasource.UniformBox module"
              >next</a> |</li>
         <li class="right" >
           <a href="plugins.datasource.TPMLabel.html" title="plugins.datasource.TPMLabel module"

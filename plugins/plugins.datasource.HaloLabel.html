@@ -60,21 +60,23 @@
 <span id="plugins-datasource-halolabel-module"></span><h1>plugins.datasource.HaloLabel module<a class="headerlink" href="#module-plugins.datasource.HaloLabel" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="plugins.datasource.HaloLabel.HaloLabel">
-<em class="property">class </em><code class="descclassname">plugins.datasource.HaloLabel.</code><code class="descname">HaloLabel</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/HaloLabel.html#HaloLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.HaloLabel.HaloLabel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource" title="nbodykit.extensionpoints.DataSource"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></a></p>
+<em class="property">class </em><code class="descclassname">plugins.datasource.HaloLabel.</code><code class="descname">HaloLabel</code><span class="sig-paren">(</span><em>path</em>, <em>bunchsize=4194304</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/HaloLabel.html#HaloLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.HaloLabel.HaloLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></p>
+<p>DataSource for reading a file of halo labels (halo id per particle), 
+as generated the FOF algorithm</p>
+<dl class="method">
+<dt id="plugins.datasource.HaloLabel.HaloLabel.parallel_read">
+<code class="descname">parallel_read</code><span class="sig-paren">(</span><em>columns</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/HaloLabel.html#HaloLabel.parallel_read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.HaloLabel.HaloLabel.parallel_read" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="plugins.datasource.HaloLabel.HaloLabel.plugin_name">
 <code class="descname">plugin_name</code><em class="property"> = 'HaloLabel'</em><a class="headerlink" href="#plugins.datasource.HaloLabel.HaloLabel.plugin_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="plugins.datasource.HaloLabel.HaloLabel.read">
-<code class="descname">read</code><span class="sig-paren">(</span><em>columns</em>, <em>stats</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/HaloLabel.html#HaloLabel.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.HaloLabel.HaloLabel.read" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="classmethod">
 <dt id="plugins.datasource.HaloLabel.HaloLabel.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/HaloLabel.html#HaloLabel.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.HaloLabel.HaloLabel.register" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/HaloLabel.html#HaloLabel.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.HaloLabel.HaloLabel.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nbodykit.fkp module &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
+    <link rel="up" title="nbodykit package" href="nbodykit.html" />
+    <link rel="next" title="nbodykit.fof module" href="nbodykit.fof.html" />
+    <link rel="prev" title="nbodykit.files module" href="nbodykit.files.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.fof.html" title="nbodykit.fof module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.files.html" title="nbodykit.files module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" accesskey="U">nbodykit package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-nbodykit.fkp">
+<span id="nbodykit-fkp-module"></span><h1>nbodykit.fkp module<a class="headerlink" href="#module-nbodykit.fkp" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nbodykit.fkp.FKPCatalog">
+<em class="property">class </em><code class="descclassname">nbodykit.fkp.</code><code class="descname">FKPCatalog</code><span class="sig-paren">(</span><em>data</em>, <em>randoms</em>, <em>BoxSize=None</em>, <em>BoxPad=0.02</em>, <em>compute_fkp_weights=False</em>, <em>P0_fkp=None</em>, <em>nbar=None</em>, <em>fsky=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/fkp.html#FKPCatalog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.fkp.FKPCatalog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A <cite>DataSource</cite> representing a catalog of tracer objects, 
+designed to be used in analysis similar to that first outlined 
+by Feldman, Kaiser, and Peacock (FKP) 1994 (astro-ph/9304022)</p>
+<p>In particular, the <cite>FKPCatalog</cite> uses a catalog of random objects
+to define the mean density of the survey, in addition to the catalog
+of data objects</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>data: DataSource</td>
+<td>a <cite>DataSource</cite> that returns the position, weight, etc of the true tracer objects, whose intrinsic clustering is non-zero</td>
+</tr>
+<tr class="row-even"><td>randoms: DataSource</td>
+<td>a <cite>DataSource</cite> that returns the position, weight, etc of a catalog of objects generated randomly to match the survey geometry and whose instrinsic clustering is zero</td>
+</tr>
+<tr class="row-odd"><td>BoxSize:</td>
+<td>the size of the cartesian box &#8211; the Cartesian coordinates of the input objects are computed using the input cosmology, and then placed into the box</td>
+</tr>
+<tr class="row-even"><td>mean_coordinate_offset:</td>
+<td>the average coordinate value in each dimension &#8211; this offset is used to return cartesian coordinates translated into the domain of [-BoxSize/2, BoxSize/2]</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.fkp.FKPCatalog.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/fkp.html#FKPCatalog.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.fkp.FKPCatalog.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the FKPCatalog by close the <cite>data</cite> and <cite>randoms</cite> streams</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.fkp.FKPCatalog.closed">
+<code class="descname">closed</code><a class="headerlink" href="#nbodykit.fkp.FKPCatalog.closed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>True</cite> if the catalog has been setup and the
+data and random streams are open</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.fkp.FKPCatalog.data">
+<code class="descname">data</code><a class="headerlink" href="#nbodykit.fkp.FKPCatalog.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the <code class="docutils literal"><span class="pre">data</span></code> attribute, keeping track of the total number 
+of objects</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.fkp.FKPCatalog.fsky">
+<code class="descname">fsky</code><a class="headerlink" href="#nbodykit.fkp.FKPCatalog.fsky" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sky area fraction (relative to 4pi str); needed for the volume 
+computation when computing <cite>n(z)</cite></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.fkp.FKPCatalog.nbar">
+<code class="descname">nbar</code><a class="headerlink" href="#nbodykit.fkp.FKPCatalog.nbar" title="Permalink to this definition">¶</a></dt>
+<dd><p>A callable function that returns the number density <code class="docutils literal"><span class="pre">n(z)</span></code> 
+as a function of redshift (provided via argument)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.fkp.FKPCatalog.open">
+<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/fkp.html#FKPCatalog.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.fkp.FKPCatalog.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open the catalog by defining the Cartesian box
+and opening the <cite>data</cite> and <cite>randoms</cite> streams</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.fkp.FKPCatalog.paint">
+<code class="descname">paint</code><span class="sig-paren">(</span><em>pm</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/fkp.html#FKPCatalog.paint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.fkp.FKPCatalog.paint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Paint the FKP weighted density field: <code class="docutils literal"><span class="pre">data</span> <span class="pre">-</span> <span class="pre">alpha*randoms</span></code> using
+the input <cite>ParticleMesh</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pm</strong> : ParticleMesh</p>
+<blockquote>
+<div><p>the particle mesh instance to paint the density field to</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>stats</strong> : dict</p>
+<blockquote class="last">
+<div><p>a dictionary of FKP statistics, including total number, normalization,
+and shot noise parameters (see equations 13-15 of Beutler et al. 2013)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.fkp.FKPCatalog.read">
+<code class="descname">read</code><span class="sig-paren">(</span><em>name</em>, <em>columns</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/fkp.html#FKPCatalog.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.fkp.FKPCatalog.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read data from <cite>stream</cite>, which is specified by the <cite>name</cite> argument</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.fkp.FKPCatalog.verify_data_size">
+<code class="descname">verify_data_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/fkp.html#FKPCatalog.verify_data_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.fkp.FKPCatalog.verify_data_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify the size of the data, setting it if need be</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nbodykit.files.html"
+                        title="previous chapter">nbodykit.files module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nbodykit.fof.html"
+                        title="next chapter">nbodykit.fof module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/nbodykit.fkp.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.fof.html" title="nbodykit.fof module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="nbodykit.files.html" title="nbodykit.files module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="nbodykit.html" >nbodykit package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

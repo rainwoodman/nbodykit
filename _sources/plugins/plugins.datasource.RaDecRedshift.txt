@@ -1,0 +1,7 @@
+plugins.datasource.RaDecRedshift module
+=======================================
+
+.. automodule:: plugins.datasource.RaDecRedshift
+    :members:
+    :undoc-members:
+    :show-inheritance:

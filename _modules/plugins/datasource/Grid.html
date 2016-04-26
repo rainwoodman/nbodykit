@@ -54,32 +54,28 @@
 
 <div class="viewcode-block" id="GridDataSource"><a class="viewcode-back" href="../../../plugins/plugins.datasource.Grid.html#plugins.datasource.Grid.GridDataSource">[docs]</a><span class="k">class</span> <span class="nc">GridDataSource</span><span class="p">(</span><span class="n">DataSource</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Class to read field gridded data from a binary file.</span>
+<span class="sd">    Class to read field gridded data from a binary file</span>
 <span class="sd">    </span>
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    * Reading is designed to be done by `GridPainter`, which</span>
 <span class="sd">      reads gridded quantity straight into the `ParticleMesh`</span>
-
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    path    : str</span>
-<span class="sd">        the path of the file to read the data from </span>
-<span class="sd">    BoxSize : float</span>
-<span class="sd">        the box size</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;Grid&quot;</span>
     
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">BoxSize</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f4&#39;</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="GridDataSource.register"><a class="viewcode-back" href="../../../plugins/plugins.datasource.Grid.html#plugins.datasource.Grid.GridDataSource.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
+<div class="viewcode-block" id="GridDataSource.register"><a class="viewcode-back" href="../../../plugins/plugins.datasource.Grid.html#plugins.datasource.Grid.GridDataSource.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
         
-        <span class="n">h</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">parser</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">schema</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s">&quot;read gridded field data from a binary file&quot;</span>
         
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;path to file&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;BoxSize&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">kls</span><span class="o">.</span><span class="n">BoxSizeParser</span><span class="p">,</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;the file path to load the data from&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;BoxSize&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">cls</span><span class="o">.</span><span class="n">BoxSizeParser</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s">&quot;the size of the isotropic box, or the sizes of the 3 box dimensions&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-dtype&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;data type of binary file to read&quot;</span><span class="p">)</span></div></div>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;dtype&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;data type of binary file to read&quot;</span><span class="p">)</span></div></div>
 
 </pre></div>
 

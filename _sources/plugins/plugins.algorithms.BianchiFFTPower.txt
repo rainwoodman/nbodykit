@@ -1,0 +1,7 @@
+plugins.algorithms.BianchiFFTPower module
+=========================================
+
+.. automodule:: plugins.algorithms.BianchiFFTPower
+    :members:
+    :undoc-members:
+    :show-inheritance:

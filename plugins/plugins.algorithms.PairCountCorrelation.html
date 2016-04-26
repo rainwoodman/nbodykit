@@ -26,7 +26,7 @@
     <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
     <link rel="up" title="plugins.algorithms package" href="plugins.algorithms.html" />
     <link rel="next" title="plugins.algorithms.PeriodicBox module" href="plugins.algorithms.PeriodicBox.html" />
-    <link rel="prev" title="plugins.algorithms.FOF6D module" href="plugins.algorithms.FOF6D.html" /> 
+    <link rel="prev" title="plugins.algorithms.FiberCollisions module" href="plugins.algorithms.FiberCollisions.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,7 +42,7 @@
           <a href="plugins.algorithms.PeriodicBox.html" title="plugins.algorithms.PeriodicBox module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="plugins.algorithms.FOF6D.html" title="plugins.algorithms.FOF6D module"
+          <a href="plugins.algorithms.FiberCollisions.html" title="plugins.algorithms.FiberCollisions module"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>
@@ -60,8 +60,8 @@
 <span id="plugins-algorithms-paircountcorrelation-module"></span><h1>plugins.algorithms.PairCountCorrelation module<a class="headerlink" href="#module-plugins.algorithms.PairCountCorrelation" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="plugins.algorithms.PairCountCorrelation.PairCountCorrelationAlgorithm">
-<em class="property">class </em><code class="descclassname">plugins.algorithms.PairCountCorrelation.</code><code class="descname">PairCountCorrelationAlgorithm</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/PairCountCorrelation.html#PairCountCorrelationAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.PairCountCorrelation.PairCountCorrelationAlgorithm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Algorithm" title="nbodykit.extensionpoints.Algorithm"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Algorithm</span></code></a></p>
+<em class="property">class </em><code class="descclassname">plugins.algorithms.PairCountCorrelation.</code><code class="descname">PairCountCorrelationAlgorithm</code><span class="sig-paren">(</span><em>mode</em>, <em>rbins</em>, <em>field</em>, <em>other=None</em>, <em>subsample=1</em>, <em>los='z'</em>, <em>Nmu=10</em>, <em>poles=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/PairCountCorrelation.html#PairCountCorrelationAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.PairCountCorrelation.PairCountCorrelationAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Algorithm</span></code></p>
 <p>Algorithm to compute the 1d or 2d correlation function and multipoles
 via direct pair counting</p>
 <dl class="attribute">
@@ -71,9 +71,8 @@ via direct pair counting</p>
 
 <dl class="classmethod">
 <dt id="plugins.algorithms.PairCountCorrelation.PairCountCorrelationAlgorithm.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/PairCountCorrelation.html#PairCountCorrelationAlgorithm.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.PairCountCorrelation.PairCountCorrelationAlgorithm.register" title="Permalink to this definition">¶</a></dt>
-<dd><p>Setup the argument parser needed for initialization via the command-line</p>
-</dd></dl>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/PairCountCorrelation.html#PairCountCorrelationAlgorithm.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.PairCountCorrelation.PairCountCorrelationAlgorithm.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="plugins.algorithms.PairCountCorrelation.PairCountCorrelationAlgorithm.run">
@@ -139,8 +138,8 @@ a string to an array of bin edges</p>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="plugins.algorithms.FOF6D.html"
-                        title="previous chapter">plugins.algorithms.FOF6D module</a></p>
+  <p class="topless"><a href="plugins.algorithms.FiberCollisions.html"
+                        title="previous chapter">plugins.algorithms.FiberCollisions module</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="plugins.algorithms.PeriodicBox.html"
                         title="next chapter">plugins.algorithms.PeriodicBox module</a></p>
@@ -178,7 +177,7 @@ a string to an array of bin edges</p>
           <a href="plugins.algorithms.PeriodicBox.html" title="plugins.algorithms.PeriodicBox module"
              >next</a> |</li>
         <li class="right" >
-          <a href="plugins.algorithms.FOF6D.html" title="plugins.algorithms.FOF6D module"
+          <a href="plugins.algorithms.FiberCollisions.html" title="plugins.algorithms.FiberCollisions module"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>

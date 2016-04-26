@@ -52,17 +52,29 @@
 <span class="kn">import</span> <span class="nn">numpy</span>
 
 <div class="viewcode-block" id="TPMLabel"><a class="viewcode-back" href="../../../plugins/plugins.datasource.TPMLabel.html#plugins.datasource.TPMLabel.TPMLabel">[docs]</a><span class="k">class</span> <span class="nc">TPMLabel</span><span class="p">(</span><span class="n">DataSource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    DataSource to read file of halo labels (halo id per particle), </span>
+<span class="sd">    as generated from Martin White&#39;s TPM simulations</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;TPMLabel&quot;</span>
     
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">bunchsize</span><span class="o">=</span><span class="mi">4</span><span class="o">*</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">datastorage</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">DataStorage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">files</span><span class="o">.</span><span class="n">HaloLabelFile</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">datastorage</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">datastorage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">datastorage</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">datastorage</span><span class="o">.</span><span class="n">npart</span><span class="p">)</span>
+    
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="TPMLabel.register"><a class="viewcode-back" href="../../../plugins/plugins.datasource.TPMLabel.html#plugins.datasource.TPMLabel.TPMLabel.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
+<div class="viewcode-block" id="TPMLabel.register"><a class="viewcode-back" href="../../../plugins/plugins.datasource.TPMLabel.html#plugins.datasource.TPMLabel.TPMLabel.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
         
-        <span class="n">h</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">parser</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;path to file&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-bunchsize&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> 
-                <span class="n">default</span><span class="o">=</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;number of particles to read per rank in a bunch&quot;</span><span class="p">)</span></div>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">schema</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s">&quot;read file of halo labels as generated from Martin White&#39;s TPM&quot;</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;the file path to load the data from&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;bunchsize&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;number of particle to read in a bunch&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TPMLabel.read"><a class="viewcode-back" href="../../../plugins/plugins.datasource.TPMLabel.html#plugins.datasource.TPMLabel.TPMLabel.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="TPMLabel.parallel_read"><a class="viewcode-back" href="../../../plugins/plugins.datasource.TPMLabel.html#plugins.datasource.TPMLabel.TPMLabel.parallel_read">[docs]</a>    <span class="k">def</span> <span class="nf">parallel_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; read data in parallel. if Full is True, neglect bunchsize. &quot;&quot;&quot;</span>
         <span class="n">Ntot</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c"># avoid reading Velocity if RSD is not requested.</span>
@@ -80,13 +92,11 @@
         <span class="n">datastorage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">bcast</span><span class="p">(</span><span class="n">datastorage</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="nb">round</span><span class="p">,</span> <span class="n">P</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-                <span class="n">datastorage</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="p">,</span> 
+                <span class="n">datastorage</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="n">comm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="p">,</span> 
                     <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">bunchsize</span><span class="o">=</span><span class="n">bunchsize</span><span class="p">)):</span>
             <span class="n">P</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">P</span><span class="p">))</span>
 
-            <span class="k">yield</span> <span class="p">[</span><span class="n">P</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span></div></div>
-
-<span class="c">#------------------------------------------------------------------------------</span>
+            <span class="k">yield</span> <span class="p">[</span><span class="n">P</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span></div></div>
 </pre></div>
 
           </div>

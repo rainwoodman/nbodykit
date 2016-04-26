@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
     <link rel="up" title="plugins.algorithms package" href="plugins.algorithms.html" />
-    <link rel="next" title="plugins.algorithms.PairCountCorrelation module" href="plugins.algorithms.PairCountCorrelation.html" />
+    <link rel="next" title="plugins.algorithms.FiberCollisions module" href="plugins.algorithms.FiberCollisions.html" />
     <link rel="prev" title="plugins.algorithms.FOF module" href="plugins.algorithms.FOF.html" /> 
   </head>
   <body role="document">
@@ -39,7 +39,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="plugins.algorithms.PairCountCorrelation.html" title="plugins.algorithms.PairCountCorrelation module"
+          <a href="plugins.algorithms.FiberCollisions.html" title="plugins.algorithms.FiberCollisions module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="plugins.algorithms.FOF.html" title="plugins.algorithms.FOF module"
@@ -60,8 +60,8 @@
 <span id="plugins-algorithms-fof6d-module"></span><h1>plugins.algorithms.FOF6D module<a class="headerlink" href="#module-plugins.algorithms.FOF6D" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="plugins.algorithms.FOF6D.FOF6DAlgorithm">
-<em class="property">class </em><code class="descclassname">plugins.algorithms.FOF6D.</code><code class="descname">FOF6DAlgorithm</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/FOF6D.html#FOF6DAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.FOF6D.FOF6DAlgorithm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.Algorithm" title="nbodykit.extensionpoints.Algorithm"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Algorithm</span></code></a></p>
+<em class="property">class </em><code class="descclassname">plugins.algorithms.FOF6D.</code><code class="descname">FOF6DAlgorithm</code><span class="sig-paren">(</span><em>datasource</em>, <em>halolabel</em>, <em>linklength=0.078</em>, <em>vfactor=0.368</em>, <em>nmin=32</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/FOF6D.html#FOF6DAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.FOF6D.FOF6DAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Algorithm</span></code></p>
 <dl class="attribute">
 <dt id="plugins.algorithms.FOF6D.FOF6DAlgorithm.plugin_name">
 <code class="descname">plugin_name</code><em class="property"> = 'FOF6D'</em><a class="headerlink" href="#plugins.algorithms.FOF6D.FOF6DAlgorithm.plugin_name" title="Permalink to this definition">¶</a></dt>
@@ -69,7 +69,7 @@
 
 <dl class="classmethod">
 <dt id="plugins.algorithms.FOF6D.FOF6DAlgorithm.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/FOF6D.html#FOF6DAlgorithm.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.FOF6D.FOF6DAlgorithm.register" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/FOF6D.html#FOF6DAlgorithm.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.FOF6D.FOF6DAlgorithm.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -106,8 +106,8 @@
   <p class="topless"><a href="plugins.algorithms.FOF.html"
                         title="previous chapter">plugins.algorithms.FOF module</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="plugins.algorithms.PairCountCorrelation.html"
-                        title="next chapter">plugins.algorithms.PairCountCorrelation module</a></p>
+  <p class="topless"><a href="plugins.algorithms.FiberCollisions.html"
+                        title="next chapter">plugins.algorithms.FiberCollisions module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -139,7 +139,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="plugins.algorithms.PairCountCorrelation.html" title="plugins.algorithms.PairCountCorrelation module"
+          <a href="plugins.algorithms.FiberCollisions.html" title="plugins.algorithms.FiberCollisions module"
              >next</a> |</li>
         <li class="right" >
           <a href="plugins.algorithms.FOF.html" title="plugins.algorithms.FOF module"

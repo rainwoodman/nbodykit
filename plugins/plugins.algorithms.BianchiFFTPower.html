@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>plugins.algorithms.BianchiFFTPower module &mdash; nbodykit 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
+    <link rel="up" title="plugins.algorithms package" href="plugins.algorithms.html" />
+    <link rel="next" title="plugins.algorithms.ExampleAlgorithm module" href="plugins.algorithms.ExampleAlgorithm.html" />
+    <link rel="prev" title="plugins.algorithms package" href="plugins.algorithms.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plugins.algorithms.ExampleAlgorithm.html" title="plugins.algorithms.ExampleAlgorithm module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="plugins.algorithms.html" title="plugins.algorithms package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="plugins.html" >plugins package</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="plugins.algorithms.html" accesskey="U">plugins.algorithms package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-plugins.algorithms.BianchiFFTPower">
+<span id="plugins-algorithms-bianchifftpower-module"></span><h1>plugins.algorithms.BianchiFFTPower module<a class="headerlink" href="#module-plugins.algorithms.BianchiFFTPower" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm">
+<em class="property">class </em><code class="descclassname">plugins.algorithms.BianchiFFTPower.</code><code class="descname">BianchiPowerAlgorithm</code><span class="sig-paren">(</span><em>data</em>, <em>randoms</em>, <em>Nmesh</em>, <em>max_ell</em>, <em>dk=None</em>, <em>kmin=0.0</em>, <em>BoxSize=None</em>, <em>BoxPad=0.02</em>, <em>compute_fkp_weights=False</em>, <em>P0_fkp=None</em>, <em>nbar=None</em>, <em>fsky=None</em>, <em>quiet=False</em>, <em>factor_hexadecapole=False</em>, <em>keep_cache=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/BianchiFFTPower.html#BianchiPowerAlgorithm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Algorithm</span></code></p>
+<p>Algorithm to compute the power spectrum multipoles using FFTs
+for a data survey with non-trivial geometry</p>
+<p>The algorithm used to compute the multipoles is detailed
+in Bianchi et al. 2015 (<a class="reference external" href="http://adsabs.harvard.edu/abs/2015MNRAS.453L..11B">http://adsabs.harvard.edu/abs/2015MNRAS.453L..11B</a>)</p>
+<dl class="attribute">
+<dt id="plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.logger">
+<code class="descname">logger</code><em class="property"> = &lt;logging.Logger object&gt;</em><a class="headerlink" href="#plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = 'BianchiFFTPower'</em><a class="headerlink" href="#plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/BianchiFFTPower.html#BianchiPowerAlgorithm.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/BianchiFFTPower.html#BianchiPowerAlgorithm.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the algorithm, which computes and returns the power spectrum</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>output</em>, <em>result</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/BianchiFFTPower.html#BianchiPowerAlgorithm.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the power spectrum results to the specified output file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>output</strong> : str</p>
+<blockquote>
+<div><p>the string specifying the file to save</p>
+</div></blockquote>
+<p><strong>result</strong> : tuple</p>
+<blockquote class="last">
+<div><p>the tuple returned by <cite>run()</cite> &#8211; first argument specifies the bin
+edges and the second is a dictionary holding the data results</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="plugins.algorithms.html"
+                        title="previous chapter">plugins.algorithms package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plugins.algorithms.ExampleAlgorithm.html"
+                        title="next chapter">plugins.algorithms.ExampleAlgorithm module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/plugins/plugins.algorithms.BianchiFFTPower.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plugins.algorithms.ExampleAlgorithm.html" title="plugins.algorithms.ExampleAlgorithm module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="plugins.algorithms.html" title="plugins.algorithms package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="plugins.html" >plugins package</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="plugins.algorithms.html" >plugins.algorithms package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

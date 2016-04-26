@@ -47,70 +47,56 @@
           <div class="body" role="main">
             
   <h1>Source code for plugins.algorithms.PeriodicBox</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">Algorithm</span><span class="p">,</span> <span class="n">plugin_isinstance</span>
+<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">Algorithm</span>
 <span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">DataSource</span><span class="p">,</span> <span class="n">Transfer</span><span class="p">,</span> <span class="n">Painter</span>
-<span class="kn">from</span> <span class="nn">nbodykit.pluginmanager</span> <span class="kn">import</span> <span class="n">add_plugin_list_argument</span>
 
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
-<div class="viewcode-block" id="FieldsType"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PeriodicBox.html#plugins.algorithms.PeriodicBox.FieldsType">[docs]</a><span class="k">def</span> <span class="nf">FieldsType</span><span class="p">(</span><span class="n">input_fields</span><span class="p">):</span>
+<div class="viewcode-block" id="FieldType"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PeriodicBox.html#plugins.algorithms.PeriodicBox.FieldType">[docs]</a><span class="k">def</span> <span class="nf">FieldType</span><span class="p">(</span><span class="n">ns</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Construct a list of `Fields`, which are tuples of </span>
-<span class="sd">    (`DataSource`, `Painter`, `Transfer`)</span>
+<span class="sd">    Construct and return a `Field`:</span>
+<span class="sd">    a tuple of (`DataSource`, `Painter`, `Transfer`)</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    *   the default Painter is set to `DefaultPainter`</span>
+<span class="sd">    *   the default Transfer chain is set to </span>
+<span class="sd">        [`NormalizeDC`, `RemoveDC`, `AnisotropicCIC`]</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    input_fields : list</span>
-<span class="sd">        a list of string representations of </span>
-<span class="sd">        (DataSource, Painter, Transfer) plugins </span>
+<span class="sd">    fields_dict : OrderedDict</span>
+<span class="sd">        an ordered dictionary where the keys are Plugin names</span>
+<span class="sd">        and the values are instantiated Plugins</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    fields : list</span>
-<span class="sd">        list of instantiated (DataSource, Painter, Transfer) tuples</span>
-<span class="sd">    &quot;&quot;&quot;</span>     
-    <span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_fields</span><span class="p">)</span>
+<span class="sd">    field : list</span>
+<span class="sd">        list of (DataSource, Painter, Transfer)</span>
+<span class="sd">    &quot;&quot;&quot;</span>         
+    <span class="c"># define the default Painter and Transfer</span>
+    <span class="n">default_painter</span> <span class="o">=</span> <span class="n">Painter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;DefaultPainter&quot;</span><span class="p">)</span>
+    <span class="n">default_transfer</span> <span class="o">=</span> <span class="p">[</span><span class="n">Transfer</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;NormalizeDC&#39;</span><span class="p">,</span> <span class="s">&#39;RemoveDC&#39;</span><span class="p">,</span> <span class="s">&#39;AnisotropicCIC&#39;</span><span class="p">]]</span>
     
-    <span class="n">default_painter</span> <span class="o">=</span> <span class="n">Painter</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="s">&quot;DefaultPainter&quot;</span><span class="p">)</span>
-    <span class="n">default_transfer</span> <span class="o">=</span> <span class="p">[</span><span class="n">Transfer</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;NormalizeDC&#39;</span><span class="p">,</span> <span class="s">&#39;RemoveDC&#39;</span><span class="p">,</span> <span class="s">&#39;AnisotropicCIC&#39;</span><span class="p">]]</span>
+    <span class="c"># start with a default option for (DataSource, Painter, Transfer)</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="n">default_painter</span><span class="p">,</span> <span class="n">default_transfer</span><span class="p">]</span>
     
-    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">:</span>
+    <span class="c"># set the DataSource</span>
+    <span class="k">if</span> <span class="s">&#39;DataSource&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ns</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;exactly one `DataSource` per field must be specified&quot;</span><span class="p">)</span>    
+    <span class="n">field</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="s">&#39;DataSource&#39;</span><span class="p">)</span>
+    
+    <span class="c"># set the Painter</span>
+    <span class="k">if</span> <span class="s">&#39;Painter&#39;</span> <span class="ow">in</span> <span class="n">ns</span><span class="p">:</span>
+        <span class="n">field</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="s">&#39;Painter&#39;</span><span class="p">)</span>
+    
+    <span class="c"># set the Transfer</span>
+    <span class="k">if</span> <span class="s">&#39;Transfer&#39;</span> <span class="ow">in</span> <span class="n">ns</span><span class="p">:</span>
+        <span class="n">field</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="s">&#39;Transfer&#39;</span><span class="p">)</span>
         
-        <span class="c"># start with a default option for (DataSource, Painter, Transfer)</span>
-        <span class="n">field</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="n">default_painter</span><span class="p">,</span> <span class="p">[]]</span>
-        
-        <span class="c"># should be a DataSource here, or break</span>
-        <span class="k">if</span> <span class="n">plugin_isinstance</span><span class="p">(</span><span class="n">input_fields</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">DataSource</span><span class="p">):</span>
-            
-            <span class="c"># set data source</span>
-            <span class="n">field</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">DataSource</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">input_fields</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            
-            <span class="c"># loop until out of values or another DataSource found</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">plugin_isinstance</span><span class="p">(</span><span class="n">input_fields</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">DataSource</span><span class="p">):</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="n">input_fields</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                
-                <span class="c"># set Painter</span>
-                <span class="k">if</span> <span class="n">plugin_isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">Painter</span><span class="p">):</span>
-                    <span class="n">field</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Painter</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-                <span class="c"># add one Transfer</span>
-                <span class="k">elif</span> <span class="n">plugin_isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">Transfer</span><span class="p">):</span>
-                    <span class="n">field</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Transfer</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
-                <span class="c"># add list of Transfers</span>
-                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-                    <span class="n">field</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Transfer</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;failure to parse line `</span><span class="si">%s</span><span class="s">` for `fields` key&quot;</span> <span class="o">%</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>                    
-                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span> <span class="n">field</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_transfer</span>
-            <span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">field</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span> <span class="c"># failure</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;parsing error constructing input `fields` -- see documentation for proper syntax&quot;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">fields</span></div>
+    <span class="k">return</span> <span class="n">field</span></div>
     
 <div class="viewcode-block" id="FFTPowerAlgorithm"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PeriodicBox.html#plugins.algorithms.PeriodicBox.FFTPowerAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">FFTPowerAlgorithm</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -120,33 +106,63 @@
     <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;FFTPower&quot;</span>
     <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">plugin_name</span><span class="p">)</span>
     
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="FFTPowerAlgorithm.register"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PeriodicBox.html#plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">parser</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s">&quot;periodic power spectrum calculator via FFT&quot;</span>
-
-        <span class="c"># the required arguments</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;mode&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;2d&quot;</span><span class="p">,</span> <span class="s">&quot;1d&quot;</span><span class="p">],</span> 
-            <span class="n">help</span><span class="o">=</span><span class="s">&#39;compute the power as a function of `k` or `k` and `mu`&#39;</span><span class="p">)</span> 
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;Nmesh&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> 
-            <span class="n">help</span><span class="o">=</span><span class="s">&#39;the number of cells in the gridded mesh&#39;</span><span class="p">)</span>
-        <span class="n">add_plugin_list_argument</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s">&quot;fields&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">FieldsType</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s">&quot;strings specifying the input data sources, painters, and transfers, in that order, respectively -- &quot;</span><span class="o">+</span>
-                <span class="s">&quot;use --list-datasource and --list-painters for further documentation&quot;</span><span class="p">,</span>
-            <span class="n">metavar</span><span class="o">=</span><span class="s">&quot;DataSource [Painter] [Transfer] [DataSource [Painter] [Transfer]]&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">Nmesh</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">Nmu</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> 
+                    <span class="n">dk</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">kmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">poles</span><span class="o">=</span><span class="p">[]):</span>
+          
+        <span class="c"># properly set the logging level          </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
+        <span class="k">if</span> <span class="n">quiet</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span>
+            
+        <span class="c"># combine the two fields</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">other</span><span class="p">)</span>
         
-        <span class="c"># the optional arguments</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--los&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="s">&quot;xyz&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;z&#39;</span><span class="p">,</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="FFTPowerAlgorithm.register"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PeriodicBox.html#plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        
+        <span class="n">s</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">schema</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s">&quot;periodic power spectrum calculator via FFT&quot;</span>
+
+        <span class="c"># required</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;mode&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;1d&#39;</span><span class="p">,</span> <span class="s">&#39;2d&#39;</span><span class="p">],</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;compute the power as a function of `k` or `k` and `mu`&#39;</span><span class="p">)</span> 
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;Nmesh&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;the number of cells in the gridded mesh&#39;</span><span class="p">)</span>
+        
+        <span class="c"># the first field</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;field&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">FieldType</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;first data field; a tuple of (DataSource, Painter, Transfer)&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;field.DataSource&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">DataSource</span><span class="o">.</span><span class="n">from_config</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;the 1st DataSource; run `nbkit.py --list-datasources` for all options&#39;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;field.Painter&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Painter</span><span class="o">.</span><span class="n">from_config</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;the 1st Painter; run `nbkit.py --list-painters` for all options&#39;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;field.Transfer&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Transfer</span><span class="o">.</span><span class="n">from_config</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;the 1st Transfer chain; run `nbkit.py --list-transfers` for all options&#39;</span><span class="p">)</span>
+        
+        <span class="c"># the other field</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;other&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">FieldType</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;the other data field; a tuple of (DataSource, Painter, Transfer)&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;other.DataSource&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">DataSource</span><span class="o">.</span><span class="n">from_config</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;the 2nd DataSource; run `nbkit.py --list-datasources` for all options&#39;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;other.Painter&#39;</span><span class="p">,</span>  <span class="nb">type</span><span class="o">=</span><span class="n">Painter</span><span class="o">.</span><span class="n">from_config</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;the 2nd Painter; run `nbkit.py --list-painters` for all options&#39;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;other.Transfer&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Transfer</span><span class="o">.</span><span class="n">from_config</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;the 2nd Transfer chain; run `nbkit.py --list-transfers` for all options&#39;</span><span class="p">)</span>
+            
+        <span class="c"># optional</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;los&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="s">&quot;xyz&quot;</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s">&quot;the line-of-sight direction -- the angle `mu` is defined with respect to&quot;</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--Nmu&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> 
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;Nmu&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s">&#39;the number of mu bins to use from mu=[0,1]; if `mode = 1d`, then `Nmu` is set to 1&#39;</span> <span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--dk&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;dk&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s">&#39;the spacing of k bins to use; if not provided, the fundamental mode of the box is used&#39;</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--kmin&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;kmin&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s">&#39;the edge of the first `k` bin to use; default is 0&#39;</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-q&#39;</span><span class="p">,</span> <span class="s">&#39;--quiet&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store_const&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;log_level&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s">&quot;silence the logging output&quot;</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;--poles&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()],</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;quiet&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;silence the logging output&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;poles&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">&#39;*&#39;</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s">&#39;if specified, also compute these multipoles from P(k,mu)&#39;</span><span class="p">)</span></div>
             
 <div class="viewcode-block" id="FFTPowerAlgorithm.run"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PeriodicBox.html#plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -166,13 +182,17 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s">&quot;1d&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nmu</span> <span class="o">=</span> <span class="mi">1</span>
     
         <span class="c"># measure</span>
-        <span class="n">y3d</span><span class="p">,</span> <span class="n">N1</span><span class="p">,</span> <span class="n">N2</span> <span class="o">=</span> <span class="n">measurestats</span><span class="o">.</span><span class="n">compute_3d_power</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+        <span class="n">y3d</span><span class="p">,</span> <span class="n">stats1</span><span class="p">,</span> <span class="n">stats2</span> <span class="o">=</span> <span class="n">measurestats</span><span class="o">.</span><span class="n">compute_3d_power</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
         <span class="n">x3d</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">k</span>
     
+        <span class="c"># get the number of objects (in a safe manner)</span>
+        <span class="n">N1</span> <span class="o">=</span> <span class="n">stats1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;Ntot&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">N2</span> <span class="o">=</span> <span class="n">stats2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;Ntot&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        
         <span class="c"># binning in k out to the minimum nyquist frequency </span>
         <span class="c"># (accounting for possibly anisotropic box)</span>
         <span class="n">dk</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">pm</span><span class="o">.</span><span class="n">BoxSize</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dk</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">dk</span>
-        <span class="n">kedges</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kmin</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">pm</span><span class="o">.</span><span class="n">Nmesh</span><span class="o">/</span><span class="n">pm</span><span class="o">.</span><span class="n">BoxSize</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">+</span> <span class="n">dk</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">dk</span><span class="p">)</span>
+        <span class="n">kedges</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kmin</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">pm</span><span class="o">.</span><span class="n">Nmesh</span><span class="o">/</span><span class="n">pm</span><span class="o">.</span><span class="n">BoxSize</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="n">dk</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">dk</span><span class="p">)</span>
     
         <span class="c"># project on to the desired basis</span>
         <span class="n">muedges</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nmu</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -201,7 +221,7 @@
 <span class="sd">            the tuple returned by `run()` -- first argument specifies the bin</span>
 <span class="sd">            edges and the second is a dictionary holding the data results</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">MeasurementStorage</span>
+        <span class="kn">from</span> <span class="nn">nbodykit.storage</span> <span class="kn">import</span> <span class="n">MeasurementStorage</span>
         
         <span class="c"># only the master rank writes        </span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -217,7 +237,7 @@
                 
             <span class="c"># write binned statistic</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;measurement done; saving result to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">output</span><span class="p">)</span>
-            <span class="n">storage</span> <span class="o">=</span> <span class="n">MeasurementStorage</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+            <span class="n">storage</span> <span class="o">=</span> <span class="n">MeasurementStorage</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
             <span class="n">storage</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">edges_</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span>
         
             <span class="c"># write multipoles</span>
@@ -227,7 +247,7 @@
             
                 <span class="c"># format is k pole_0, pole_1, ...., modes_1d</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;saving ell = </span><span class="si">%s</span><span class="s"> multipoles to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">poles</span><span class="p">)),</span> <span class="n">pole_output</span><span class="p">))</span>
-                <span class="n">storage</span> <span class="o">=</span> <span class="n">MeasurementStorage</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s">&#39;1d&#39;</span><span class="p">,</span> <span class="n">pole_output</span><span class="p">)</span>
+                <span class="n">storage</span> <span class="o">=</span> <span class="n">MeasurementStorage</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s">&#39;1d&#39;</span><span class="p">,</span> <span class="n">pole_output</span><span class="p">)</span>
             
                 <span class="n">k</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">pole_result</span>
                 <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;k&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;power_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">l</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">poles</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;modes&#39;</span><span class="p">]</span>
@@ -243,15 +263,26 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;FFTCorrelation&quot;</span>
     <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">plugin_name</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">Nmesh</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">Nmu</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> 
+                    <span class="n">dk</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">kmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">poles</span><span class="o">=</span><span class="p">[]):</span>
+          
+        <span class="c"># properly set the logging level          </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
+        <span class="k">if</span> <span class="n">quiet</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span>
+            
+        <span class="c"># combine the two fields</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">other</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">other</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="FFTCorrelationAlgorithm.register"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PeriodicBox.html#plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
-        <span class="kn">import</span> <span class="nn">copy</span>
+<div class="viewcode-block" id="FFTCorrelationAlgorithm.register"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PeriodicBox.html#plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
         
-        <span class="c"># copy the FFTPower parser</span>
-        <span class="n">kls</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">FFTPowerAlgorithm</span><span class="o">.</span><span class="n">parser</span><span class="p">)</span>
-        <span class="n">kls</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s">&quot;correlation spectrum calculator via FFT in a periodic box&quot;</span>
-        <span class="n">kls</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">prog</span> <span class="o">=</span> <span class="s">&#39;FFTCorrelation&#39;</span></div>
+        <span class="n">cls</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s">&quot;correlation spectrum calculator via FFT in a periodic box&quot;</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">FFTPowerAlgorithm</span><span class="o">.</span><span class="n">schema</span><span class="p">:</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">schema</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">FFTPowerAlgorithm</span><span class="o">.</span><span class="n">schema</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
             
 <div class="viewcode-block" id="FFTCorrelationAlgorithm.run"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.PeriodicBox.html#plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -270,8 +301,12 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s">&quot;1d&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nmu</span> <span class="o">=</span> <span class="mi">1</span>
 
         <span class="c"># measure</span>
-        <span class="n">y3d</span><span class="p">,</span> <span class="n">N1</span><span class="p">,</span> <span class="n">N2</span> <span class="o">=</span> <span class="n">measurestats</span><span class="o">.</span><span class="n">compute_3d_corr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+        <span class="n">y3d</span><span class="p">,</span> <span class="n">stats1</span><span class="p">,</span> <span class="n">stats2</span> <span class="o">=</span> <span class="n">measurestats</span><span class="o">.</span><span class="n">compute_3d_corr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
         <span class="n">x3d</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">x</span>
+        
+        <span class="c"># get the number of objects (in a safe manner)</span>
+        <span class="n">N1</span> <span class="o">=</span> <span class="n">stats1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;Ntot&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">N2</span> <span class="o">=</span> <span class="n">stats2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;Ntot&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="c"># make the bin edges</span>
         <span class="n">dr</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">BoxSize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">Nmesh</span>
@@ -304,7 +339,7 @@
 <span class="sd">            the tuple returned by `run()` -- first argument specifies the bin</span>
 <span class="sd">            edges and the second is a dictionary holding the data results</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">MeasurementStorage</span>
+        <span class="kn">from</span> <span class="nn">nbodykit.storage</span> <span class="kn">import</span> <span class="n">MeasurementStorage</span>
 
         <span class="c"># only the master rank writes</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -320,7 +355,7 @@
 
             <span class="c"># write binned statistic</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;measurement done; saving result to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">output</span><span class="p">)</span>
-            <span class="n">storage</span> <span class="o">=</span> <span class="n">MeasurementStorage</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+            <span class="n">storage</span> <span class="o">=</span> <span class="n">MeasurementStorage</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
             <span class="n">storage</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">edges_</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="o">**</span><span class="n">meta</span><span class="p">)</span>
 
             <span class="c"># write multipoles</span>
@@ -330,7 +365,7 @@
 
                 <span class="c"># format is k pole_0, pole_1, ...., modes_1d</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;saving ell = </span><span class="si">%s</span><span class="s"> multipoles to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">poles</span><span class="p">)),</span> <span class="n">pole_output</span><span class="p">))</span>
-                <span class="n">storage</span> <span class="o">=</span> <span class="n">MeasurementStorage</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s">&#39;1d&#39;</span><span class="p">,</span> <span class="n">pole_output</span><span class="p">)</span>
+                <span class="n">storage</span> <span class="o">=</span> <span class="n">MeasurementStorage</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s">&#39;1d&#39;</span><span class="p">,</span> <span class="n">pole_output</span><span class="p">)</span>
 
                 <span class="n">k</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">pole_result</span>
                 <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;k&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;power_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span><span class="n">l</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">poles</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;modes&#39;</span><span class="p">]</span>

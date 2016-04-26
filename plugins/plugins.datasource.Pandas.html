@@ -60,79 +60,22 @@
 <span id="plugins-datasource-pandas-module"></span><h1>plugins.datasource.Pandas module<a class="headerlink" href="#module-plugins.datasource.Pandas" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="plugins.datasource.Pandas.PandasDataSource">
-<em class="property">class </em><code class="descclassname">plugins.datasource.Pandas.</code><code class="descname">PandasDataSource</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Pandas.html#PandasDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Pandas.PandasDataSource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource" title="nbodykit.extensionpoints.DataSource"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></a></p>
-<p>Class to read field data from a Pandas data file
-and paint the field onto a density grid. 
-File types are guessed from the file name extension, or
-specified via <cite>-ftype</cite> commandline argument.  
-For text files, the data is read using <cite>pandas.read_csv</cite>. 
-For HDF5 files (.hdf5), the data is read using <cite>pandas.read_hdf5</cite>.</p>
-<p>Data is stored internally in a <cite>pandas.DataFrame</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path</strong> : str</p>
-<blockquote>
-<div><p>the path of the file to read the data from</p>
-</div></blockquote>
-<p><strong>names</strong> : list of str</p>
-<blockquote>
-<div><p>For text files, one or more strings specifying the names of the data
-columns. Shape must be equal to number of columns
-in the field, otherwise, behavior is undefined.
-For hdf5 files, the name of the pandas data group.</p>
-</div></blockquote>
-<p><strong>BoxSize</strong> : float or array_like (3,)</p>
-<blockquote>
-<div><p>the box size, either provided as a single float (isotropic)
-or an array of the sizes of the three dimensions</p>
-</div></blockquote>
-<p><strong>usecols</strong> : list of str, optional</p>
-<blockquote>
-<div><p>if not None, only these columns will be read from file</p>
-</div></blockquote>
-<p><strong>poscols</strong> : list of str, optional</p>
-<blockquote>
-<div><p>list of three column names to treat as the position data</p>
-</div></blockquote>
-<p><strong>velcols</strong> : list of str, optional</p>
-<blockquote>
-<div><p>list of three column names to treat as the velociy data</p>
-</div></blockquote>
-<p><strong>rsd</strong> : [x|y|z], optional</p>
-<blockquote>
-<div><p>direction to do the redshift space distortion</p>
-</div></blockquote>
-<p><strong>posf</strong> : float, optional</p>
-<blockquote>
-<div><p>multiply the position data by this factor</p>
-</div></blockquote>
-<p><strong>velf</strong> : float, optional</p>
-<blockquote>
-<div><p>multiply the velocity data by this factor</p>
-</div></blockquote>
-<p><strong>select</strong> : str, optional</p>
-<blockquote class="last">
-<div><p>string specifying how to select a subset of data, based
-on the column names. For example, if there are columns
-<cite>type</cite> and <cite>mass</cite>, you could specify 
-select= &#8220;type == central and mass &gt; 1e14&#8221;</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<em class="property">class </em><code class="descclassname">plugins.datasource.Pandas.</code><code class="descname">PandasDataSource</code><span class="sig-paren">(</span><em>path, names, BoxSize, usecols=None, poscols=['x', 'y', 'z'], velcols=None, rsd=None, posf=1.0, velf=1.0, select=None, ftype='auto'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Pandas.html#PandasDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Pandas.PandasDataSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></p>
+<p>Class to read data from a plaintext file using
+<cite>pandas.read_csv</cite> or a &#8216;pandas-flavored&#8217; <cite>HDF5</cite> file
+using <cite>pandas.read_hdf</cite></p>
+<p>Reading method is guessed from the file type, or
+specified via the <cite>ftype</cite> argument.</p>
 <p class="rubric">Notes</p>
 <ul class="simple">
 <li><cite>pandas</cite> must be installed to use</li>
-<li>data file is assumed to be space-separated</li>
-<li>commented lines must begin with <cite>#</cite>, with all other lines</li>
+<li>when reading plaintext files, the file is assumed to be space-separated</li>
+<li>commented lines must begin with <cite>#</cite>, with all other lines
+providing data values to be read</li>
+<li><cite>names</cite> parameter must be equal to the number of data
+columns, otherwise behavior is undefined</li>
 </ul>
-<p>providing data values to be read
-* <cite>names</cite> parameter must be equal to the number of data
-columns, otherwise behavior is undefined</p>
 <dl class="attribute">
 <dt id="plugins.datasource.Pandas.PandasDataSource.plugin_name">
 <code class="descname">plugin_name</code><em class="property"> = 'Pandas'</em><a class="headerlink" href="#plugins.datasource.Pandas.PandasDataSource.plugin_name" title="Permalink to this definition">¶</a></dt>
@@ -140,20 +83,18 @@ columns, otherwise behavior is undefined</p>
 
 <dl class="method">
 <dt id="plugins.datasource.Pandas.PandasDataSource.readall">
-<code class="descname">readall</code><span class="sig-paren">(</span><em>columns</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Pandas.html#PandasDataSource.readall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Pandas.PandasDataSource.readall" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">readall</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Pandas.html#PandasDataSource.readall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Pandas.PandasDataSource.readall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read all available data, returning a dictionary</p>
+<p>This provides <code class="docutils literal"><span class="pre">Position</span></code> and optionally <code class="docutils literal"><span class="pre">Velocity</span></code> columns</p>
+</dd></dl>
 
 <dl class="classmethod">
 <dt id="plugins.datasource.Pandas.PandasDataSource.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Pandas.html#PandasDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Pandas.PandasDataSource.register" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Pandas.html#PandasDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Pandas.PandasDataSource.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fill the attribute schema associated with this class</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="plugins.datasource.Pandas.list_str">
-<code class="descclassname">plugins.datasource.Pandas.</code><code class="descname">list_str</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/Pandas.html#list_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.Pandas.list_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+</dd></dl>
 
 </div>
 

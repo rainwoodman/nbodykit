@@ -60,11 +60,12 @@
 <span id="plugins-datasource-fastpm-module"></span><h1>plugins.datasource.FastPM module<a class="headerlink" href="#module-plugins.datasource.FastPM" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="plugins.datasource.FastPM.FastPMDataSource">
-<em class="property">class </em><code class="descclassname">plugins.datasource.FastPM.</code><code class="descname">FastPMDataSource</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FastPM.html#FastPMDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FastPM.FastPMDataSource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource" title="nbodykit.extensionpoints.DataSource"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></a></p>
+<em class="property">class </em><code class="descclassname">plugins.datasource.FastPM.</code><code class="descname">FastPMDataSource</code><span class="sig-paren">(</span><em>path</em>, <em>BoxSize=None</em>, <em>bunchsize=4194304</em>, <em>rsd=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FastPM.html#FastPMDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FastPM.FastPMDataSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></p>
+<p>DataSource to read snapshot files of the FastPM simulation</p>
 <dl class="method">
-<dt id="plugins.datasource.FastPM.FastPMDataSource.finalize_attributes">
-<code class="descname">finalize_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FastPM.html#FastPMDataSource.finalize_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FastPM.FastPMDataSource.finalize_attributes" title="Permalink to this definition">¶</a></dt>
+<dt id="plugins.datasource.FastPM.FastPMDataSource.parallel_read">
+<code class="descname">parallel_read</code><span class="sig-paren">(</span><em>columns</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FastPM.html#FastPMDataSource.parallel_read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FastPM.FastPMDataSource.parallel_read" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -72,15 +73,11 @@
 <code class="descname">plugin_name</code><em class="property"> = 'FastPM'</em><a class="headerlink" href="#plugins.datasource.FastPM.FastPMDataSource.plugin_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="plugins.datasource.FastPM.FastPMDataSource.read">
-<code class="descname">read</code><span class="sig-paren">(</span><em>columns</em>, <em>stats</em>, <em>full=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FastPM.html#FastPMDataSource.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FastPM.FastPMDataSource.read" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="classmethod">
 <dt id="plugins.datasource.FastPM.FastPMDataSource.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FastPM.html#FastPMDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FastPM.FastPMDataSource.register" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FastPM.html#FastPMDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FastPM.FastPMDataSource.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fill the attribute schema associated with this class</p>
+</dd></dl>
 
 </dd></dl>
 

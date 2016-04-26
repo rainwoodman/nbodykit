@@ -13,4 +13,5 @@ Submodules
 
    plugins.painter.DefaultPainter
    plugins.painter.GridPainter
+   plugins.painter.MomentumPainter
 

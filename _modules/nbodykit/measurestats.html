@@ -50,10 +50,17 @@
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">Painter</span><span class="p">,</span> <span class="n">Transfer</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;measurestats&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="compute_3d_power"><a class="viewcode-back" href="../../nbodykit.measurestats.html#nbodykit.measurestats.compute_3d_power">[docs]</a><span class="k">def</span> <span class="nf">compute_3d_power</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+<div class="viewcode-block" id="timer"><a class="viewcode-back" href="../../api/nbodykit.measurestats.html#nbodykit.measurestats.timer">[docs]</a><span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+    <span class="n">hours</span><span class="p">,</span> <span class="n">rem</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">,</span> <span class="mi">3600</span><span class="p">)</span>
+    <span class="n">minutes</span><span class="p">,</span> <span class="n">seconds</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">rem</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&quot;{:0&gt;2}:{:0&gt;2}:{:05.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">hours</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="n">minutes</span><span class="p">),</span><span class="n">seconds</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="compute_3d_power"><a class="viewcode-back" href="../../api/nbodykit.measurestats.html#nbodykit.measurestats.compute_3d_power">[docs]</a><span class="k">def</span> <span class="nf">compute_3d_power</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute and return the 3D power from two input fields</span>
 <span class="sd">    </span>
@@ -63,7 +70,7 @@
 <span class="sd">        the list of fields which the 3D power will be computed</span>
 <span class="sd">        </span>
 <span class="sd">    pm : ``ParticleMesh``</span>
-<span class="sd">        particle mesh object that does the painting</span>
+<span class="sd">        particle mesh object that handles the painting and FFTs</span>
 <span class="sd">                </span>
 <span class="sd">    comm : MPI.Communicator, optional</span>
 <span class="sd">        the communicator to pass to the ``ParticleMesh`` object. If not</span>
@@ -78,12 +85,13 @@
 <span class="sd">    p3d : array_like (real)</span>
 <span class="sd">        the 3D power spectrum, corresponding to the gridded input fields</span>
 <span class="sd">        </span>
-<span class="sd">    N1 : int</span>
-<span class="sd">        the total number of objects in the 1st field</span>
+<span class="sd">    stats1 : dict</span>
+<span class="sd">        dictionary holding the statistics of the first field, as returned</span>
+<span class="sd">        by the `Painter` used </span>
 <span class="sd">        </span>
-<span class="sd">    N2 : int</span>
-<span class="sd">        the total number of objects in the 2nd field (equal to N1 if </span>
-<span class="sd">        only one input field specified)</span>
+<span class="sd">    stats2 : dict</span>
+<span class="sd">        dictionary holding the statistics of the second field, as returned</span>
+<span class="sd">        by the `Painter` used</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># some setup</span>
     <span class="n">rank</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="k">if</span> <span class="n">comm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">rank</span>
@@ -95,7 +103,7 @@
     <span class="n">transfers</span>   <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">]</span>
         
     <span class="c"># paint, FT field and filter field #1</span>
-    <span class="n">N1</span> <span class="o">=</span> <span class="n">painters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">paint</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">datasources</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">stats1</span> <span class="o">=</span> <span class="n">painters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">paint</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">datasources</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;painting done&#39;</span><span class="p">)</span>
     <span class="n">pm</span><span class="o">.</span><span class="n">r2c</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;r2c done&#39;</span><span class="p">)</span>
@@ -112,7 +120,7 @@
         <span class="n">c1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">complex</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         
         <span class="c"># paint, FT, and filter field #2</span>
-        <span class="n">N2</span> <span class="o">=</span> <span class="n">painters</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">paint</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">datasources</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">stats2</span> <span class="o">=</span> <span class="n">painters</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">paint</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">datasources</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;painting 2 done&#39;</span><span class="p">)</span>
         <span class="n">pm</span><span class="o">.</span><span class="n">r2c</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;r2c 2 done&#39;</span><span class="p">)</span>
@@ -123,7 +131,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">c1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">complex</span>
         <span class="n">c2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">complex</span>
-        <span class="n">N2</span> <span class="o">=</span> <span class="n">N1</span>
+        <span class="n">stats2</span> <span class="o">=</span> <span class="n">stats1</span>
 
     <span class="c"># reuse the memory in c1.real for the 3d power spectrum</span>
     <span class="n">p3d</span> <span class="o">=</span> <span class="n">c1</span>
@@ -136,10 +144,229 @@
     <span class="c"># ref to http://icc.dur.ac.uk/~tt/Lectures/UA/L4/cosmology.pdf</span>
     <span class="n">p3d</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">*=</span> <span class="n">pm</span><span class="o">.</span><span class="n">BoxSize</span><span class="o">.</span><span class="n">prod</span><span class="p">()</span> 
                 
-    <span class="k">return</span> <span class="n">p3d</span><span class="p">,</span> <span class="n">N1</span><span class="p">,</span> <span class="n">N2</span></div>
+    <span class="k">return</span> <span class="n">p3d</span><span class="p">,</span> <span class="n">stats1</span><span class="p">,</span> <span class="n">stats2</span></div>
+    
+<div class="viewcode-block" id="compute_bianchi_poles"><a class="viewcode-back" href="../../api/nbodykit.measurestats.html#nbodykit.measurestats.compute_bianchi_poles">[docs]</a><span class="k">def</span> <span class="nf">compute_bianchi_poles</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span> <span class="n">max_ell</span><span class="p">,</span> <span class="n">catalog</span><span class="p">,</span> <span class="n">Nmesh</span><span class="p">,</span> 
+                            <span class="n">log_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> 
+                            <span class="n">factor_hexadecapole</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute and return the 3D power multipoles (ell = [0, 2, 4]) from one </span>
+<span class="sd">    input field, which contains non-trivial survey geometry.</span>
+<span class="sd">    </span>
+<span class="sd">    The estimator uses the FFT algorithm outlined in Bianchi et al. 2015 to compute</span>
+<span class="sd">    the monopole, quadrupole, and hexadecapole</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    max_ell : int</span>
+<span class="sd">        the maximum multipole number to compute up to (and including). Must be</span>
+<span class="sd">        one of [0, 2, 4]</span>
+<span class="sd">        </span>
+<span class="sd">    datasource : ``DataSource``</span>
+<span class="sd">        the DataSource which will be return the Cartesian coordinates of the</span>
+<span class="sd">        (ra, dec, z) survey</span>
+<span class="sd">        </span>
+<span class="sd">    pm : ``ParticleMesh``</span>
+<span class="sd">        particle mesh object that handles the painting and FFTs</span>
+<span class="sd">            </span>
+<span class="sd">    log_level : int, optional</span>
+<span class="sd">        logging level to use while computing. Default is ``logging.DEBUG``</span>
+<span class="sd">        which has numeric value of `10`</span>
+<span class="sd">        </span>
+<span class="sd">    factor_hexadecapole: bool, optional</span>
+<span class="sd">        if `True`, use the factored expression for the hexadecapole (ell=4) from</span>
+<span class="sd">        eq. 27 of Scoccimarro 2015 (1506.02729); default is `False`</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    poles : list</span>
+<span class="sd">        list of the 3D power multipoles computed, up to and including `ell=max_ell`</span>
+<span class="sd">        </span>
+<span class="sd">    stats : dict</span>
+<span class="sd">        dictionary holding the statistics of the input datasource, as returned</span>
+<span class="sd">        by the `FKPPainter` painter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">pmesh.particlemesh</span> <span class="kn">import</span> <span class="n">ParticleMesh</span>
+    
+    <span class="k">def</span> <span class="nf">bianchi_transfer</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transfer functions necessary to compute the power spectrum  </span>
+<span class="sd">        multipoles via FFTs</span>
+<span class="sd">        </span>
+<span class="sd">        This multiplies by one of two kernels:</span>
+<span class="sd">        </span>
+<span class="sd">            1. x_i * x_j / x**2 * data, if `k` is None</span>
+<span class="sd">            2. x_i**2 * x_j * x_k / x**4 * data, if `k` is not None</span>
+<span class="sd">        </span>
+<span class="sd">        See equations 10 (for quadrupole) and 12 (for hexadecapole)</span>
+<span class="sd">        of Bianchi et al 2015.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : array_like</span>
+<span class="sd">            the array to rescale -- either the configuration-space </span>
+<span class="sd">            `pm.real` or the Fourier-space `pm.complex`</span>
+<span class="sd">        x : array_like</span>
+<span class="sd">            the coordinate array -- either `pm.r` or `pm.k`</span>
+<span class="sd">        i, j, k : int</span>
+<span class="sd">            the integers specifying the coordinate axes; see the </span>
+<span class="sd">            above description </span>
+<span class="sd">        offset : array_like</span>
+<span class="sd">            add an average offset to the `x` component arrays; </span>
+<span class="sd">            needed if the simulation box has an average offset </span>
+<span class="sd">            from the grid box in configuration-space</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># compute x**2</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">xi</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="n">xi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    
+        <span class="c"># get x_i, x_j</span>
+        <span class="c"># if i == &#39;x&#39; direction, it&#39;s just one value</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">xj</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="c"># multiply the kernel</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">xk</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">data</span><span class="p">[:]</span> <span class="o">*=</span> <span class="n">xi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">xj</span> <span class="o">*</span> <span class="n">xk</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">norm</span> <span class="o">!=</span> <span class="mf">0.</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">/=</span> <span class="n">norm</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[:]</span> <span class="o">*=</span> <span class="n">xi</span> <span class="o">*</span> <span class="n">xj</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">norm</span> <span class="o">!=</span> <span class="mf">0.</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">/=</span> <span class="n">norm</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    
+    <span class="c"># some setup</span>
+    <span class="n">rank</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">rank</span>
+    <span class="k">if</span> <span class="n">log_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">log_level</span><span class="p">)</span>
+    
+    <span class="c"># the CIC transfer</span>
+    <span class="n">transfer</span> <span class="o">=</span> <span class="n">Transfer</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s">&#39;AnisotropicCIC&#39;</span><span class="p">)</span>
+
+    <span class="c"># which transfers do we need</span>
+    <span class="k">if</span> <span class="n">max_ell</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;valid values for the maximum multipole number are [0, 2, 4]&quot;</span><span class="p">)</span>
+    <span class="n">ells</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_ell</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">bianchi_transfers</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c"># quadrupole kernels</span>
+    <span class="k">if</span> <span class="n">max_ell</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">k2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+        <span class="n">a2</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="p">[</span><span class="mf">2.</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span>
+        <span class="n">bianchi_transfers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">a2</span><span class="p">,</span> <span class="n">k2</span><span class="p">))</span>
+    
+    <span class="c"># hexadecapole kernels</span>
+    <span class="k">if</span> <span class="n">max_ell</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">factor_hexadecapole</span><span class="p">:</span>
+        <span class="n">k4</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+             <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+             <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="n">a4</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="p">[</span><span class="mf">4.</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span> <span class="o">+</span> <span class="p">[</span><span class="mf">6.</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="p">[</span><span class="mf">12.</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span>
+        <span class="n">bianchi_transfers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">a4</span><span class="p">,</span> <span class="n">k4</span><span class="p">))</span>
+    
+    <span class="c"># load the data/randoms and setup boxsize, etc</span>
+    <span class="k">with</span> <span class="n">catalog</span><span class="p">:</span>
+        
+        <span class="c"># the mean coordinate offset</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">mean_coordinate_offset</span>
+        
+        <span class="c"># initialize the particle mesh</span>
+        <span class="n">pm</span> <span class="o">=</span> <span class="n">ParticleMesh</span><span class="p">(</span><span class="n">catalog</span><span class="o">.</span><span class="n">BoxSize</span><span class="p">,</span> <span class="n">Nmesh</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="n">comm</span><span class="p">)</span>
+        
+        <span class="c"># do the FKP painting</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">paint</span><span class="p">(</span><span class="n">pm</span><span class="p">)</span>
+    
+    <span class="c"># save the fkp density for later</span>
+    <span class="n">density</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">real</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;painting done&#39;</span><span class="p">)</span>
+    
+    <span class="c"># compute the monopole, A0(k), and save</span>
+    <span class="n">pm</span><span class="o">.</span><span class="n">r2c</span><span class="p">()</span>
+    <span class="n">transfer</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+    <span class="n">A0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">complex</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;ell = 0 done; 1 r2c completed&#39;</span><span class="p">)</span>
+    
+    <span class="c"># store the A0, A2, A4 arrays</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">A0</span><span class="p">)</span>
+    
+    <span class="c"># the x grid points (at point centers)</span>
+    <span class="n">cell_size</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">BoxSize</span> <span class="o">/</span> <span class="n">pm</span><span class="o">.</span><span class="n">Nmesh</span>
+    <span class="n">xgrid</span> <span class="o">=</span> <span class="p">[(</span><span class="n">ri</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">cell_size</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ri</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">r</span><span class="p">)]</span>
+    
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">iell</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bianchi_transfers</span><span class="p">)):</span>
+        <span class="n">ell</span> <span class="o">=</span> <span class="n">ells</span><span class="p">[</span><span class="n">iell</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">A_ell</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">complex</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">amp</span><span class="p">,</span> <span class="n">integers</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">bianchi_transfers</span><span class="p">[</span><span class="n">iell</span><span class="p">]):</span>
+                        
+            <span class="c"># reset the &#39;pm.real&#39; array to the original FKP density</span>
+            <span class="n">pm</span><span class="o">.</span><span class="n">real</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">density</span><span class="p">[:]</span>
+        
+            <span class="c"># apply the real-space transfer</span>
+            <span class="n">bianchi_transfer</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">xgrid</span><span class="p">,</span> <span class="o">*</span><span class="n">integers</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">)</span>
+        
+            <span class="c"># do the FT and apply the k-space kernel</span>
+            <span class="n">pm</span><span class="o">.</span><span class="n">r2c</span><span class="p">()</span>
+            <span class="n">bianchi_transfer</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">complex</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="o">*</span><span class="n">integers</span><span class="p">)</span>
+            
+            <span class="c"># and save</span>
+            <span class="n">A_ell</span><span class="p">[:]</span> <span class="o">+=</span> <span class="n">amp</span><span class="o">*</span><span class="n">pm</span><span class="o">.</span><span class="n">complex</span><span class="p">[:]</span>
+            
+        <span class="c"># apply the CIC transfer and save</span>
+        <span class="n">transfer</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">A_ell</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">A_ell</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">ell</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bianchi_transfers</span><span class="p">[</span><span class="n">iell</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;ell = </span><span class="si">%d</span><span class="s"> done; </span><span class="si">%s</span><span class="s"> r2c completed&#39;</span> <span class="o">%</span><span class="n">args</span><span class="p">)</span>
+        
+    <span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;higher order multipoles computed in elapsed time </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">timer</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">factor_hexadecapole</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;using factorized hexadecapole estimator for ell=4&quot;</span><span class="p">)</span>
+    
+    <span class="c"># proper normalization: A_ran from equation </span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">BoxSize</span><span class="o">.</span><span class="n">prod</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">stats</span><span class="p">[</span><span class="s">&#39;A_ran&#39;</span><span class="p">]</span>
+    
+    <span class="c"># reuse memory for output</span>
+    <span class="n">P0</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">max_ell</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">P2</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">max_ell</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">factor_hexadecapole</span><span class="p">:</span> 
+            <span class="n">P4</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">P4</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">P2</span><span class="p">)</span>
+    
+    <span class="c"># calculate the multipoles, islab by islab to save memory</span>
+    <span class="c"># see equations 6-8 of Bianchi et al. 2015</span>
+    <span class="k">for</span> <span class="n">islab</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">P0</span><span class="p">)):</span>
+        
+        <span class="c"># save for reuse</span>
+        <span class="n">P0_star</span> <span class="o">=</span> <span class="n">P0</span><span class="p">[</span><span class="n">islab</span><span class="p">]</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span> 
+        <span class="k">if</span> <span class="n">max_ell</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">P2_star</span> <span class="o">=</span> <span class="n">P2</span><span class="p">[</span><span class="n">islab</span><span class="p">]</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span> 
+        
+        <span class="c"># hexadecapole    </span>
+        <span class="k">if</span> <span class="n">max_ell</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">factor_hexadecapole</span><span class="p">:</span>
+                <span class="n">P4</span><span class="p">[</span><span class="n">islab</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span> <span class="o">*</span> <span class="mf">9.</span><span class="o">/</span><span class="mf">8.</span> <span class="o">*</span> <span class="n">P0</span><span class="p">[</span><span class="n">islab</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mf">35.</span><span class="o">*</span><span class="n">P4</span><span class="p">[</span><span class="n">islab</span><span class="p">]</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span> <span class="o">-</span> <span class="mf">30.</span><span class="o">*</span><span class="n">P2_star</span> <span class="o">+</span> <span class="mf">3.</span><span class="o">*</span><span class="n">P0_star</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">P4</span><span class="p">[</span><span class="n">islab</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span> <span class="o">*</span> <span class="mf">9.</span><span class="o">/</span><span class="mf">8.</span> <span class="o">*</span> <span class="p">(</span> <span class="mf">35.</span><span class="o">*</span><span class="n">P2</span><span class="p">[</span><span class="n">islab</span><span class="p">]</span><span class="o">*</span><span class="n">P2_star</span> <span class="o">+</span> <span class="mf">3.</span><span class="o">*</span><span class="n">P0</span><span class="p">[</span><span class="n">islab</span><span class="p">]</span><span class="o">*</span><span class="n">P0_star</span> <span class="o">-</span> <span class="mf">5.</span><span class="o">/</span><span class="mf">3.</span><span class="o">*</span><span class="p">(</span><span class="mf">11.</span><span class="o">*</span><span class="n">P0</span><span class="p">[</span><span class="n">islab</span><span class="p">]</span><span class="o">*</span><span class="n">P2_star</span> <span class="o">+</span> <span class="mf">7.</span><span class="o">*</span><span class="n">P2</span><span class="p">[</span><span class="n">islab</span><span class="p">]</span><span class="o">*</span><span class="n">P0_star</span><span class="p">)</span> <span class="p">)</span>
+        
+        <span class="c"># quadrupole</span>
+        <span class="k">if</span> <span class="n">max_ell</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">P2</span><span class="p">[</span><span class="n">islab</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span> <span class="o">*</span> <span class="mf">5.</span><span class="o">/</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">P0</span><span class="p">[</span><span class="n">islab</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mf">3.</span><span class="o">*</span><span class="n">P2_star</span> <span class="o">-</span> <span class="n">P0_star</span><span class="p">)</span>
+        
+        <span class="c"># monopole</span>
+        <span class="n">P0</span><span class="p">[</span><span class="n">islab</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span> <span class="o">*</span> <span class="n">P0</span><span class="p">[</span><span class="n">islab</span><span class="p">]</span> <span class="o">*</span> <span class="n">P0_star</span>
+        
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">P0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">max_ell</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">P2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_ell</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">P4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pm</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">stats</span></div>
 
 
-<div class="viewcode-block" id="compute_brutal_corr"><a class="viewcode-back" href="../../nbodykit.measurestats.html#nbodykit.measurestats.compute_brutal_corr">[docs]</a><span class="k">def</span> <span class="nf">compute_brutal_corr</span><span class="p">(</span><span class="n">datasources</span><span class="p">,</span> <span class="n">rbins</span><span class="p">,</span> <span class="n">Nmu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">subsample</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">poles</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="compute_brutal_corr"><a class="viewcode-back" href="../../api/nbodykit.measurestats.html#nbodykit.measurestats.compute_brutal_corr">[docs]</a><span class="k">def</span> <span class="nf">compute_brutal_corr</span><span class="p">(</span><span class="n">datasources</span><span class="p">,</span> <span class="n">rbins</span><span class="p">,</span> <span class="n">Nmu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">subsample</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">poles</span><span class="o">=</span><span class="p">[]):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the correlation function by direct pair summation, projected</span>
 <span class="sd">    into either 1d `R` bins or 2d (`R`, `mu`) bins</span>
@@ -210,15 +437,16 @@
     <span class="n">grid</span> <span class="o">=</span> <span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">datasources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">BoxSize</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Nproc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
     <span class="n">domain</span> <span class="o">=</span> <span class="n">GridND</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="n">comm</span><span class="p">)</span>
 
-    <span class="n">stats</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c"># read position for field #1 </span>
-    <span class="p">[[</span><span class="n">pos1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">datasources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="s">&#39;Position&#39;</span><span class="p">],</span> <span class="n">stats</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">datasources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+        <span class="p">[[</span><span class="n">pos1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="s">&#39;Position&#39;</span><span class="p">],</span> <span class="n">full</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">pos1</span> <span class="o">=</span> <span class="n">pos1</span><span class="p">[</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">*</span> <span class="n">subsample</span> <span class="o">//</span> <span class="n">comm</span><span class="o">.</span><span class="n">size</span> <span class="p">::</span><span class="n">subsample</span><span class="p">]</span>
     <span class="n">N1</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pos1</span><span class="p">))</span>
     
     <span class="c"># read position for field #2</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">datasources</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="p">[[</span><span class="n">pos2</span><span class="p">]]</span> <span class="o">=</span> <span class="n">datasources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="s">&#39;Position&#39;</span><span class="p">],</span> <span class="n">stats</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">datasources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+            <span class="p">[[</span><span class="n">pos2</span><span class="p">]]</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="s">&#39;Position&#39;</span><span class="p">],</span> <span class="n">full</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="n">pos2</span> <span class="o">=</span> <span class="n">pos2</span><span class="p">[</span><span class="n">comm</span><span class="o">.</span><span class="n">rank</span> <span class="o">*</span> <span class="n">subsample</span> <span class="o">//</span> <span class="n">comm</span><span class="o">.</span><span class="n">size</span> <span class="p">::</span><span class="n">subsample</span><span class="p">]</span>
         <span class="n">N2</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">allreduce</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pos2</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
@@ -287,7 +515,7 @@
 
     <span class="k">return</span> <span class="n">pc</span><span class="p">,</span> <span class="n">xi</span><span class="p">,</span> <span class="n">RR</span></div>
 
-<div class="viewcode-block" id="compute_3d_corr"><a class="viewcode-back" href="../../nbodykit.measurestats.html#nbodykit.measurestats.compute_3d_corr">[docs]</a><span class="k">def</span> <span class="nf">compute_3d_corr</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+<div class="viewcode-block" id="compute_3d_corr"><a class="viewcode-back" href="../../api/nbodykit.measurestats.html#nbodykit.measurestats.compute_3d_corr">[docs]</a><span class="k">def</span> <span class="nf">compute_3d_corr</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="n">comm</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the 3d correlation function by Fourier transforming </span>
 <span class="sd">    the 3d power spectrum</span>
@@ -307,7 +535,7 @@
     <span class="k">return</span> <span class="n">xi3d</span><span class="p">,</span> <span class="n">N1</span><span class="p">,</span> <span class="n">N2</span></div>
 
 
-<div class="viewcode-block" id="project_to_basis"><a class="viewcode-back" href="../../nbodykit.measurestats.html#nbodykit.measurestats.project_to_basis">[docs]</a><span class="k">def</span> <span class="nf">project_to_basis</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span> <span class="n">x3d</span><span class="p">,</span> <span class="n">y3d</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">poles</span><span class="o">=</span><span class="p">[],</span> <span class="n">symmetric</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="project_to_basis"><a class="viewcode-back" href="../../api/nbodykit.measurestats.html#nbodykit.measurestats.project_to_basis">[docs]</a><span class="k">def</span> <span class="nf">project_to_basis</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span> <span class="n">x3d</span><span class="p">,</span> <span class="n">y3d</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">los</span><span class="o">=</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">poles</span><span class="o">=</span><span class="p">[],</span> <span class="n">symmetric</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Project a 3D statistic on to the specified basis. </span>
 

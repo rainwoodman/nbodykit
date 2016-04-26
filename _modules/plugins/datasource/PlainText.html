@@ -48,92 +48,66 @@
             
   <h1>Source code for plugins.datasource.PlainText</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">DataSource</span>
-
+<span class="kn">from</span> <span class="nn">nbodykit.utils</span> <span class="kn">import</span> <span class="n">selectionlanguage</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">nbodykit.utils</span> <span class="kn">import</span> <span class="n">selectionlanguage</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;PlainText&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="list_str"><a class="viewcode-back" href="../../../plugins/plugins.datasource.PlainText.html#plugins.datasource.PlainText.list_str">[docs]</a><span class="k">def</span> <span class="nf">list_str</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">()</span></div>
-
 <div class="viewcode-block" id="PlainTextDataSource"><a class="viewcode-back" href="../../../plugins/plugins.datasource.PlainText.html#plugins.datasource.PlainText.PlainTextDataSource">[docs]</a><span class="k">class</span> <span class="nc">PlainTextDataSource</span><span class="p">(</span><span class="n">DataSource</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Class to read field data from a plain text ASCII file</span>
-<span class="sd">    and paint the field onto a density grid. The data is read</span>
-<span class="sd">    from file using `numpy.recfromtxt` and store the data in </span>
-<span class="sd">    a `numpy.recarray`</span>
+<span class="sd">    DataSource to read a plaintext file, using `numpy.recfromtxt`</span>
+<span class="sd">    to do the reading</span>
 <span class="sd">    </span>
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    * data file is assumed to be space-separated</span>
-<span class="sd">    * commented lines must begin with `#`, with all other lines</span>
-<span class="sd">    providing data values to be read</span>
-<span class="sd">    * `names` parameter must be equal to the number of data</span>
-<span class="sd">    columns, otherwise behavior is undefined</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    path    : str</span>
-<span class="sd">        the path of the file to read the data from </span>
-<span class="sd">    names   : list of str</span>
-<span class="sd">        one or more strings specifying the names of the data</span>
-<span class="sd">        columns. Shape must be equal to number of columns</span>
-<span class="sd">        in the field, otherwise, behavior is undefined</span>
-<span class="sd">    BoxSize : float or array_like (3,)</span>
-<span class="sd">        the box size, either provided as a single float (isotropic)</span>
-<span class="sd">        or an array of the sizes of the three dimensions</span>
-<span class="sd">    usecols : list of str, optional</span>
-<span class="sd">         if not None, only these columns will be read from file</span>
-<span class="sd">    poscols : list of str, optional</span>
-<span class="sd">        list of three column names to treat as the position data</span>
-<span class="sd">    velcols : list of str, optional</span>
-<span class="sd">        list of three column names to treat as the velociy data</span>
-<span class="sd">    rsd     : [x|y|z], optional</span>
-<span class="sd">        direction to do the redshift space distortion</span>
-<span class="sd">    posf    : float, optional</span>
-<span class="sd">        multiply the position data by this factor</span>
-<span class="sd">    velf    : float, optional</span>
-<span class="sd">        multiply the velocity data by this factor</span>
-<span class="sd">    select  : str, optional</span>
-<span class="sd">        string specifying how to select a subset of data, based</span>
-<span class="sd">        on the column names. For example, if there are columns</span>
-<span class="sd">        `type` and `mass`, you could specify </span>
-<span class="sd">        select= &quot;type == central and mass &gt; 1e14&quot;</span>
+<span class="sd">    *   data file is assumed to be space-separated</span>
+<span class="sd">    *   commented lines must begin with `#`, with all other lines</span>
+<span class="sd">        providing data values to be read</span>
+<span class="sd">    *   `names` parameter must be equal to the number of data</span>
+<span class="sd">        columns, otherwise behavior is undefined</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;PlainText&quot;</span>
     
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="PlainTextDataSource.register"><a class="viewcode-back" href="../../../plugins/plugins.datasource.PlainText.html#plugins.datasource.PlainText.PlainTextDataSource.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
-        
-        <span class="n">h</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">parser</span>
-        
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;path to file&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;names&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">list_str</span><span class="p">,</span> 
-            <span class="n">help</span><span class="o">=</span><span class="s">&quot;names of columns in file&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;BoxSize&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">kls</span><span class="o">.</span><span class="n">BoxSizeParser</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s">&quot;the size of the isotropic box, or the sizes of the 3 box dimensions&quot;</span><span class="p">)</span>
-        
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-usecols&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">list_str</span><span class="p">,</span> 
-            <span class="n">metavar</span><span class="o">=</span><span class="s">&quot;x y z&quot;</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s">&quot;only read these columns from file&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-poscols&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">list_str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span><span class="s">&#39;y&#39;</span><span class="p">,</span><span class="s">&#39;z&#39;</span><span class="p">],</span> 
-            <span class="n">metavar</span><span class="o">=</span><span class="s">&quot;x y z&quot;</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s">&quot;names of the position columns&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-velcols&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">list_str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-            <span class="n">metavar</span><span class="o">=</span><span class="s">&quot;vx vy vz&quot;</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s">&quot;names of the velocity columns&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-rsd&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="s">&quot;xyz&quot;</span><span class="p">,</span> 
-            <span class="n">help</span><span class="o">=</span><span class="s">&quot;direction to do redshift distortion&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-posf&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> 
-            <span class="n">help</span><span class="o">=</span><span class="s">&quot;factor to scale the positions&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-velf&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> 
-            <span class="n">help</span><span class="o">=</span><span class="s">&quot;factor to scale the velocities&quot;</span><span class="p">)</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-select&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">selectionlanguage</span><span class="o">.</span><span class="n">Query</span><span class="p">,</span> 
-            <span class="n">help</span><span class="o">=</span><span class="s">&#39;row selection based on conditions specified as string&#39;</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">BoxSize</span><span class="p">,</span> 
+                    <span class="n">usecols</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">poscols</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span><span class="s">&#39;y&#39;</span><span class="p">,</span><span class="s">&#39;z&#39;</span><span class="p">],</span> <span class="n">velcols</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                    <span class="n">rsd</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">posf</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">velf</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">select</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>     
+        <span class="k">pass</span>
     
-<div class="viewcode-block" id="PlainTextDataSource.readall"><a class="viewcode-back" href="../../../plugins/plugins.datasource.PlainText.html#plugins.datasource.PlainText.PlainTextDataSource.readall">[docs]</a>    <span class="k">def</span> <span class="nf">readall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="PlainTextDataSource.register"><a class="viewcode-back" href="../../../plugins/plugins.datasource.PlainText.html#plugins.datasource.PlainText.PlainTextDataSource.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        
+        <span class="n">s</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">schema</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s">&quot;read data from a plaintext file using numpy&quot;</span>
+        
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;the file path to load the data from&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;names&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">&#39;*&#39;</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;names of columns in text file or name of the data group in hdf5 file&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;BoxSize&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">cls</span><span class="o">.</span><span class="n">BoxSizeParser</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;the size of the isotropic box, or the sizes of the 3 box dimensions&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;usecols&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">&#39;*&#39;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;only read these columns from file&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;poscols&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;names of the position columns&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;velcols&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;names of the velocity columns&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;rsd&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="s">&quot;xyz&quot;</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;direction to do redshift distortion&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;posf&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;factor to scale the positions&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;velf&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&quot;factor to scale the velocities&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;select&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">selectionlanguage</span><span class="o">.</span><span class="n">Query</span><span class="p">,</span> 
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;row selection based on conditions specified as string, i.e., &quot;Mass &gt; 1e14&quot;&#39;</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="PlainTextDataSource.readall"><a class="viewcode-back" href="../../../plugins/plugins.datasource.PlainText.html#plugins.datasource.PlainText.PlainTextDataSource.readall">[docs]</a>    <span class="k">def</span> <span class="nf">readall</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read all available data, returning a dictionary</span>
+<span class="sd">        </span>
+<span class="sd">        This provides ``Position`` and optionally ``Velocity`` columns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
         <span class="c"># read in the plain text file as a recarray</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;comments&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;#&#39;</span>
@@ -148,27 +122,23 @@
             <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;total number of objects selected is </span><span class="si">%d</span><span class="s"> / </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">nobj</span><span class="p">))</span>
         
+        <span class="n">toret</span> <span class="o">=</span> <span class="p">{}</span>
+        
         <span class="c"># get position and velocity, if we have it</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">poscols</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;f4&#39;</span><span class="p">)</span>
         <span class="n">pos</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">posf</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">velcols</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">vel</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">velcols</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;f4&#39;</span><span class="p">)</span>
             <span class="n">vel</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velf</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">vel</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;f4&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="n">toret</span><span class="p">[</span><span class="s">&#39;Velocity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Velocity</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rsd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="nb">dir</span> <span class="o">=</span> <span class="s">&quot;xyz&quot;</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rsd</span><span class="p">)</span>
             <span class="n">pos</span><span class="p">[:,</span> <span class="nb">dir</span><span class="p">]</span> <span class="o">+=</span> <span class="n">vel</span><span class="p">[:,</span> <span class="nb">dir</span><span class="p">]</span>
             <span class="n">pos</span><span class="p">[:,</span> <span class="nb">dir</span><span class="p">]</span> <span class="o">%=</span> <span class="bp">self</span><span class="o">.</span><span class="n">BoxSize</span><span class="p">[</span><span class="nb">dir</span><span class="p">]</span>
-
-        <span class="n">P</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">P</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
-        <span class="n">P</span><span class="p">[</span><span class="s">&#39;Velocity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vel</span>
-        <span class="n">P</span><span class="p">[</span><span class="s">&#39;Weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
-        <span class="n">P</span><span class="p">[</span><span class="s">&#39;Mass&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
-
-        <span class="k">return</span> <span class="p">[</span><span class="n">P</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span></div></div>
+        <span class="n">toret</span><span class="p">[</span><span class="s">&#39;Position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+        
+        <span class="k">return</span> <span class="n">toret</span></div></div>
 
 </pre></div>
 

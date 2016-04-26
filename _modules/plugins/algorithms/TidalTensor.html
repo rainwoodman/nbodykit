@@ -61,26 +61,30 @@
 
 <span class="kn">import</span> <span class="nn">nbodykit</span>
 <span class="kn">from</span> <span class="nn">pmesh.particlemesh</span> <span class="kn">import</span> <span class="n">ParticleMesh</span>
-<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">DataSource</span><span class="p">,</span> <span class="n">Painter</span>
+<span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">DataSource</span><span class="p">,</span> <span class="n">painters</span>
 
 
 <div class="viewcode-block" id="TidalTensor"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.TidalTensor.html#plugins.algorithms.TidalTensor.TidalTensor">[docs]</a><span class="k">class</span> <span class="nc">TidalTensor</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
     <span class="n">plugin_name</span> <span class="o">=</span> <span class="s">&quot;TidalTensor&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">Nmesh</span><span class="p">,</span> <span class="n">smoothing</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">pass</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="TidalTensor.register"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.TidalTensor.html#plugins.algorithms.TidalTensor.TidalTensor.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">kls</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">nbodykit.extensionpoints</span> <span class="kn">import</span> <span class="n">DataSource</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">kls</span><span class="o">.</span><span class="n">parser</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;field&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">DataSource</span><span class="o">.</span><span class="n">fromstring</span><span class="p">,</span> 
-                <span class="n">help</span><span class="o">=</span><span class="s">&quot;--list-datasource for help&quot;</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;points&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">DataSource</span><span class="o">.</span><span class="n">fromstring</span><span class="p">,</span> 
-                <span class="n">help</span><span class="o">=</span><span class="s">&quot;A small set of points to calculate tidal force on; --list-datasource for help&quot;</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;Nmesh&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<div class="viewcode-block" id="TidalTensor.register"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.TidalTensor.html#plugins.algorithms.TidalTensor.TidalTensor.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">schema</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;field&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">DataSource</span><span class="o">.</span><span class="n">from_config</span><span class="p">,</span>
+                <span class="n">help</span><span class="o">=</span><span class="s">&quot;DataSource; run `nbkit.py --list-datasources` for all options&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;points&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">DataSource</span><span class="o">.</span><span class="n">from_config</span><span class="p">,</span>
+                <span class="n">help</span><span class="o">=</span><span class="s">&quot;A small set of points to calculate tidal force on; &quot;</span>
+                     <span class="s">&quot;run `nbkit.py --list-datasources` for all options&quot;</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;Nmesh&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
                 <span class="n">help</span><span class="o">=</span><span class="s">&#39;Size of FFT mesh for painting&#39;</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--smoothing&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;smoothing&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
                 <span class="n">help</span><span class="o">=</span><span class="s">&#39;Smoothing Length in distance units. &#39;</span>
                       <span class="s">&#39;It has to be greater than the mesh resolution. &#39;</span>
                       <span class="s">&#39;Otherwise the code will die. Default is the mesh resolution.&#39;</span><span class="p">)</span></div>
+                      
 <div class="viewcode-block" id="TidalTensor.Smoothing"><a class="viewcode-back" href="../../../plugins/plugins.algorithms.TidalTensor.html#plugins.algorithms.TidalTensor.TidalTensor.Smoothing">[docs]</a>    <span class="k">def</span> <span class="nf">Smoothing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pm</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
         <span class="n">k</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">k</span>
         <span class="n">k2</span> <span class="o">=</span> <span class="mi">0</span>
@@ -132,14 +136,14 @@
         <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">BoxSize</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nmesh</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">smoothing</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;smoothing is too small&quot;</span><span class="p">)</span>
      
-        <span class="n">painter</span> <span class="o">=</span> <span class="n">Painter</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="s">&quot;DefaultPainter&quot;</span><span class="p">)</span>
+        <span class="n">painter</span> <span class="o">=</span> <span class="n">painters</span><span class="o">.</span><span class="n">DefaultPainter</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="s">&quot;Mass&quot;</span><span class="p">)</span>
         <span class="n">painter</span><span class="o">.</span><span class="n">paint</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
         <span class="n">pm</span><span class="o">.</span><span class="n">r2c</span><span class="p">()</span>
 
         <span class="n">pm</span><span class="o">.</span><span class="n">transfer</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">Smoothing</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">NormalizeDC</span><span class="p">])</span>
-        <span class="n">stat</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="p">[[</span><span class="n">Position</span> <span class="p">]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="s">&#39;Position&#39;</span><span class="p">],</span> <span class="n">stat</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+            <span class="p">[[</span><span class="n">Position</span> <span class="p">]]</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="s">&#39;Position&#39;</span><span class="p">],</span> <span class="n">full</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
         <span class="n">layout</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">decompose</span><span class="p">(</span><span class="n">Position</span><span class="p">)</span>
         <span class="n">pos1</span> <span class="o">=</span> <span class="n">layout</span><span class="o">.</span><span class="n">exchange</span><span class="p">(</span><span class="n">Position</span><span class="p">)</span>

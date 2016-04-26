@@ -18,6 +18,9 @@ Submodules
    plugins.datasource.HaloLabel
    plugins.datasource.Pandas
    plugins.datasource.PlainText
+   plugins.datasource.RaDecRedshift
+   plugins.datasource.ShiftedObserver
    plugins.datasource.TPMLabel
    plugins.datasource.TPMSnapshot
+   plugins.datasource.UniformBox
 

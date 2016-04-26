@@ -60,53 +60,13 @@
 <span id="plugins-datasource-fofgroups-module"></span><h1>plugins.datasource.FOFGroups module<a class="headerlink" href="#module-plugins.datasource.FOFGroups" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="plugins.datasource.FOFGroups.FOFDataSource">
-<em class="property">class </em><code class="descclassname">plugins.datasource.FOFGroups.</code><code class="descname">FOFDataSource</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FOFGroups.html#FOFDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FOFGroups.FOFDataSource" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../nbodykit.extensionpoints.html#nbodykit.extensionpoints.DataSource" title="nbodykit.extensionpoints.DataSource"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></a></p>
+<em class="property">class </em><code class="descclassname">plugins.datasource.FOFGroups.</code><code class="descname">FOFDataSource</code><span class="sig-paren">(</span><em>path</em>, <em>m0</em>, <em>dataset='FOFGroups'</em>, <em>BoxSize=None</em>, <em>rsd=None</em>, <em>select=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FOFGroups.html#FOFDataSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FOFGroups.FOFDataSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></p>
 <p>Class to read field data from a HDF5 FOFGroup data file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path</strong> : str</p>
-<blockquote>
-<div><p>the path of the file to read the data from</p>
-</div></blockquote>
-<p><strong>dataset: list of str</strong></p>
-<blockquote>
-<div><p>For text files, one or more strings specifying the names of the data
-columns. Shape must be equal to number of columns
-in the field, otherwise, behavior is undefined.
-For hdf5 files, the name of the pandas data group.</p>
-</div></blockquote>
-<p><strong>BoxSize</strong> : float or array_like (3,)</p>
-<blockquote>
-<div><p>the box size, either provided as a single float (isotropic)
-or an array of the sizes of the three dimensions</p>
-</div></blockquote>
-<p><strong>rsd</strong> : [x|y|z], optional</p>
-<blockquote>
-<div><p>direction to do the redshift space distortion</p>
-</div></blockquote>
-<p><strong>select</strong> : str, optional</p>
-<blockquote class="last">
-<div><p>string specifying how to select a subset of data, based
-on the column names. For example, if there are columns
-<cite>type</cite> and <cite>mass</cite>, you could specify 
-select= &#8220;type == central and mass &gt; 1e14&#8221;</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
 <p class="rubric">Notes</p>
 <ul class="simple">
 <li><cite>h5py</cite> must be installed to use this data source.</li>
 </ul>
-<dl class="method">
-<dt id="plugins.datasource.FOFGroups.FOFDataSource.finalize_attributes">
-<code class="descname">finalize_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FOFGroups.html#FOFDataSource.finalize_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FOFGroups.FOFDataSource.finalize_attributes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="attribute">
 <dt id="plugins.datasource.FOFGroups.FOFDataSource.plugin_name">
 <code class="descname">plugin_name</code><em class="property"> = 'FOFGroups'</em><a class="headerlink" href="#plugins.datasource.FOFGroups.FOFDataSource.plugin_name" title="Permalink to this definition">¶</a></dt>
@@ -114,12 +74,12 @@ select= &#8220;type == central and mass &gt; 1e14&#8221;</p>
 
 <dl class="method">
 <dt id="plugins.datasource.FOFGroups.FOFDataSource.readall">
-<code class="descname">readall</code><span class="sig-paren">(</span><em>columns</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FOFGroups.html#FOFDataSource.readall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FOFGroups.FOFDataSource.readall" title="Permalink to this definition">¶</a></dt>
+<code class="descname">readall</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FOFGroups.html#FOFDataSource.readall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FOFGroups.FOFDataSource.readall" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="classmethod">
 <dt id="plugins.datasource.FOFGroups.FOFDataSource.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><em>kls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FOFGroups.html#FOFDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FOFGroups.FOFDataSource.register" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/datasource/FOFGroups.html#FOFDataSource.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.datasource.FOFGroups.FOFDataSource.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

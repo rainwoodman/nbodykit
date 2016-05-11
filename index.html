@@ -1,149 +1,235 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>nbodykit package &mdash; nbodykit 0.3 documentation</title>
-    
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="nbodykit 0.3 documentation" href="#" />
-    <link rel="next" title="API Reference" href="api/modules.html" /> 
-  </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="api/modules.html" title="API Reference"
-             accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">nbodykit 0.3 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>a massively parallel large-scale structure toolkit &mdash; nbodykit 0.3 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="#"/>
+        <link rel="next" title="Why nbodykit?" href="why-nbodykit.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
             
-  <div class="section" id="nbodykit-package">
-<h1>nbodykit package<a class="headerlink" href="#nbodykit-package" title="Permalink to this headline">¶</a></h1>
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>a massively parallel large-scale structure toolkit</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <a class="reference internal image-reference" href="_images/nbodykit-logo.gif"><img alt="_images/nbodykit-logo.gif" class="align-center" src="_images/nbodykit-logo.gif" style="width: 425px;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="a-massively-parallel-large-scale-structure-toolkit">
+<h1>a massively parallel large-scale structure toolkit<a class="headerlink" href="#a-massively-parallel-large-scale-structure-toolkit" title="Permalink to this headline">¶</a></h1>
+<p><strong>nbodykit</strong> is an open source project and Python package providing
+a set of algorithms useful in the analysis of cosmological
+datasets from N-body simulations and large-scale structure surveys.</p>
+<p>Driven by the optimism regarding the abundance and availability of
+large-scale computing resources in the future, the development of nbodykit
+distinguishes itself from other similar software packages
+(i.e., <a class="reference external" href="http://www-hpcc.astro.washington.edu/tools/tools.html">nbodyshop</a>, <a class="reference external" href="https://github.com/pynbody/pynbody">pynbody</a>, <a class="reference external" href="http://yt-project.org/">yt</a>, <a class="reference external" href="http://github.com/bareid/xi">xi</a>) by focusing on :</p>
+<ul class="simple">
+<li>a <strong>unified</strong> treatment of simulation and observational datasets by
+insulating algorithms from data containers</li>
+<li>reducing wall-clock time by <strong>scaling</strong> to thousands of cores</li>
+<li><strong>deployment</strong> and availability on large, super computing facilities</li>
+</ul>
+<p>All algorithms are parallel and run with Message Passing Interface (MPI).</p>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/nbodykit.html">nbodykit package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/nbodykit.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.utils.html">nbodykit.utils package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installation</a></li>
 </ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="api/nbodykit.html#submodules">Submodules</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.corrfrompower.html">nbodykit.corrfrompower module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.cosmology.html">nbodykit.cosmology module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.dataset.html">nbodykit.dataset module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.distributedarray.html">nbodykit.distributedarray module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.extensionpoints.html">nbodykit.extensionpoints module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.files.html">nbodykit.files module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.fkp.html">nbodykit.fkp module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.fof.html">nbodykit.fof module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.halos.html">nbodykit.halos module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.measurestats.html">nbodykit.measurestats module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.ndarray.html">nbodykit.ndarray module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.pluginmanager.html">nbodykit.pluginmanager module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.storage.html">nbodykit.storage module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/nbodykit.stripedfile.html">nbodykit.stripedfile module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="plugins/modules.html">Plugins Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="plugins/plugins.html">plugins package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="plugins/plugins.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="plugins/plugins.algorithms.html">plugins.algorithms package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugins/plugins.datasource.html">plugins.datasource package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugins/plugins.painter.html">plugins.painter package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="plugins/plugins.transfer.html">plugins.transfer package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+</div>
+</div>
+<div class="section" id="get-in-touch">
+<h2>Get in touch<a class="headerlink" href="#get-in-touch" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Report bugs, suggest feature ideas, or view the source code <a class="reference external" href="http://github.com/bccp/nbodykit">on GitHub</a>.</li>
 </ul>
 </div>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h4>Next topic</h4>
-  <p class="topless"><a href="api/modules.html"
-                        title="next chapter">API Reference</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="why-nbodykit.html" class="btn btn-neutral float-right" title="Why nbodykit?" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="api/modules.html" title="API Reference"
-             >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">nbodykit 0.3 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2015, Yu Feng, Nick Hand .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
-    </div>
-  </body>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

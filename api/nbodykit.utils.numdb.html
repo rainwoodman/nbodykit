@@ -1,0 +1,1534 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.utils.numdb module &mdash; nbodykit 0.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>nbodykit.utils.numdb module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/nbodykit.utils.numdb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-nbodykit.utils.numdb">
+<span id="nbodykit-utils-numdb-module"></span><h1>nbodykit.utils.numdb module<a class="headerlink" href="#module-nbodykit.utils.numdb" title="Permalink to this headline">¶</a></h1>
+<p>Relational tables backed by in-memory numpy arrays</p>
+<p>numdb.py provides a simple interface to access immutable, dense, and structual array data
+as a relational table. The following relational operations are implemented:</p>
+<ul class="simple">
+<li>Join, <code class="xref py py-meth docutils literal"><span class="pre">numdb.NumTable.join()</span></code></li>
+<li>Select, <code class="xref py py-meth docutils literal"><span class="pre">numdb.NumTable.select()</span></code>. The <code class="code docutils literal"><span class="pre">where</span></code> clause is supported by &#8216;selectionlanguage.py&#8217; or &#8216;npyquery.py&#8217;.</li>
+<li>Groupby, <code class="xref py py-meth docutils literal"><span class="pre">numdb.NumTable.groupby()</span></code></li>
+</ul>
+<p>Indices are build either on-demand, or pre-built via <code class="xref py py-meth docutils literal"><span class="pre">numdb.NumTable.update_indices()</span></code>.</p>
+<p>We need some examples. For now, read the TestSuite to grab a sense.</p>
+<p>Note that numdb.py supports vectors.</p>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>A query to find the central galaxy position and number of satellites of a halo</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recentered</span> <span class="o">=</span> <span class="n">subhalo</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&#39;HaloID&#39;</span><span class="p">,</span> <span class="p">{</span>
+<span class="go">                &#39;Length&#39;   : (numdb.max, subhalo[&#39;Length&#39;]), </span>
+<span class="go">                &#39;NSubhalo&#39; : (numdb.count, subhalo[&#39;Length&#39;]),</span>
+<span class="go">               })              .join(subhalo, on=(&#39;HaloID&#39;, &#39;Length&#39;))              .join(fof, on=&#39;HaloID&#39;,</span>
+<span class="go">                    columns=numdb.C(&#39;NSubhalo&#39;, </span>
+<span class="go">                                CentralID=&#39;SubHaloID&#39;, </span>
+<span class="go">                          CentralPosition=&#39;Position&#39;), </span>
+<span class="go">                    other_columns=numdb.C(&#39;Length&#39;, </span>
+<span class="go">                               MassCenter=&#39;Position&#39;))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Fixme</span><span class="p">:</span> <span class="n">write</span> <span class="n">some</span> <span class="n">examples</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="nbodykit.utils.numdb.C">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">C</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.C" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a list of columns from positional and keyword arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">dict :</p>
+<blockquote class="last">
+<div><p>a dictionary of suitable to be used as input to the columns arguments.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">C</span><span class="p">(</span><span class="s">&#39;HaloID&#39;</span><span class="p">,</span> <span class="s">&#39;SubHaloID&#39;</span><span class="p">,</span> <span class="s">&#39;Mass&#39;</span><span class="p">,</span> <span class="n">LogMass</span><span class="o">=</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">log10</span><span class="p">,</span> <span class="s">&#39;Mass&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.utils.numdb.Index">
+<em class="property">class </em><code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">Index</code><span class="sig-paren">(</span><em>data</em>, <em>columns</em>, <em>spec</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.Index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Indexing ndarray.</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.Index.find" title="nbodykit.utils.numdb.Index.find"><code class="xref py py-obj docutils literal"><span class="pre">find</span></code></a>(value)</td>
+<td>find a single item.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.Index.findall" title="nbodykit.utils.numdb.Index.findall"><code class="xref py py-obj docutils literal"><span class="pre">findall</span></code></a>(value)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.Index.findeach" title="nbodykit.utils.numdb.Index.findeach"><code class="xref py py-obj docutils literal"><span class="pre">findeach</span></code></a>(value)</td>
+<td>find many items.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.Index.groupby" title="nbodykit.utils.numdb.Index.groupby"><code class="xref py py-obj docutils literal"><span class="pre">groupby</span></code></a>(aggregations)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.Index.select" title="nbodykit.utils.numdb.Index.select"><code class="xref py py-obj docutils literal"><span class="pre">select</span></code></a>(left,&nbsp;right)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.utils.numdb.Index.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>data</em>, <em>columns</em>, <em>spec</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.Index.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.Index.find">
+<code class="descname">find</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.Index.find" title="Permalink to this definition">¶</a></dt>
+<dd><p>find a single item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">integer :</p>
+<blockquote class="last">
+<div><p>Index of the item</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.Index.findall">
+<code class="descname">findall</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.Index.findall" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.Index.findeach">
+<code class="descname">findeach</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.Index.findeach" title="Permalink to this definition">¶</a></dt>
+<dd><p>find many items.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">indices: ndarray</p>
+<blockquote>
+<div><p>index of the items. undefined value if not found.</p>
+</div></blockquote>
+<p>notfound: ndarray</p>
+<blockquote class="last">
+<div><p>True if value is not found.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.Index.groupby">
+<code class="descname">groupby</code><span class="sig-paren">(</span><em>aggregations</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.Index.groupby" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.Index.select">
+<code class="descname">select</code><span class="sig-paren">(</span><em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.Index.select" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.utils.numdb.IndexSpec">
+<em class="property">class </em><code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">IndexSpec</code><a class="headerlink" href="#nbodykit.utils.numdb.IndexSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">int</span></code></a></p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">denominator</span></code></td>
+<td>the denominator of a rational number in lowest terms</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">imag</span></code></td>
+<td>the imaginary part of a complex number</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">numerator</span></code></td>
+<td>the numerator of a rational number in lowest terms</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">real</span></code></td>
+<td>the real part of a complex number</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">bit_length</span></code>(()&nbsp;-&gt;&nbsp;int)</td>
+<td>Number of bits necessary to represent self in binary.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">conjugate</span></code></td>
+<td>Returns self, the complex conjugate of any int.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nbodykit.utils.numdb.IndexSpec.Indexed">
+<code class="descname">Indexed</code><em class="property"> = Indexed</em><a class="headerlink" href="#nbodykit.utils.numdb.IndexSpec.Indexed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.utils.numdb.IndexSpec.Unique">
+<code class="descname">Unique</code><em class="property"> = Unique</em><a class="headerlink" href="#nbodykit.utils.numdb.IndexSpec.Unique" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.utils.numdb.JoinMode">
+<em class="property">class </em><code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">JoinMode</code><a class="headerlink" href="#nbodykit.utils.numdb.JoinMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">int</span></code></a></p>
+<p>Modes for the join operation</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">denominator</span></code></td>
+<td>the denominator of a rational number in lowest terms</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">imag</span></code></td>
+<td>the imaginary part of a complex number</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">numerator</span></code></td>
+<td>the numerator of a rational number in lowest terms</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">real</span></code></td>
+<td>the real part of a complex number</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">bit_length</span></code>(()&nbsp;-&gt;&nbsp;int)</td>
+<td>Number of bits necessary to represent self in binary.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">conjugate</span></code></td>
+<td>Returns self, the complex conjugate of any int.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nbodykit.utils.numdb.JoinMode.Inner">
+<code class="descname">Inner</code><em class="property"> = Inner</em><a class="headerlink" href="#nbodykit.utils.numdb.JoinMode.Inner" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.utils.numdb.JoinMode.Left">
+<code class="descname">Left</code><em class="property"> = Left</em><a class="headerlink" href="#nbodykit.utils.numdb.JoinMode.Left" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.utils.numdb.JoinMode.Outer">
+<code class="descname">Outer</code><em class="property"> = Outer</em><a class="headerlink" href="#nbodykit.utils.numdb.JoinMode.Outer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.utils.numdb.JoinMode.Right">
+<code class="descname">Right</code><em class="property"> = Right</em><a class="headerlink" href="#nbodykit.utils.numdb.JoinMode.Right" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.NewColumn">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">NewColumn</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NewColumn" title="Permalink to this definition">¶</a></dt>
+<dd><p>A special function used by select to create a new column.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.utils.numdb.NumData">
+<em class="property">class </em><code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">NumData</code><a class="headerlink" href="#nbodykit.utils.numdb.NumData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>A collection of ndarrays, with identical length.</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumData.columns" title="nbodykit.utils.numdb.NumData.columns"><code class="xref py py-obj docutils literal"><span class="pre">columns</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumData.concatenate" title="nbodykit.utils.numdb.NumData.concatenate"><code class="xref py py-obj docutils literal"><span class="pre">concatenate</span></code></a>(kls,&nbsp;list)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumData.dtype" title="nbodykit.utils.numdb.NumData.dtype"><code class="xref py py-obj docutils literal"><span class="pre">dtype</span></code></a>(key)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumData.toarray" title="nbodykit.utils.numdb.NumData.toarray"><code class="xref py py-obj docutils literal"><span class="pre">toarray</span></code></a>(columns)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.utils.numdb.NumData.columns">
+<code class="descname">columns</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumData.columns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.utils.numdb.NumData.concatenate">
+<em class="property">classmethod </em><code class="descname">concatenate</code><span class="sig-paren">(</span><em>kls</em>, <em>list</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumData.concatenate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.NumData.dtype">
+<code class="descname">dtype</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumData.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.NumData.toarray">
+<code class="descname">toarray</code><span class="sig-paren">(</span><em>columns</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumData.toarray" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.utils.numdb.NumTable">
+<em class="property">class </em><code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">NumTable</code><span class="sig-paren">(</span><em>data</em>, <em>specs=None</em>, <em>add_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>A relational data table based on numpy array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> :  dict or ndarray</p>
+<blockquote>
+<div><p>the input data</p>
+</div></blockquote>
+<p><strong>specs :</strong></p>
+<blockquote>
+<div><p>How the index is built.</p>
+</div></blockquote>
+<p><strong>add_id</strong> : string</p>
+<blockquote class="last">
+<div><p>Append a unique ID column to the data. 
+Parameter is the name of the ID field.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumTable.size" title="nbodykit.utils.numdb.NumTable.size"><code class="xref py py-obj docutils literal"><span class="pre">size</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumTable.append_columns" title="nbodykit.utils.numdb.NumTable.append_columns"><code class="xref py py-obj docutils literal"><span class="pre">append_columns</span></code></a>(data)</td>
+<td>Append columns from data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumTable.columns" title="nbodykit.utils.numdb.NumTable.columns"><code class="xref py py-obj docutils literal"><span class="pre">columns</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumTable.groupby" title="nbodykit.utils.numdb.NumTable.groupby"><code class="xref py py-obj docutils literal"><span class="pre">groupby</span></code></a>(on,&nbsp;aggregations)</td>
+<td>groupby operation</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumTable.join" title="nbodykit.utils.numdb.NumTable.join"><code class="xref py py-obj docutils literal"><span class="pre">join</span></code></a>(other,&nbsp;on[,&nbsp;other_on,&nbsp;columns,&nbsp;...])</td>
+<td>Left join of two tables by &#8216;on&#8217;.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumTable.select" title="nbodykit.utils.numdb.NumTable.select"><code class="xref py py-obj docutils literal"><span class="pre">select</span></code></a>([columns,&nbsp;where])</td>
+<td>Select * from table where ...</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumTable.sort" title="nbodykit.utils.numdb.NumTable.sort"><code class="xref py py-obj docutils literal"><span class="pre">sort</span></code></a>(orderby)</td>
+<td>Sort a table, out-of-place.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.NumTable.update_indices" title="nbodykit.utils.numdb.NumTable.update_indices"><code class="xref py py-obj docutils literal"><span class="pre">update_indices</span></code></a>(specs)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.utils.numdb.NumTable.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>data</em>, <em>specs=None</em>, <em>add_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumTable.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.NumTable.append_columns">
+<code class="descname">append_columns</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumTable.append_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append columns from data.</p>
+<p>I hope this is not used very often.</p>
+<p>select ({&#8216;column&#8217; : (NewColumn, data))</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.NumTable.columns">
+<code class="descname">columns</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumTable.columns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.NumTable.groupby">
+<code class="descname">groupby</code><span class="sig-paren">(</span><em>on</em>, <em>aggregations</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumTable.groupby" title="Permalink to this definition">¶</a></dt>
+<dd><p>groupby operation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>on :</strong></p>
+<blockquote>
+<div><p>column(s) to group by</p>
+</div></blockquote>
+<p><strong>aggregations: dict</strong></p>
+<blockquote>
+<div><p>Mapping in form of {column : (agg, data)}</p>
+<p>Call aggregation for each group on data, the result is 
+stored as column. The aggregation is a callable with
+a signature of <a href="#id1"><span class="problematic" id="id2">:py:code:`agg(array, offsets, axis)`</span></a> that is
+similar to <a href="#id3"><span class="problematic" id="id4">:py:code:`numpy.ufunc.reduceat`</span></a>.</p>
+<p>Predefined Aggregations are listed in numdb.Aggregations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">NumTable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
+<span class="go">        on=&#39;Department&#39;, </span>
+<span class="go">        aggregations={</span>
+<span class="go">            &#39;TotalSales&#39; : (numdb.sum, &#39;Sales&#39;),</span>
+<span class="go">            &#39;MaxSales&#39; : (numdb.max, &#39;Sales&#39;),</span>
+<span class="go">        })</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.NumTable.join">
+<code class="descname">join</code><span class="sig-paren">(</span><em>other</em>, <em>on</em>, <em>other_on=None</em>, <em>columns=None</em>, <em>other_columns=None</em>, <em>mode=Inner</em>, <em>notfound_column='&#64;NA'</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumTable.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left join of two tables by &#8216;on&#8217;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other</strong> : NumTable</p>
+<blockquote>
+<div><p>The right side of the Join operator.</p>
+</div></blockquote>
+<p><strong>on    :</strong></p>
+<blockquote>
+<div><p>Column(s) to join</p>
+</div></blockquote>
+<p><strong>other_on :</strong></p>
+<blockquote>
+<div><p>The corresponding columns in &#8216;other&#8217; table, if different from on.</p>
+</div></blockquote>
+<p><strong>columns :</strong></p>
+<blockquote>
+<div><p>Columns to select from self. To rename, use a dict of {newname, oldname}.</p>
+</div></blockquote>
+<p><strong>other_columns :</strong></p>
+<blockquote>
+<div><p>Columns to select from other.</p>
+</div></blockquote>
+<p><strong>notfound_column</strong> : string</p>
+<blockquote>
+<div><p>Column to store the not found flag. (True for items that do not exist
+in other).</p>
+</div></blockquote>
+<p><strong>mode</strong> : JoinMode.Inner, JoinMode.Left</p>
+<blockquote>
+<div><p>Inner preserves items that exist in both tables.
+Left preserves items that exist in self. notfound_column is set to True</p>
+<blockquote>
+<div><p>if for items does not exits in other.</p>
+</div></blockquote>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">NumTable</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Outer join is not supported.</p>
+<p>Right join is not supported. Use other.join(self).</p>
+<p>For Left join, the columns on non-existing items will have wrong but valid-looking
+values, since numpy does not have NULL. Use notfound_column to detect anormalies.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.NumTable.select">
+<code class="descname">select</code><span class="sig-paren">(</span><em>columns=None</em>, <em>where=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumTable.select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select * from table where ...</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>where  :</strong></p>
+<blockquote>
+<div><p>any object valid as ndarray index. Each column will
+be indexed by where.</p>
+</div></blockquote>
+<p><strong>columns :</strong></p>
+<blockquote>
+<div><p>Columns to select. Constructed with <a class="reference internal" href="#nbodykit.utils.numdb.C" title="nbodykit.utils.numdb.C"><code class="xref py py-func docutils literal"><span class="pre">C()</span></code></a>.</p>
+<ul class="simple">
+<li>To rename, use a dict of {newname : oldname}.</li>
+<li>To apply functions, use a dict of {name : (func, oldname)}.</li>
+<li>To create columns, use a dict of {name : (NewColumn, data)}. 
+data[where] is applied to the column.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">NumTable</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.utils.numdb.NumTable.size">
+<code class="descname">size</code><a class="headerlink" href="#nbodykit.utils.numdb.NumTable.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.NumTable.sort">
+<code class="descname">sort</code><span class="sig-paren">(</span><em>orderby</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumTable.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort a table, out-of-place.</p>
+<p>A new table is returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>orderby</strong> : tuple</p>
+<blockquote class="last">
+<div><p>Sort the results by these columns. 
+An entry in the tuple can be a pair tuple. The second
+can be <a href="#id5"><span class="problematic" id="id6">:py:code:`ASC`</span></a> or <a href="#id7"><span class="problematic" id="id8">:py:code:`DESC`</span></a>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>DESC works only on numerical columns.</li>
+<li>This is broken for vector columns.</li>
+</ul>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">orderby</span><span class="o">=</span><span class="p">[(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">DESC</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Last&#39;</span><span class="p">,</span> <span class="n">DESC</span><span class="p">)])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.NumTable.update_indices">
+<code class="descname">update_indices</code><span class="sig-paren">(</span><em>specs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.NumTable.update_indices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.utils.numdb.OrderDirection">
+<em class="property">class </em><code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">OrderDirection</code><a class="headerlink" href="#nbodykit.utils.numdb.OrderDirection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">int</span></code></a></p>
+<p>Modes for the join operation</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">denominator</span></code></td>
+<td>the denominator of a rational number in lowest terms</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">imag</span></code></td>
+<td>the imaginary part of a complex number</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">numerator</span></code></td>
+<td>the numerator of a rational number in lowest terms</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">real</span></code></td>
+<td>the real part of a complex number</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">bit_length</span></code>(()&nbsp;-&gt;&nbsp;int)</td>
+<td>Number of bits necessary to represent self in binary.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">conjugate</span></code></td>
+<td>Returns self, the complex conjugate of any int.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nbodykit.utils.numdb.OrderDirection.ASC">
+<code class="descname">ASC</code><em class="property"> = ASC</em><a class="headerlink" href="#nbodykit.utils.numdb.OrderDirection.ASC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.utils.numdb.TestSuite">
+<em class="property">class </em><code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">TestSuite</code><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.setup" title="nbodykit.utils.numdb.TestSuite.setup"><code class="xref py py-obj docutils literal"><span class="pre">setup</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.test_add_id" title="nbodykit.utils.numdb.TestSuite.test_add_id"><code class="xref py py-obj docutils literal"><span class="pre">test_add_id</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.test_fancy_select" title="nbodykit.utils.numdb.TestSuite.test_fancy_select"><code class="xref py py-obj docutils literal"><span class="pre">test_fancy_select</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.test_groupby" title="nbodykit.utils.numdb.TestSuite.test_groupby"><code class="xref py py-obj docutils literal"><span class="pre">test_groupby</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.test_index" title="nbodykit.utils.numdb.TestSuite.test_index"><code class="xref py py-obj docutils literal"><span class="pre">test_index</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.test_join_inner" title="nbodykit.utils.numdb.TestSuite.test_join_inner"><code class="xref py py-obj docutils literal"><span class="pre">test_join_inner</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.test_join_left" title="nbodykit.utils.numdb.TestSuite.test_join_left"><code class="xref py py-obj docutils literal"><span class="pre">test_join_left</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.test_new_indices" title="nbodykit.utils.numdb.TestSuite.test_new_indices"><code class="xref py py-obj docutils literal"><span class="pre">test_new_indices</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.test_select_many_columns" title="nbodykit.utils.numdb.TestSuite.test_select_many_columns"><code class="xref py py-obj docutils literal"><span class="pre">test_select_many_columns</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.test_select_single_column" title="nbodykit.utils.numdb.TestSuite.test_select_single_column"><code class="xref py py-obj docutils literal"><span class="pre">test_select_single_column</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.test_sort" title="nbodykit.utils.numdb.TestSuite.test_sort"><code class="xref py py-obj docutils literal"><span class="pre">test_sort</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.numdb.TestSuite.test_toarray" title="nbodykit.utils.numdb.TestSuite.test_toarray"><code class="xref py py-obj docutils literal"><span class="pre">test_toarray</span></code></a>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.setup">
+<code class="descname">setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.test_add_id">
+<code class="descname">test_add_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.test_add_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.test_fancy_select">
+<code class="descname">test_fancy_select</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.test_fancy_select" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.test_groupby">
+<code class="descname">test_groupby</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.test_groupby" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.test_index">
+<code class="descname">test_index</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.test_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.test_join_inner">
+<code class="descname">test_join_inner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.test_join_inner" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.test_join_left">
+<code class="descname">test_join_left</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.test_join_left" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.test_new_indices">
+<code class="descname">test_new_indices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.test_new_indices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.test_select_many_columns">
+<code class="descname">test_select_many_columns</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.test_select_many_columns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.test_select_single_column">
+<code class="descname">test_select_single_column</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.test_select_single_column" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.test_sort">
+<code class="descname">test_sort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.test_sort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.utils.numdb.TestSuite.test_toarray">
+<code class="descname">test_toarray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.TestSuite.test_toarray" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.average">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">average</code><span class="sig-paren">(</span><em>array</em>, <em>offset</em>, <em>axis</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.average" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.avg">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">avg</code><span class="sig-paren">(</span><em>array</em>, <em>offset</em>, <em>axis</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.avg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.count">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">count</code><span class="sig-paren">(</span><em>array</em>, <em>offset</em>, <em>axis</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the number of rows returned.</p>
+<p>FIXME: Is this DISTINCT?</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.ensure_dict">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">ensure_dict</code><span class="sig-paren">(</span><em>columns</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.ensure_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.ensure_tuple">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">ensure_tuple</code><span class="sig-paren">(</span><em>columns</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.ensure_tuple" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.first">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">first</code><span class="sig-paren">(</span><em>array</em>, <em>offset</em>, <em>axis</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.first" title="Permalink to this definition">¶</a></dt>
+<dd><p>First item</p>
+<p>Note: will give wrong results if some chunks
+are of length 0</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.last">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">last</code><span class="sig-paren">(</span><em>array</em>, <em>offset</em>, <em>axis</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.last" title="Permalink to this definition">¶</a></dt>
+<dd><p>Last item.</p>
+<p>Note: will give wrong results if some chunks
+are of length 0</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.max">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">max</code><span class="sig-paren">(</span><em>a</em>, <em>indices</em>, <em>axis=0</em>, <em>dtype=None</em>, <em>out=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a (local) reduce with specified slices over a single axis.</p>
+<p>For i in <code class="docutils literal"><span class="pre">range(len(indices))</span></code>, <cite>reduceat</cite> computes
+<code class="docutils literal"><span class="pre">ufunc.reduce(a[indices[i]:indices[i+1]])</span></code>, which becomes the i-th
+generalized &#8220;row&#8221; parallel to <cite>axis</cite> in the final result (i.e., in a
+2-D array, for example, if <cite>axis = 0</cite>, it becomes the i-th row, but if
+<cite>axis = 1</cite>, it becomes the i-th column).  There are three exceptions to this:</p>
+<ul class="simple">
+<li>when <code class="docutils literal"><span class="pre">i</span> <span class="pre">=</span> <span class="pre">len(indices)</span> <span class="pre">-</span> <span class="pre">1</span></code> (so for the last index),
+<code class="docutils literal"><span class="pre">indices[i+1]</span> <span class="pre">=</span> <span class="pre">a.shape[axis]</span></code>.</li>
+<li>if <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&gt;=</span> <span class="pre">indices[i</span> <span class="pre">+</span> <span class="pre">1]</span></code>, the i-th generalized &#8220;row&#8221; is
+simply <code class="docutils literal"><span class="pre">a[indices[i]]</span></code>.</li>
+<li>if <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&gt;=</span> <span class="pre">len(a)</span></code> or <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>, an error is raised.</li>
+</ul>
+<p>The shape of the output depends on the size of <cite>indices</cite>, and may be
+larger than <cite>a</cite> (this happens if <code class="docutils literal"><span class="pre">len(indices)</span> <span class="pre">&gt;</span> <span class="pre">a.shape[axis]</span></code>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : array_like</p>
+<blockquote>
+<div><p>The array to act on.</p>
+</div></blockquote>
+<p><strong>indices</strong> : array_like</p>
+<blockquote>
+<div><p>Paired indices, comma separated (not colon), specifying slices to
+reduce.</p>
+</div></blockquote>
+<p><strong>axis</strong> : int, optional</p>
+<blockquote>
+<div><p>The axis along which to apply the reduceat.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : data-type code, optional</p>
+<blockquote>
+<div><p>The type used to represent the intermediate results. Defaults
+to the data type of the output array if this is provided, or
+the data type of the input array if no output array is provided.</p>
+</div></blockquote>
+<p><strong>out</strong> : ndarray, optional</p>
+<blockquote>
+<div><p>A location into which the result is stored. If not provided a
+freshly-allocated array is returned.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>r</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The reduced values. If <cite>out</cite> was supplied, <cite>r</cite> is a reference to
+<cite>out</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>A descriptive example:</p>
+<p>If <cite>a</cite> is 1-D, the function <cite>ufunc.accumulate(a)</cite> is the same as
+<code class="docutils literal"><span class="pre">ufunc.reduceat(a,</span> <span class="pre">indices)[::2]</span></code> where <cite>indices</cite> is
+<code class="docutils literal"><span class="pre">range(len(array)</span> <span class="pre">-</span> <span class="pre">1)</span></code> with a zero placed
+in every other element:
+<code class="docutils literal"><span class="pre">indices</span> <span class="pre">=</span> <span class="pre">zeros(2</span> <span class="pre">*</span> <span class="pre">len(a)</span> <span class="pre">-</span> <span class="pre">1)</span></code>, <code class="docutils literal"><span class="pre">indices[1::2]</span> <span class="pre">=</span> <span class="pre">range(1,</span> <span class="pre">len(a))</span></code>.</p>
+<p>Don&#8217;t be fooled by this attribute&#8217;s name: <cite>reduceat(a)</cite> is not
+necessarily smaller than <cite>a</cite>.</p>
+<p class="rubric">Examples</p>
+<p>To take the running sum of four successive values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">),[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">])[::</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">array([ 6, 10, 14, 18])</span>
+</pre></div>
+</div>
+<p>A 2-D example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">array([[  0.,   1.,   2.,   3.],</span>
+<span class="go">       [  4.,   5.,   6.,   7.],</span>
+<span class="go">       [  8.,   9.,  10.,  11.],</span>
+<span class="go">       [ 12.,  13.,  14.,  15.]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># reduce such that the result has the following five rows:</span>
+<span class="c"># [row1 + row2 + row3]</span>
+<span class="c"># [row4]</span>
+<span class="c"># [row2]</span>
+<span class="c"># [row3]</span>
+<span class="c"># [row1 + row2 + row3 + row4]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="go">array([[ 12.,  15.,  18.,  21.],</span>
+<span class="go">       [ 12.,  13.,  14.,  15.],</span>
+<span class="go">       [  4.,   5.,   6.,   7.],</span>
+<span class="go">       [  8.,   9.,  10.,  11.],</span>
+<span class="go">       [ 24.,  28.,  32.,  36.]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># reduce such that result has the following two columns:</span>
+<span class="c"># [col1 * col2 * col3, col4]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">array([[    0.,     3.],</span>
+<span class="go">       [  120.,     7.],</span>
+<span class="go">       [  720.,    11.],</span>
+<span class="go">       [ 2184.,    15.]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.maximum">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">maximum</code><span class="sig-paren">(</span><em>a</em>, <em>indices</em>, <em>axis=0</em>, <em>dtype=None</em>, <em>out=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.maximum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a (local) reduce with specified slices over a single axis.</p>
+<p>For i in <code class="docutils literal"><span class="pre">range(len(indices))</span></code>, <cite>reduceat</cite> computes
+<code class="docutils literal"><span class="pre">ufunc.reduce(a[indices[i]:indices[i+1]])</span></code>, which becomes the i-th
+generalized &#8220;row&#8221; parallel to <cite>axis</cite> in the final result (i.e., in a
+2-D array, for example, if <cite>axis = 0</cite>, it becomes the i-th row, but if
+<cite>axis = 1</cite>, it becomes the i-th column).  There are three exceptions to this:</p>
+<ul class="simple">
+<li>when <code class="docutils literal"><span class="pre">i</span> <span class="pre">=</span> <span class="pre">len(indices)</span> <span class="pre">-</span> <span class="pre">1</span></code> (so for the last index),
+<code class="docutils literal"><span class="pre">indices[i+1]</span> <span class="pre">=</span> <span class="pre">a.shape[axis]</span></code>.</li>
+<li>if <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&gt;=</span> <span class="pre">indices[i</span> <span class="pre">+</span> <span class="pre">1]</span></code>, the i-th generalized &#8220;row&#8221; is
+simply <code class="docutils literal"><span class="pre">a[indices[i]]</span></code>.</li>
+<li>if <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&gt;=</span> <span class="pre">len(a)</span></code> or <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>, an error is raised.</li>
+</ul>
+<p>The shape of the output depends on the size of <cite>indices</cite>, and may be
+larger than <cite>a</cite> (this happens if <code class="docutils literal"><span class="pre">len(indices)</span> <span class="pre">&gt;</span> <span class="pre">a.shape[axis]</span></code>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : array_like</p>
+<blockquote>
+<div><p>The array to act on.</p>
+</div></blockquote>
+<p><strong>indices</strong> : array_like</p>
+<blockquote>
+<div><p>Paired indices, comma separated (not colon), specifying slices to
+reduce.</p>
+</div></blockquote>
+<p><strong>axis</strong> : int, optional</p>
+<blockquote>
+<div><p>The axis along which to apply the reduceat.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : data-type code, optional</p>
+<blockquote>
+<div><p>The type used to represent the intermediate results. Defaults
+to the data type of the output array if this is provided, or
+the data type of the input array if no output array is provided.</p>
+</div></blockquote>
+<p><strong>out</strong> : ndarray, optional</p>
+<blockquote>
+<div><p>A location into which the result is stored. If not provided a
+freshly-allocated array is returned.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>r</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The reduced values. If <cite>out</cite> was supplied, <cite>r</cite> is a reference to
+<cite>out</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>A descriptive example:</p>
+<p>If <cite>a</cite> is 1-D, the function <cite>ufunc.accumulate(a)</cite> is the same as
+<code class="docutils literal"><span class="pre">ufunc.reduceat(a,</span> <span class="pre">indices)[::2]</span></code> where <cite>indices</cite> is
+<code class="docutils literal"><span class="pre">range(len(array)</span> <span class="pre">-</span> <span class="pre">1)</span></code> with a zero placed
+in every other element:
+<code class="docutils literal"><span class="pre">indices</span> <span class="pre">=</span> <span class="pre">zeros(2</span> <span class="pre">*</span> <span class="pre">len(a)</span> <span class="pre">-</span> <span class="pre">1)</span></code>, <code class="docutils literal"><span class="pre">indices[1::2]</span> <span class="pre">=</span> <span class="pre">range(1,</span> <span class="pre">len(a))</span></code>.</p>
+<p>Don&#8217;t be fooled by this attribute&#8217;s name: <cite>reduceat(a)</cite> is not
+necessarily smaller than <cite>a</cite>.</p>
+<p class="rubric">Examples</p>
+<p>To take the running sum of four successive values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">),[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">])[::</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">array([ 6, 10, 14, 18])</span>
+</pre></div>
+</div>
+<p>A 2-D example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">array([[  0.,   1.,   2.,   3.],</span>
+<span class="go">       [  4.,   5.,   6.,   7.],</span>
+<span class="go">       [  8.,   9.,  10.,  11.],</span>
+<span class="go">       [ 12.,  13.,  14.,  15.]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># reduce such that the result has the following five rows:</span>
+<span class="c"># [row1 + row2 + row3]</span>
+<span class="c"># [row4]</span>
+<span class="c"># [row2]</span>
+<span class="c"># [row3]</span>
+<span class="c"># [row1 + row2 + row3 + row4]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="go">array([[ 12.,  15.,  18.,  21.],</span>
+<span class="go">       [ 12.,  13.,  14.,  15.],</span>
+<span class="go">       [  4.,   5.,   6.,   7.],</span>
+<span class="go">       [  8.,   9.,  10.,  11.],</span>
+<span class="go">       [ 24.,  28.,  32.,  36.]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># reduce such that result has the following two columns:</span>
+<span class="c"># [col1 * col2 * col3, col4]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">array([[    0.,     3.],</span>
+<span class="go">       [  120.,     7.],</span>
+<span class="go">       [  720.,    11.],</span>
+<span class="go">       [ 2184.,    15.]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.mean">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">mean</code><span class="sig-paren">(</span><em>array</em>, <em>offset</em>, <em>axis</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.min">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">min</code><span class="sig-paren">(</span><em>a</em>, <em>indices</em>, <em>axis=0</em>, <em>dtype=None</em>, <em>out=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.min" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a (local) reduce with specified slices over a single axis.</p>
+<p>For i in <code class="docutils literal"><span class="pre">range(len(indices))</span></code>, <cite>reduceat</cite> computes
+<code class="docutils literal"><span class="pre">ufunc.reduce(a[indices[i]:indices[i+1]])</span></code>, which becomes the i-th
+generalized &#8220;row&#8221; parallel to <cite>axis</cite> in the final result (i.e., in a
+2-D array, for example, if <cite>axis = 0</cite>, it becomes the i-th row, but if
+<cite>axis = 1</cite>, it becomes the i-th column).  There are three exceptions to this:</p>
+<ul class="simple">
+<li>when <code class="docutils literal"><span class="pre">i</span> <span class="pre">=</span> <span class="pre">len(indices)</span> <span class="pre">-</span> <span class="pre">1</span></code> (so for the last index),
+<code class="docutils literal"><span class="pre">indices[i+1]</span> <span class="pre">=</span> <span class="pre">a.shape[axis]</span></code>.</li>
+<li>if <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&gt;=</span> <span class="pre">indices[i</span> <span class="pre">+</span> <span class="pre">1]</span></code>, the i-th generalized &#8220;row&#8221; is
+simply <code class="docutils literal"><span class="pre">a[indices[i]]</span></code>.</li>
+<li>if <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&gt;=</span> <span class="pre">len(a)</span></code> or <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>, an error is raised.</li>
+</ul>
+<p>The shape of the output depends on the size of <cite>indices</cite>, and may be
+larger than <cite>a</cite> (this happens if <code class="docutils literal"><span class="pre">len(indices)</span> <span class="pre">&gt;</span> <span class="pre">a.shape[axis]</span></code>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : array_like</p>
+<blockquote>
+<div><p>The array to act on.</p>
+</div></blockquote>
+<p><strong>indices</strong> : array_like</p>
+<blockquote>
+<div><p>Paired indices, comma separated (not colon), specifying slices to
+reduce.</p>
+</div></blockquote>
+<p><strong>axis</strong> : int, optional</p>
+<blockquote>
+<div><p>The axis along which to apply the reduceat.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : data-type code, optional</p>
+<blockquote>
+<div><p>The type used to represent the intermediate results. Defaults
+to the data type of the output array if this is provided, or
+the data type of the input array if no output array is provided.</p>
+</div></blockquote>
+<p><strong>out</strong> : ndarray, optional</p>
+<blockquote>
+<div><p>A location into which the result is stored. If not provided a
+freshly-allocated array is returned.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>r</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The reduced values. If <cite>out</cite> was supplied, <cite>r</cite> is a reference to
+<cite>out</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>A descriptive example:</p>
+<p>If <cite>a</cite> is 1-D, the function <cite>ufunc.accumulate(a)</cite> is the same as
+<code class="docutils literal"><span class="pre">ufunc.reduceat(a,</span> <span class="pre">indices)[::2]</span></code> where <cite>indices</cite> is
+<code class="docutils literal"><span class="pre">range(len(array)</span> <span class="pre">-</span> <span class="pre">1)</span></code> with a zero placed
+in every other element:
+<code class="docutils literal"><span class="pre">indices</span> <span class="pre">=</span> <span class="pre">zeros(2</span> <span class="pre">*</span> <span class="pre">len(a)</span> <span class="pre">-</span> <span class="pre">1)</span></code>, <code class="docutils literal"><span class="pre">indices[1::2]</span> <span class="pre">=</span> <span class="pre">range(1,</span> <span class="pre">len(a))</span></code>.</p>
+<p>Don&#8217;t be fooled by this attribute&#8217;s name: <cite>reduceat(a)</cite> is not
+necessarily smaller than <cite>a</cite>.</p>
+<p class="rubric">Examples</p>
+<p>To take the running sum of four successive values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">),[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">])[::</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">array([ 6, 10, 14, 18])</span>
+</pre></div>
+</div>
+<p>A 2-D example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">array([[  0.,   1.,   2.,   3.],</span>
+<span class="go">       [  4.,   5.,   6.,   7.],</span>
+<span class="go">       [  8.,   9.,  10.,  11.],</span>
+<span class="go">       [ 12.,  13.,  14.,  15.]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># reduce such that the result has the following five rows:</span>
+<span class="c"># [row1 + row2 + row3]</span>
+<span class="c"># [row4]</span>
+<span class="c"># [row2]</span>
+<span class="c"># [row3]</span>
+<span class="c"># [row1 + row2 + row3 + row4]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="go">array([[ 12.,  15.,  18.,  21.],</span>
+<span class="go">       [ 12.,  13.,  14.,  15.],</span>
+<span class="go">       [  4.,   5.,   6.,   7.],</span>
+<span class="go">       [  8.,   9.,  10.,  11.],</span>
+<span class="go">       [ 24.,  28.,  32.,  36.]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># reduce such that result has the following two columns:</span>
+<span class="c"># [col1 * col2 * col3, col4]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">array([[    0.,     3.],</span>
+<span class="go">       [  120.,     7.],</span>
+<span class="go">       [  720.,    11.],</span>
+<span class="go">       [ 2184.,    15.]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.minimum">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">minimum</code><span class="sig-paren">(</span><em>a</em>, <em>indices</em>, <em>axis=0</em>, <em>dtype=None</em>, <em>out=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.minimum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a (local) reduce with specified slices over a single axis.</p>
+<p>For i in <code class="docutils literal"><span class="pre">range(len(indices))</span></code>, <cite>reduceat</cite> computes
+<code class="docutils literal"><span class="pre">ufunc.reduce(a[indices[i]:indices[i+1]])</span></code>, which becomes the i-th
+generalized &#8220;row&#8221; parallel to <cite>axis</cite> in the final result (i.e., in a
+2-D array, for example, if <cite>axis = 0</cite>, it becomes the i-th row, but if
+<cite>axis = 1</cite>, it becomes the i-th column).  There are three exceptions to this:</p>
+<ul class="simple">
+<li>when <code class="docutils literal"><span class="pre">i</span> <span class="pre">=</span> <span class="pre">len(indices)</span> <span class="pre">-</span> <span class="pre">1</span></code> (so for the last index),
+<code class="docutils literal"><span class="pre">indices[i+1]</span> <span class="pre">=</span> <span class="pre">a.shape[axis]</span></code>.</li>
+<li>if <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&gt;=</span> <span class="pre">indices[i</span> <span class="pre">+</span> <span class="pre">1]</span></code>, the i-th generalized &#8220;row&#8221; is
+simply <code class="docutils literal"><span class="pre">a[indices[i]]</span></code>.</li>
+<li>if <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&gt;=</span> <span class="pre">len(a)</span></code> or <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>, an error is raised.</li>
+</ul>
+<p>The shape of the output depends on the size of <cite>indices</cite>, and may be
+larger than <cite>a</cite> (this happens if <code class="docutils literal"><span class="pre">len(indices)</span> <span class="pre">&gt;</span> <span class="pre">a.shape[axis]</span></code>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : array_like</p>
+<blockquote>
+<div><p>The array to act on.</p>
+</div></blockquote>
+<p><strong>indices</strong> : array_like</p>
+<blockquote>
+<div><p>Paired indices, comma separated (not colon), specifying slices to
+reduce.</p>
+</div></blockquote>
+<p><strong>axis</strong> : int, optional</p>
+<blockquote>
+<div><p>The axis along which to apply the reduceat.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : data-type code, optional</p>
+<blockquote>
+<div><p>The type used to represent the intermediate results. Defaults
+to the data type of the output array if this is provided, or
+the data type of the input array if no output array is provided.</p>
+</div></blockquote>
+<p><strong>out</strong> : ndarray, optional</p>
+<blockquote>
+<div><p>A location into which the result is stored. If not provided a
+freshly-allocated array is returned.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>r</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The reduced values. If <cite>out</cite> was supplied, <cite>r</cite> is a reference to
+<cite>out</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>A descriptive example:</p>
+<p>If <cite>a</cite> is 1-D, the function <cite>ufunc.accumulate(a)</cite> is the same as
+<code class="docutils literal"><span class="pre">ufunc.reduceat(a,</span> <span class="pre">indices)[::2]</span></code> where <cite>indices</cite> is
+<code class="docutils literal"><span class="pre">range(len(array)</span> <span class="pre">-</span> <span class="pre">1)</span></code> with a zero placed
+in every other element:
+<code class="docutils literal"><span class="pre">indices</span> <span class="pre">=</span> <span class="pre">zeros(2</span> <span class="pre">*</span> <span class="pre">len(a)</span> <span class="pre">-</span> <span class="pre">1)</span></code>, <code class="docutils literal"><span class="pre">indices[1::2]</span> <span class="pre">=</span> <span class="pre">range(1,</span> <span class="pre">len(a))</span></code>.</p>
+<p>Don&#8217;t be fooled by this attribute&#8217;s name: <cite>reduceat(a)</cite> is not
+necessarily smaller than <cite>a</cite>.</p>
+<p class="rubric">Examples</p>
+<p>To take the running sum of four successive values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">),[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">])[::</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">array([ 6, 10, 14, 18])</span>
+</pre></div>
+</div>
+<p>A 2-D example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">array([[  0.,   1.,   2.,   3.],</span>
+<span class="go">       [  4.,   5.,   6.,   7.],</span>
+<span class="go">       [  8.,   9.,  10.,  11.],</span>
+<span class="go">       [ 12.,  13.,  14.,  15.]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># reduce such that the result has the following five rows:</span>
+<span class="c"># [row1 + row2 + row3]</span>
+<span class="c"># [row4]</span>
+<span class="c"># [row2]</span>
+<span class="c"># [row3]</span>
+<span class="c"># [row1 + row2 + row3 + row4]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="go">array([[ 12.,  15.,  18.,  21.],</span>
+<span class="go">       [ 12.,  13.,  14.,  15.],</span>
+<span class="go">       [  4.,   5.,   6.,   7.],</span>
+<span class="go">       [  8.,   9.,  10.,  11.],</span>
+<span class="go">       [ 24.,  28.,  32.,  36.]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># reduce such that result has the following two columns:</span>
+<span class="c"># [col1 * col2 * col3, col4]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">array([[    0.,     3.],</span>
+<span class="go">       [  120.,     7.],</span>
+<span class="go">       [  720.,    11.],</span>
+<span class="go">       [ 2184.,    15.]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.resolve_name_conflict">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">resolve_name_conflict</code><span class="sig-paren">(</span><em>data</em>, <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.resolve_name_conflict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.std">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">std</code><span class="sig-paren">(</span><em>array</em>, <em>offset</em>, <em>axis</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.std" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standard deviation</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.sum">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">sum</code><span class="sig-paren">(</span><em>a</em>, <em>indices</em>, <em>axis=0</em>, <em>dtype=None</em>, <em>out=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a (local) reduce with specified slices over a single axis.</p>
+<p>For i in <code class="docutils literal"><span class="pre">range(len(indices))</span></code>, <cite>reduceat</cite> computes
+<code class="docutils literal"><span class="pre">ufunc.reduce(a[indices[i]:indices[i+1]])</span></code>, which becomes the i-th
+generalized &#8220;row&#8221; parallel to <cite>axis</cite> in the final result (i.e., in a
+2-D array, for example, if <cite>axis = 0</cite>, it becomes the i-th row, but if
+<cite>axis = 1</cite>, it becomes the i-th column).  There are three exceptions to this:</p>
+<ul class="simple">
+<li>when <code class="docutils literal"><span class="pre">i</span> <span class="pre">=</span> <span class="pre">len(indices)</span> <span class="pre">-</span> <span class="pre">1</span></code> (so for the last index),
+<code class="docutils literal"><span class="pre">indices[i+1]</span> <span class="pre">=</span> <span class="pre">a.shape[axis]</span></code>.</li>
+<li>if <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&gt;=</span> <span class="pre">indices[i</span> <span class="pre">+</span> <span class="pre">1]</span></code>, the i-th generalized &#8220;row&#8221; is
+simply <code class="docutils literal"><span class="pre">a[indices[i]]</span></code>.</li>
+<li>if <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&gt;=</span> <span class="pre">len(a)</span></code> or <code class="docutils literal"><span class="pre">indices[i]</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>, an error is raised.</li>
+</ul>
+<p>The shape of the output depends on the size of <cite>indices</cite>, and may be
+larger than <cite>a</cite> (this happens if <code class="docutils literal"><span class="pre">len(indices)</span> <span class="pre">&gt;</span> <span class="pre">a.shape[axis]</span></code>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : array_like</p>
+<blockquote>
+<div><p>The array to act on.</p>
+</div></blockquote>
+<p><strong>indices</strong> : array_like</p>
+<blockquote>
+<div><p>Paired indices, comma separated (not colon), specifying slices to
+reduce.</p>
+</div></blockquote>
+<p><strong>axis</strong> : int, optional</p>
+<blockquote>
+<div><p>The axis along which to apply the reduceat.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : data-type code, optional</p>
+<blockquote>
+<div><p>The type used to represent the intermediate results. Defaults
+to the data type of the output array if this is provided, or
+the data type of the input array if no output array is provided.</p>
+</div></blockquote>
+<p><strong>out</strong> : ndarray, optional</p>
+<blockquote>
+<div><p>A location into which the result is stored. If not provided a
+freshly-allocated array is returned.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>r</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The reduced values. If <cite>out</cite> was supplied, <cite>r</cite> is a reference to
+<cite>out</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>A descriptive example:</p>
+<p>If <cite>a</cite> is 1-D, the function <cite>ufunc.accumulate(a)</cite> is the same as
+<code class="docutils literal"><span class="pre">ufunc.reduceat(a,</span> <span class="pre">indices)[::2]</span></code> where <cite>indices</cite> is
+<code class="docutils literal"><span class="pre">range(len(array)</span> <span class="pre">-</span> <span class="pre">1)</span></code> with a zero placed
+in every other element:
+<code class="docutils literal"><span class="pre">indices</span> <span class="pre">=</span> <span class="pre">zeros(2</span> <span class="pre">*</span> <span class="pre">len(a)</span> <span class="pre">-</span> <span class="pre">1)</span></code>, <code class="docutils literal"><span class="pre">indices[1::2]</span> <span class="pre">=</span> <span class="pre">range(1,</span> <span class="pre">len(a))</span></code>.</p>
+<p>Don&#8217;t be fooled by this attribute&#8217;s name: <cite>reduceat(a)</cite> is not
+necessarily smaller than <cite>a</cite>.</p>
+<p class="rubric">Examples</p>
+<p>To take the running sum of four successive values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">),[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">])[::</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">array([ 6, 10, 14, 18])</span>
+</pre></div>
+</div>
+<p>A 2-D example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">array([[  0.,   1.,   2.,   3.],</span>
+<span class="go">       [  4.,   5.,   6.,   7.],</span>
+<span class="go">       [  8.,   9.,  10.,  11.],</span>
+<span class="go">       [ 12.,  13.,  14.,  15.]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># reduce such that the result has the following five rows:</span>
+<span class="c"># [row1 + row2 + row3]</span>
+<span class="c"># [row4]</span>
+<span class="c"># [row2]</span>
+<span class="c"># [row3]</span>
+<span class="c"># [row1 + row2 + row3 + row4]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="go">array([[ 12.,  15.,  18.,  21.],</span>
+<span class="go">       [ 12.,  13.,  14.,  15.],</span>
+<span class="go">       [  4.,   5.,   6.,   7.],</span>
+<span class="go">       [  8.,   9.,  10.,  11.],</span>
+<span class="go">       [ 24.,  28.,  32.,  36.]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># reduce such that result has the following two columns:</span>
+<span class="c"># [col1 * col2 * col3, col4]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">array([[    0.,     3.],</span>
+<span class="go">       [  120.,     7.],</span>
+<span class="go">       [  720.,    11.],</span>
+<span class="go">       [ 2184.,    15.]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.utils.numdb.var">
+<code class="descclassname">nbodykit.utils.numdb.</code><code class="descname">var</code><span class="sig-paren">(</span><em>array</em>, <em>offset</em>, <em>axis</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.numdb.var" title="Permalink to this definition">¶</a></dt>
+<dd><p>Variance</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

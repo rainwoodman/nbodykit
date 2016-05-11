@@ -12,6 +12,7 @@ Submodules
 .. toctree::
 
    nbodykit.utils.config
+   nbodykit.utils.numdb
    nbodykit.utils.selectionlanguage
    nbodykit.utils.taskmanager
 

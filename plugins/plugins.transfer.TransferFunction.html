@@ -1,66 +1,161 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>plugins.transfer.TransferFunction module &mdash; nbodykit 0.3 documentation</title>
-    
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
-    <link rel="up" title="plugins.transfer package" href="plugins.transfer.html" />
-    <link rel="prev" title="plugins.transfer package" href="plugins.transfer.html" /> 
-  </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="plugins.transfer.html" title="plugins.transfer package"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="plugins.html" >plugins package</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="plugins.transfer.html" accesskey="U">plugins.transfer package</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>plugins.transfer.TransferFunction module &mdash; nbodykit 0.3 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>plugins.transfer.TransferFunction module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/plugins.transfer.TransferFunction.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="module-plugins.transfer.TransferFunction">
 <span id="plugins-transfer-transferfunction-module"></span><h1>plugins.transfer.TransferFunction module<a class="headerlink" href="#module-plugins.transfer.TransferFunction" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="plugins.transfer.TransferFunction.AnisotropicCIC">
-<em class="property">class </em><code class="descclassname">plugins.transfer.TransferFunction.</code><code class="descname">AnisotropicCIC</code><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#AnisotropicCIC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicCIC" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">plugins.transfer.TransferFunction.</code><code class="descname">AnisotropicCIC</code><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicCIC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Transfer</span></code></p>
 <p>Divide by a kernel in Fourier space to account for
 the convolution of the gridded quantity with the 
-cloud-in-cell window function in configuration space</p>
+CIC window function in configuration space</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(pm,&nbsp;complex)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#plugins.transfer.TransferFunction.AnisotropicCIC.register" title="plugins.transfer.TransferFunction.AnisotropicCIC.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="plugins.transfer.TransferFunction.AnisotropicCIC.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicCIC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="plugins.transfer.TransferFunction.AnisotropicCIC.plugin_name">
 <code class="descname">plugin_name</code><em class="property"> = 'AnisotropicCIC'</em><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicCIC.plugin_name" title="Permalink to this definition">¶</a></dt>
@@ -68,17 +163,76 @@ cloud-in-cell window function in configuration space</p>
 
 <dl class="classmethod">
 <dt id="plugins.transfer.TransferFunction.AnisotropicCIC.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#AnisotropicCIC.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicCIC.register" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicCIC.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="plugins.transfer.TransferFunction.AnisotropicTSC">
+<em class="property">class </em><code class="descclassname">plugins.transfer.TransferFunction.</code><code class="descname">AnisotropicTSC</code><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicTSC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Transfer</span></code></p>
+<p>Divide by a kernel in Fourier space to account for
+the convolution of the gridded quantity with the 
+TSC window function in configuration space</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(pm,&nbsp;complex)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#plugins.transfer.TransferFunction.AnisotropicTSC.register" title="plugins.transfer.TransferFunction.AnisotropicTSC.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="plugins.transfer.TransferFunction.AnisotropicTSC.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicTSC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="plugins.transfer.TransferFunction.AnisotropicTSC.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = 'AnisotropicTSC'</em><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicTSC.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="plugins.transfer.TransferFunction.AnisotropicTSC.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugins.transfer.TransferFunction.AnisotropicTSC.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="plugins.transfer.TransferFunction.NormalizeDC">
-<em class="property">class </em><code class="descclassname">plugins.transfer.TransferFunction.</code><code class="descname">NormalizeDC</code><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#NormalizeDC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.NormalizeDC" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">plugins.transfer.TransferFunction.</code><code class="descname">NormalizeDC</code><a class="headerlink" href="#plugins.transfer.TransferFunction.NormalizeDC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Transfer</span></code></p>
 <p>Removes the DC amplitude in Fourier space, which effectively
 divides by the mean in configuration space</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(pm,&nbsp;complex)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#plugins.transfer.TransferFunction.NormalizeDC.register" title="plugins.transfer.TransferFunction.NormalizeDC.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="plugins.transfer.TransferFunction.NormalizeDC.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugins.transfer.TransferFunction.NormalizeDC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="plugins.transfer.TransferFunction.NormalizeDC.plugin_name">
 <code class="descname">plugin_name</code><em class="property"> = 'NormalizeDC'</em><a class="headerlink" href="#plugins.transfer.TransferFunction.NormalizeDC.plugin_name" title="Permalink to this definition">¶</a></dt>
@@ -86,17 +240,37 @@ divides by the mean in configuration space</p>
 
 <dl class="classmethod">
 <dt id="plugins.transfer.TransferFunction.NormalizeDC.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#NormalizeDC.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.NormalizeDC.register" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugins.transfer.TransferFunction.NormalizeDC.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="plugins.transfer.TransferFunction.RemoveDC">
-<em class="property">class </em><code class="descclassname">plugins.transfer.TransferFunction.</code><code class="descname">RemoveDC</code><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#RemoveDC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.RemoveDC" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">plugins.transfer.TransferFunction.</code><code class="descname">RemoveDC</code><a class="headerlink" href="#plugins.transfer.TransferFunction.RemoveDC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Transfer</span></code></p>
 <p>Remove the DC amplitude, which sets the mean of the 
 field in configuration space to zero</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(pm,&nbsp;complex)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#plugins.transfer.TransferFunction.RemoveDC.register" title="plugins.transfer.TransferFunction.RemoveDC.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="plugins.transfer.TransferFunction.RemoveDC.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugins.transfer.TransferFunction.RemoveDC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="plugins.transfer.TransferFunction.RemoveDC.plugin_name">
 <code class="descname">plugin_name</code><em class="property"> = 'RemoveDC'</em><a class="headerlink" href="#plugins.transfer.TransferFunction.RemoveDC.plugin_name" title="Permalink to this definition">¶</a></dt>
@@ -104,7 +278,7 @@ field in configuration space to zero</p>
 
 <dl class="classmethod">
 <dt id="plugins.transfer.TransferFunction.RemoveDC.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/transfer/TransferFunction.html#RemoveDC.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.transfer.TransferFunction.RemoveDC.register" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugins.transfer.TransferFunction.RemoveDC.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -112,56 +286,62 @@ field in configuration space to zero</p>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="plugins.transfer.html"
-                        title="previous chapter">plugins.transfer package</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/plugins/plugins.transfer.TransferFunction.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="plugins.transfer.html" title="plugins.transfer package"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="plugins.html" >plugins package</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="plugins.transfer.html" >plugins.transfer package</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2015, Yu Feng, Nick Hand .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
-    </div>
-  </body>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

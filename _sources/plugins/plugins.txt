@@ -16,4 +16,5 @@ Subpackages
     plugins.painter
     plugins.storage
     plugins.transfer
+    plugins.user
 

@@ -1,65 +1,137 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>nbodykit.cosmology module &mdash; nbodykit 0.3 documentation</title>
-    
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
-    <link rel="up" title="nbodykit package" href="nbodykit.html" />
-    <link rel="next" title="nbodykit.dataset module" href="nbodykit.dataset.html" />
-    <link rel="prev" title="nbodykit.corrfrompower module" href="nbodykit.corrfrompower.html" /> 
-  </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.dataset.html" title="nbodykit.dataset module"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.corrfrompower.html" title="nbodykit.corrfrompower module"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="nbodykit.html" accesskey="U">nbodykit package</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.cosmology module &mdash; nbodykit 0.3 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>nbodykit.cosmology module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/nbodykit.cosmology.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="module-nbodykit.cosmology">
 <span id="nbodykit-cosmology-module"></span><h1>nbodykit.cosmology module<a class="headerlink" href="#module-nbodykit.cosmology" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="nbodykit.cosmology.Cosmology">
-<em class="property">class </em><code class="descclassname">nbodykit.cosmology.</code><code class="descname">Cosmology</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/cosmology.html#Cosmology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.cosmology.Cosmology" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">nbodykit.cosmology.</code><code class="descname">Cosmology</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.cosmology.Cosmology" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#nbodykit.cosmology.CosmologyBase" title="nbodykit.cosmology.CosmologyBase"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.cosmology.CosmologyBase</span></code></a></p>
 <p>A class for computing cosmology-dependent quantites, which uses
 <cite>astropy.Cosmology</cite> to do the calculations</p>
@@ -71,9 +143,48 @@ of state <cite>w0</cite> and massive neutrinos</li>
 <li>if <cite>flat = True</cite>, the dark energy density is set automatically</li>
 <li>the underlying astropy class is stored as the <cite>engine</cite> attribute</li>
 </ul>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.cosmology.Cosmology.comoving_distance" title="nbodykit.cosmology.Cosmology.comoving_distance"><code class="xref py py-obj docutils literal"><span class="pre">comoving_distance</span></code></a>(z)</td>
+<td>Returns the comoving distance to z in units of <cite>Mpc/h</cite></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">is_sampled</span></code>(methodname)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">sample</span></code>(methodname,&nbsp;x,&nbsp;*args,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">sampled_function</span></code>(func,&nbsp;x,&nbsp;*args,&nbsp;**kwargs)</td>
+<td>Class to represent a &#8220;sampled&#8221; version of a function</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">unsample</span></code>(methodname)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.cosmology.Cosmology.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.cosmology.Cosmology.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>H0                   the Hubble constant at z=0, in km/s/Mpc (default: 67.6)
+Om0                  matter density/critical density at z=0 (default: 0.31)
+Ode0                 dark energy density/critical density at z=0 (default: 0.69)
+w0                   dark energy equation of state (default: -1.0)
+Tcmb0                temperature of the CMB in K at z=0 (default: 2.7255)
+Neff                 effective number of neutrino species (default: 3.04)
+m_nu                 mass of neutrino species in eV (default: 0.0)
+flat                 if <cite>True</cite>, automatically set <cite>Ode0</cite> such that <cite>Ok0</cite> is zero (default: False)
+comm                 the global MPI communicator</div></blockquote>
+</dd></dl>
+
 <dl class="method">
 <dt id="nbodykit.cosmology.Cosmology.comoving_distance">
-<code class="descname">comoving_distance</code><span class="sig-paren">(</span><em>z</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/cosmology.html#Cosmology.comoving_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.cosmology.Cosmology.comoving_distance" title="Permalink to this definition">¶</a></dt>
+<code class="descname">comoving_distance</code><span class="sig-paren">(</span><em>z</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.cosmology.Cosmology.comoving_distance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the comoving distance to z in units of <cite>Mpc/h</cite></p>
 </dd></dl>
 
@@ -81,37 +192,75 @@ of state <cite>w0</cite> and massive neutrinos</li>
 
 <dl class="class">
 <dt id="nbodykit.cosmology.CosmologyBase">
-<em class="property">class </em><code class="descclassname">nbodykit.cosmology.</code><code class="descname">CosmologyBase</code><a class="reference internal" href="../_modules/nbodykit/cosmology.html#CosmologyBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.cosmology.CosmologyBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="descclassname">nbodykit.cosmology.</code><code class="descname">CosmologyBase</code><a class="headerlink" href="#nbodykit.cosmology.CosmologyBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Base class for computing cosmology-dependent quantities, possibly
 sampling them at at set of points and returning interpolated results 
 (for speed purposes)</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.cosmology.CosmologyBase.is_sampled" title="nbodykit.cosmology.CosmologyBase.is_sampled"><code class="xref py py-obj docutils literal"><span class="pre">is_sampled</span></code></a>(methodname)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.cosmology.CosmologyBase.sample" title="nbodykit.cosmology.CosmologyBase.sample"><code class="xref py py-obj docutils literal"><span class="pre">sample</span></code></a>(methodname,&nbsp;x,&nbsp;*args,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.cosmology.CosmologyBase.sampled_function" title="nbodykit.cosmology.CosmologyBase.sampled_function"><code class="xref py py-obj docutils literal"><span class="pre">sampled_function</span></code></a>(func,&nbsp;x,&nbsp;*args,&nbsp;**kwargs)</td>
+<td>Class to represent a &#8220;sampled&#8221; version of a function</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.cosmology.CosmologyBase.unsample" title="nbodykit.cosmology.CosmologyBase.unsample"><code class="xref py py-obj docutils literal"><span class="pre">unsample</span></code></a>(methodname)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="nbodykit.cosmology.CosmologyBase.is_sampled">
-<code class="descname">is_sampled</code><span class="sig-paren">(</span><em>methodname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/cosmology.html#CosmologyBase.is_sampled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.cosmology.CosmologyBase.is_sampled" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_sampled</code><span class="sig-paren">(</span><em>methodname</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.cosmology.CosmologyBase.is_sampled" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="nbodykit.cosmology.CosmologyBase.sample">
-<code class="descname">sample</code><span class="sig-paren">(</span><em>methodname</em>, <em>x</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/cosmology.html#CosmologyBase.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.cosmology.CosmologyBase.sample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sample</code><span class="sig-paren">(</span><em>methodname</em>, <em>x</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.cosmology.CosmologyBase.sample" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
 <dt id="nbodykit.cosmology.CosmologyBase.sampled_function">
-<em class="property">class </em><code class="descname">sampled_function</code><span class="sig-paren">(</span><em>func</em>, <em>x</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/cosmology.html#CosmologyBase.sampled_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.cosmology.CosmologyBase.sampled_function" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">sampled_function</code><span class="sig-paren">(</span><em>func</em>, <em>x</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.cosmology.CosmologyBase.sampled_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to represent a &#8220;sampled&#8221; version of a function</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(y)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.cosmology.CosmologyBase.sampled_function.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>func</em>, <em>x</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.cosmology.CosmologyBase.sampled_function.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="method">
 <dt id="nbodykit.cosmology.CosmologyBase.unsample">
-<code class="descclassname">CosmologyBase.</code><code class="descname">unsample</code><span class="sig-paren">(</span><em>methodname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/cosmology.html#CosmologyBase.unsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.cosmology.CosmologyBase.unsample" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">CosmologyBase.</code><code class="descname">unsample</code><span class="sig-paren">(</span><em>methodname</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.cosmology.CosmologyBase.unsample" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="nbodykit.cosmology.neutrino_mass">
-<code class="descclassname">nbodykit.cosmology.</code><code class="descname">neutrino_mass</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/cosmology.html#neutrino_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.cosmology.neutrino_mass" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.cosmology.</code><code class="descname">neutrino_mass</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.cosmology.neutrino_mass" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to cast an input string or list to a <cite>astropy.units.Quantity</cite>,
 with units of <cite>eV</cite> to represent neutrino mass</p>
 </dd></dl>
@@ -119,61 +268,62 @@ with units of <cite>eV</cite> to represent neutrino mass</p>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="nbodykit.corrfrompower.html"
-                        title="previous chapter">nbodykit.corrfrompower module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="nbodykit.dataset.html"
-                        title="next chapter">nbodykit.dataset module</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/api/nbodykit.cosmology.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.dataset.html" title="nbodykit.dataset module"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.corrfrompower.html" title="nbodykit.corrfrompower module"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="nbodykit.html" >nbodykit package</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2015, Yu Feng, Nick Hand .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
-    </div>
-  </body>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

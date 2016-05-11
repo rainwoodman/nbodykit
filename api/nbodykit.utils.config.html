@@ -1,80 +1,205 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>nbodykit.utils.config module &mdash; nbodykit 0.3 documentation</title>
-    
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
-    <link rel="up" title="nbodykit.utils package" href="nbodykit.utils.html" />
-    <link rel="next" title="nbodykit.utils.selectionlanguage module" href="nbodykit.utils.selectionlanguage.html" />
-    <link rel="prev" title="nbodykit.utils package" href="nbodykit.utils.html" /> 
-  </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.utils.selectionlanguage.html" title="nbodykit.utils.selectionlanguage module"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.utils.html" title="nbodykit.utils package"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="nbodykit.html" >nbodykit package</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="nbodykit.utils.html" accesskey="U">nbodykit.utils package</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.utils.config module &mdash; nbodykit 0.3 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>nbodykit.utils.config module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/nbodykit.utils.config.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="module-nbodykit.utils.config">
 <span id="nbodykit-utils-config-module"></span><h1>nbodykit.utils.config module<a class="headerlink" href="#module-nbodykit.utils.config" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="nbodykit.utils.config.Argument">
-<em class="property">class </em><code class="descclassname">nbodykit.utils.config.</code><code class="descname">Argument</code><a class="reference internal" href="../_modules/nbodykit/utils/config.html#Argument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.Argument" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">nbodykit.utils.config.</code><code class="descname">Argument</code><a class="headerlink" href="#nbodykit.utils.config.Argument" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.config.Argument" title="nbodykit.utils.config.Argument"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.config.Argument</span></code></a></p>
 <p>Class to represent an argument in the <cite>ConstructorSchema</cite></p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">choices</span></code></td>
+<td>Alias for field number 4</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">default</span></code></td>
+<td>Alias for field number 3</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">help</span></code></td>
+<td>Alias for field number 6</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">name</span></code></td>
+<td>Alias for field number 0</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">nargs</span></code></td>
+<td>Alias for field number 5</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">required</span></code></td>
+<td>Alias for field number 1</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">subfields</span></code></td>
+<td>Alias for field number 7</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">type</span></code></td>
+<td>Alias for field number 2</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">count</span></code>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">index</span></code>((value,&nbsp;[start,&nbsp;...)</td>
+<td>Raises ValueError if the value is not present.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.utils.config.ArgumentBase">
+<code class="descclassname">nbodykit.utils.config.</code><code class="descname">ArgumentBase</code><a class="headerlink" href="#nbodykit.utils.config.ArgumentBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#nbodykit.utils.config.Argument" title="nbodykit.utils.config.Argument"><code class="xref py py-class docutils literal"><span class="pre">Argument</span></code></a></p>
 </dd></dl>
 
 <dl class="exception">
 <dt id="nbodykit.utils.config.ConfigurationError">
-<em class="property">exception </em><code class="descclassname">nbodykit.utils.config.</code><code class="descname">ConfigurationError</code><a class="reference internal" href="../_modules/nbodykit/utils/config.html#ConfigurationError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.ConfigurationError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<em class="property">exception </em><code class="descclassname">nbodykit.utils.config.</code><code class="descname">ConfigurationError</code><a class="headerlink" href="#nbodykit.utils.config.ConfigurationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></a></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="nbodykit.utils.config.ConstructorSchema">
-<em class="property">class </em><code class="descclassname">nbodykit.utils.config.</code><code class="descname">ConstructorSchema</code><span class="sig-paren">(</span><em>description=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#ConstructorSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">collections.OrderedDict</span></code></p>
+<em class="property">class </em><code class="descclassname">nbodykit.utils.config.</code><code class="descname">ConstructorSchema</code><span class="sig-paren">(</span><em>description=''</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/collections.html#collections.OrderedDict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">collections.OrderedDict</span></code></a></p>
 <p>An <cite>OrderedDict</cite> of <cite>Argument</cite> objects, which are <cite>namedtuples</cite>.
 Each <cite>Argument</cite> stores the relevant information of that
 argument, included <cite>type</cite>, <cite>help</cite>, <cite>choices</cite>, etc.</p>
@@ -96,22 +221,153 @@ in a sequential dict-like fashion:</p>
 </div></blockquote>
 </li>
 </ul>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.config.ConstructorSchema.Argument" title="nbodykit.utils.config.ConstructorSchema.Argument"><code class="xref py py-obj docutils literal"><span class="pre">Argument</span></code></a></td>
+<td>Class to represent an argument in the <cite>ConstructorSchema</cite></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.config.ConstructorSchema.add_argument" title="nbodykit.utils.config.ConstructorSchema.add_argument"><code class="xref py py-obj docutils literal"><span class="pre">add_argument</span></code></a>(name[,&nbsp;type,&nbsp;default,&nbsp;choices,&nbsp;...])</td>
+<td>Add an argument to the schema</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.config.ConstructorSchema.cast" title="nbodykit.utils.config.ConstructorSchema.cast"><code class="xref py py-obj docutils literal"><span class="pre">cast</span></code></a>(arg,&nbsp;value)</td>
+<td>Convenience function to cast values based</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">clear</span></code>(()&nbsp;-&gt;&nbsp;None.&nbsp;&nbsp;Remove&nbsp;all&nbsp;items&nbsp;from&nbsp;od.)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.config.ConstructorSchema.contains" title="nbodykit.utils.config.ConstructorSchema.contains"><code class="xref py py-obj docutils literal"><span class="pre">contains</span></code></a>(key)</td>
+<td>Check if the schema contains the full argument name, using</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code>(()&nbsp;-&gt;&nbsp;a&nbsp;shallow&nbsp;copy&nbsp;of&nbsp;od)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.config.ConstructorSchema.format_help" title="nbodykit.utils.config.ConstructorSchema.format_help"><code class="xref py py-obj docutils literal"><span class="pre">format_help</span></code></a>()</td>
+<td>Return a string giving the help</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">fromkeys</span></code>((S[,&nbsp;...)</td>
+<td>If not specified, the value defaults to None.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get</span></code>((k[,d])&nbsp;-&gt;&nbsp;D[k]&nbsp;if&nbsp;k&nbsp;in&nbsp;D,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">has_key</span></code>((k)&nbsp;-&gt;&nbsp;True&nbsp;if&nbsp;D&nbsp;has&nbsp;a&nbsp;key&nbsp;k,&nbsp;else&nbsp;False)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">items</span></code>(()&nbsp;-&gt;&nbsp;list&nbsp;of&nbsp;(key,&nbsp;value)&nbsp;pairs&nbsp;in&nbsp;od)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">iteritems</span></code>()</td>
+<td>od.iteritems -&gt; an iterator over the (key, value) pairs in od</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">iterkeys</span></code>(()&nbsp;-&gt;&nbsp;an&nbsp;iterator&nbsp;over&nbsp;the&nbsp;keys&nbsp;in&nbsp;od)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">itervalues</span></code>()</td>
+<td>od.itervalues -&gt; an iterator over the values in od</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">keys</span></code>(()&nbsp;-&gt;&nbsp;list&nbsp;of&nbsp;keys&nbsp;in&nbsp;od)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">pop</span></code>((k[,d])&nbsp;-&gt;&nbsp;v,&nbsp;...)</td>
+<td>value.  If key is not found, d is returned if given, otherwise KeyError</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">popitem</span></code>(()&nbsp;-&gt;&nbsp;(k,&nbsp;v),&nbsp;...)</td>
+<td>Pairs are returned in LIFO order if last is true or FIFO order if false.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">setdefault</span></code>((k[,d])&nbsp;-&gt;&nbsp;od.get(k,d),&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">update</span></code>(([E,&nbsp;...)</td>
+<td>If E present and has a .keys() method, does:     for k in E: D[k] = E[k]</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">values</span></code>(()&nbsp;-&gt;&nbsp;list&nbsp;of&nbsp;values&nbsp;in&nbsp;od)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">viewitems</span></code>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">viewkeys</span></code>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">viewvalues</span></code>(...)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <dl class="class">
 <dt id="nbodykit.utils.config.ConstructorSchema.Argument">
 <em class="property">class </em><code class="descname">Argument</code><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema.Argument" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.config.Argument" title="nbodykit.utils.config.Argument"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.config.Argument</span></code></a></p>
 <p>Class to represent an argument in the <cite>ConstructorSchema</cite></p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">choices</span></code></td>
+<td>Alias for field number 4</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">default</span></code></td>
+<td>Alias for field number 3</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">help</span></code></td>
+<td>Alias for field number 6</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">name</span></code></td>
+<td>Alias for field number 0</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">nargs</span></code></td>
+<td>Alias for field number 5</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">required</span></code></td>
+<td>Alias for field number 1</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">subfields</span></code></td>
+<td>Alias for field number 7</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">type</span></code></td>
+<td>Alias for field number 2</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">count</span></code>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">index</span></code>((value,&nbsp;[start,&nbsp;...)</td>
+<td>Raises ValueError if the value is not present.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
+<dt id="nbodykit.utils.config.ConstructorSchema.__init__">
+<code class="descclassname">ConstructorSchema.</code><code class="descname">__init__</code><span class="sig-paren">(</span><em>description=''</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="nbodykit.utils.config.ConstructorSchema.add_argument">
-<code class="descclassname">ConstructorSchema.</code><code class="descname">add_argument</code><span class="sig-paren">(</span><em>name</em>, <em>type=None</em>, <em>default=None</em>, <em>choices=None</em>, <em>nargs=None</em>, <em>help=None</em>, <em>required=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#ConstructorSchema.add_argument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema.add_argument" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ConstructorSchema.</code><code class="descname">add_argument</code><span class="sig-paren">(</span><em>name</em>, <em>type=None</em>, <em>default=None</em>, <em>choices=None</em>, <em>nargs=None</em>, <em>help=None</em>, <em>required=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema.add_argument" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add an argument to the schema</p>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="nbodykit.utils.config.ConstructorSchema.cast">
-<em class="property">static </em><code class="descclassname">ConstructorSchema.</code><code class="descname">cast</code><span class="sig-paren">(</span><em>arg</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#ConstructorSchema.cast"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema.cast" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descclassname">ConstructorSchema.</code><code class="descname">cast</code><span class="sig-paren">(</span><em>arg</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema.cast" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convenience function to cast values based
 on the <cite>type</cite> stored in <cite>schema</cite></p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -136,22 +392,28 @@ attribute of <cite>arg</cite></p>
 
 <dl class="method">
 <dt id="nbodykit.utils.config.ConstructorSchema.contains">
-<code class="descclassname">ConstructorSchema.</code><code class="descname">contains</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#ConstructorSchema.contains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema.contains" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ConstructorSchema.</code><code class="descname">contains</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema.contains" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the schema contains the full argument name, using
 <cite>.</cite> to represent subfields</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="nbodykit.utils.config.ConstructorSchema.format_help">
-<code class="descclassname">ConstructorSchema.</code><code class="descname">format_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#ConstructorSchema.format_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema.format_help" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ConstructorSchema.</code><code class="descname">format_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.ConstructorSchema.format_help" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a string giving the help</p>
 </dd></dl>
 
 </dd></dl>
 
+<dl class="exception">
+<dt id="nbodykit.utils.config.PluginParsingError">
+<em class="property">exception </em><code class="descclassname">nbodykit.utils.config.</code><code class="descname">PluginParsingError</code><a class="headerlink" href="#nbodykit.utils.config.PluginParsingError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></a></p>
+</dd></dl>
+
 <dl class="function">
 <dt id="nbodykit.utils.config.ReadConfigFile">
-<code class="descclassname">nbodykit.utils.config.</code><code class="descname">ReadConfigFile</code><span class="sig-paren">(</span><em>config_stream</em>, <em>schema</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#ReadConfigFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.ReadConfigFile" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.utils.config.</code><code class="descname">ReadConfigFile</code><span class="sig-paren">(</span><em>config_stream</em>, <em>schema</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.ReadConfigFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read parameters from a file using YAML syntax</p>
 <dl class="docutils">
 <dt>The function uses the specified <cite>schema</cite> to:</dt>
@@ -167,14 +429,14 @@ attribute of <cite>arg</cite></p>
 
 <dl class="function">
 <dt id="nbodykit.utils.config.attribute">
-<code class="descclassname">nbodykit.utils.config.</code><code class="descname">attribute</code><span class="sig-paren">(</span><em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.attribute" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.utils.config.</code><code class="descname">attribute</code><span class="sig-paren">(</span><em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.attribute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Declare a class attribute, adding it to the schema attached to 
 the function we are decorating</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nbodykit.utils.config.autoassign">
-<code class="descclassname">nbodykit.utils.config.</code><code class="descname">autoassign</code><span class="sig-paren">(</span><em>init</em>, <em>attach_comm=True</em>, <em>attach_cosmo=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#autoassign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.autoassign" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.utils.config.</code><code class="descname">autoassign</code><span class="sig-paren">(</span><em>init</em>, <em>attach_comm=True</em>, <em>attach_cosmo=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.autoassign" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify the schema attached to the input <cite>init</cite> function,
 automatically set the input arguments, and then finally
 call <cite>init</cite></p>
@@ -205,21 +467,34 @@ of <cite>get_nbkit_comm</cite>; default: True</p>
 
 <dl class="function">
 <dt id="nbodykit.utils.config.check_choices">
-<code class="descclassname">nbodykit.utils.config.</code><code class="descname">check_choices</code><span class="sig-paren">(</span><em>schema</em>, <em>attr</em>, <em>val</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#check_choices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.check_choices" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.utils.config.</code><code class="descname">check_choices</code><span class="sig-paren">(</span><em>schema</em>, <em>attr</em>, <em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.check_choices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify that the input values are consistent
 with the <cite>choices</cite>, using the schema</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nbodykit.utils.config.fill_namespace">
-<code class="descclassname">nbodykit.utils.config.</code><code class="descname">fill_namespace</code><span class="sig-paren">(</span><em>ns</em>, <em>arg</em>, <em>config</em>, <em>missing</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#fill_namespace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.fill_namespace" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.utils.config.</code><code class="descname">fill_namespace</code><span class="sig-paren">(</span><em>ns</em>, <em>arg</em>, <em>config</em>, <em>missing</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.fill_namespace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recursively fill a namespace from a configuration file
 such that arguments with subfields get their own namespaces, etc</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="nbodykit.utils.config.get_init_errmsg">
+<code class="descclassname">nbodykit.utils.config.</code><code class="descname">get_init_errmsg</code><span class="sig-paren">(</span><em>schema</em>, <em>posargs</em>, <em>kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.get_init_errmsg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a reasonable error message, accounting for:</p>
+<blockquote>
+<div><ul class="simple">
+<li>missing arguments</li>
+<li>extra arguments</li>
+<li>duplicated positional + keyword arguments</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
 <dt id="nbodykit.utils.config.ordered_load">
-<code class="descclassname">nbodykit.utils.config.</code><code class="descname">ordered_load</code><span class="sig-paren">(</span><em>stream</em>, <em>Loader=&lt;class 'yaml.loader.SafeLoader'&gt;</em>, <em>object_pairs_hook=&lt;class 'collections.OrderedDict'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#ordered_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.ordered_load" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.utils.config.</code><code class="descname">ordered_load</code><span class="sig-paren">(</span><em>stream</em>, <em>Loader=&lt;class 'yaml.loader.SafeLoader'&gt;</em>, <em>object_pairs_hook=&lt;class 'collections.OrderedDict'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.ordered_load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load from yaml into OrderedDict to preserve the ordering used 
 by the user</p>
 <p>see: <a class="reference external" href="http://stackoverflow.com/questions/5121931/">http://stackoverflow.com/questions/5121931/</a></p>
@@ -227,7 +502,7 @@ by the user</p>
 
 <dl class="function">
 <dt id="nbodykit.utils.config.update_schema">
-<code class="descclassname">nbodykit.utils.config.</code><code class="descname">update_schema</code><span class="sig-paren">(</span><em>func</em>, <em>attrs</em>, <em>defaults</em>, <em>allowed=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/utils/config.html#update_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.utils.config.update_schema" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.utils.config.</code><code class="descname">update_schema</code><span class="sig-paren">(</span><em>func</em>, <em>attrs</em>, <em>defaults</em>, <em>allowed=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.config.update_schema" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update the schema, which is attached to <cite>func</cite>,
 using information gather from the function&#8217;s signature, 
 namely <cite>attrs</cite> and <cite>defaults</cite></p>
@@ -243,62 +518,62 @@ they will be set before the function call</p>
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="nbodykit.utils.html"
-                        title="previous chapter">nbodykit.utils package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="nbodykit.utils.selectionlanguage.html"
-                        title="next chapter">nbodykit.utils.selectionlanguage module</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/api/nbodykit.utils.config.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.utils.selectionlanguage.html" title="nbodykit.utils.selectionlanguage module"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.utils.html" title="nbodykit.utils package"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="nbodykit.html" >nbodykit package</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="nbodykit.utils.html" >nbodykit.utils package</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2015, Yu Feng, Nick Hand .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
-    </div>
-  </body>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

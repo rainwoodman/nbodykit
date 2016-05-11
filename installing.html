@@ -1,0 +1,451 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installation &mdash; nbodykit 0.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="index.html"/>
+        <link rel="prev" title="Examples" href="examples.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#required-dependencies">Required dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optional-dependencies">Optional dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#for-reading-data-using-pandas">For reading data using pandas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#for-creating-data-using-a-halo-occupation-distribution">For creating data using a Halo Occupation Distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#build-instructions">Build Instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#development-mode">Development Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#special-notes-for-mac-and-cray">Special notes for Mac and Cray</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mac-notes">Mac Notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nersc-notes">NERSC Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#developing-on-nersc">Developing on NERSC</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Installation</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/installing.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="required-dependencies">
+<h2>Required dependencies<a class="headerlink" href="#required-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>The well-established dependencies are:</p>
+<ul class="simple">
+<li>Python 2.7 or 3.4</li>
+<li><a class="reference external" href="http://github.com/scipy/scipy">scipy</a>,  <a class="reference external" href="http://github.com/numpy/numpy">numpy</a>   : the foundations for scientific Python</li>
+<li><a class="reference external" href="https://bitbucket.org/mpi4py/mpi4py">mpi4py</a>   : MPI for Python</li>
+<li><a class="reference external" href="http://github.com/h5py/h5py">h5py</a>     : support for HDF5 files in Python</li>
+</ul>
+<p>with a suite of additional tools:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://astropy.readthedocs.io/en/stable/">astropy</a> : a community Python library for astronomy</li>
+<li><a class="reference external" href="http://github.com/rainwoodman/pfft-python">pfft-python</a>  : a Python binding of <a class="reference external" href="http://github.com/mpip/pfft">pfft</a>, a massively parallel Fast Fourier Transform implementation with pencil domains</li>
+<li><a class="reference external" href="http://github.com/rainwoodman/pmesh">pmesh</a>     :  a particle mesh framework in Python</li>
+<li><a class="reference external" href="http://github.com/rainwoodman/kdcount">kdcount</a>   : pair-counting and friend-of-friend clustering with KD-Tree</li>
+<li><a class="reference external" href="https://github.com/rainwoodman/bigfile">bigfile</a>   :  a reproducible, massively parallel IO library for hierarchical data</li>
+<li><a class="reference external" href="http://github.com/rainwoodman/MP-sort">MP-sort</a>   : massively parallel sorting</li>
+<li><a class="reference external" href="http://github.com/rainwoodman/sharedmem">sharedmem</a> : in-node parallelism with fork and copy-on-write</li>
+</ul>
+</div>
+<div class="section" id="optional-dependencies">
+<h2>Optional dependencies<a class="headerlink" href="#optional-dependencies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="for-reading-data-using-pandas">
+<h3>For reading data using pandas<a class="headerlink" href="#for-reading-data-using-pandas" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="http://pandas.pydata.org/">pandas</a> and <a class="reference external" href="http://www.pytables.org">pytables</a> are required to access the <cite>pandas</cite> subset of HDF5 and fast parsing of plain text files</li>
+</ul>
+</div>
+<div class="section" id="for-creating-data-using-a-halo-occupation-distribution">
+<h3>For creating data using a Halo Occupation Distribution<a class="headerlink" href="#for-creating-data-using-a-halo-occupation-distribution" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="http://halotools.readthedocs.io/en/latest/">halotools</a> provides a general framework for populating halos with galaxies using Halo Occupation Distribution modeling and is required to access the <cite>DataSource</cite> that provides this feature</li>
+</ul>
+</div>
+</div>
+<div class="section" id="build-instructions">
+<h2>Build Instructions<a class="headerlink" href="#build-instructions" title="Permalink to this headline">¶</a></h2>
+<p>The software is designed to be installed with the <code class="docutils literal"><span class="pre">pip</span></code> utility like a regular
+Python package. Using nbodykit from the source tree is not supported. See <a class="reference internal" href="#development-mode">Development Mode</a> for details.</p>
+<p>The steps listed here are intended for a commodity Linux based cluster
+(e.g., a <span class="target" id="rocks-cluster">Rocks Cluster</span>) or a Linux based workstation / laptop.
+Please note that there are slight changes to the procedure on systems running
+a Mac OS X operating system and for Cray super-computers,
+as explictly noted below in <a class="reference internal" href="#special-notes-for-mac-and-cray">Special notes for Mac and Cray</a>.</p>
+<p>Install the main nbodykit package, as well as the external dependencies
+listed above, into the default Python installation directory with:</p>
+<div class="code sh highlight-python"><div class="highlight"><pre>git clone http://github.com/bccp/nbodykit
+cd nbodykit
+
+# It may take a while to build fftw and pfft.
+# Mac and Edison are special, see notes below
+
+pip install -r requirements.txt
+pip install -U --force --no-deps .
+</pre></div>
+</div>
+<p>A different installation directory can be specified via the <code class="docutils literal"><span class="pre">--user</span></code> or <code class="docutils literal"><span class="pre">--root</span> <span class="pre">&lt;dir&gt;</span></code>
+options of the <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span></code> command.</p>
+<p>The pure-Python nbodykit package (without external dependencies) can be installed by
+omitting the <code class="docutils literal"><span class="pre">-r</span> <span class="pre">requirements.txt</span></code> option, with such an installation only requiring <code class="docutils literal"><span class="pre">numpy</span></code>.
+Under such circumstances, the functionality of the package is greatly diminished &#8211; package behavior
+in this instance is not tested and considered undefined.</p>
+<p>The dependencies of nbodykit are not fully stable, thus we recommend updating
+the external dependencies occassionally via the <code class="docutils literal"><span class="pre">-U</span></code> option of <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span></code>.
+Also, since nbodykit is not yet stable enough for versioned releases,
+<code class="docutils literal"><span class="pre">--force</span></code> ensures the current sourced version is installed:</p>
+<div class="code sh highlight-python"><div class="highlight"><pre>pip install -U -r requirements.txt
+pip install -U --force --no-deps .
+</pre></div>
+</div>
+<p>To confirm that nbodykit is working, we can type, in a interactive Python session:</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">nbodykit</span>
+<span class="k">print</span><span class="p">(</span><span class="n">nbodykit</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">kdcount</span>
+<span class="k">print</span><span class="p">(</span><span class="n">kdcount</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">pmesh</span>
+<span class="k">print</span><span class="p">(</span><span class="n">pmesh</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or try the scripts in the bin directory:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre>cd bin/
+mpirun -n 4 python-mpi nbkit.py -h
+</pre></div>
+</div>
+<div class="section" id="development-mode">
+<h3>Development Mode<a class="headerlink" href="#development-mode" title="Permalink to this headline">¶</a></h3>
+<p>nbodykit can be installed with the development mode (<code class="docutils literal"><span class="pre">-e</span></code>) of pip</p>
+<div class="code highlight-python"><div class="highlight"><pre>pip install -r requirements.txt -e .
+</pre></div>
+</div>
+<p>In addition to the dependency packages, the &#8216;development&#8217; installation
+of nbodykit may require a forced update from time to time:</p>
+<div class="code highlight-python"><div class="highlight"><pre>pip install -U --force --no-deps -e .
+</pre></div>
+</div>
+<p>It is sometimes required to manually remove the <code class="docutils literal"><span class="pre">nbodykit</span></code> directory in
+<code class="docutils literal"><span class="pre">site-packages</span></code>, if the above command does not appear to update the installation
+as expected.</p>
+</div>
+</div>
+<div class="section" id="special-notes-for-mac-and-cray">
+<h2>Special notes for Mac and Cray<a class="headerlink" href="#special-notes-for-mac-and-cray" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mac-notes">
+<h3>Mac Notes<a class="headerlink" href="#mac-notes" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">autotools</span></code> software is needed on a Mac:</p>
+<div class="code highlight-python"><div class="highlight"><pre>sudo port install autoconf automake libtool
+</pre></div>
+</div>
+<p>Additionally, on a Mac, the <code class="docutils literal"><span class="pre">LDSHARED</span></code> environment variable must be explicitly set. In bash, the installation command is</p>
+<div class="code highlight-python"><div class="highlight"><pre>export LDSHARED=&quot;mpicc -bundle -undefined dynamic_lookup -DOMPI_IMPORTS&quot;; pip install -r requirements.txt .
+</pre></div>
+</div>
+<p>Using recent versions of MacPorts, we also need to tell <code class="docutils literal"><span class="pre">mpicc</span></code> to use <code class="docutils literal"><span class="pre">gcc</span></code> rather than the default <code class="docutils literal"><span class="pre">clang</span></code>
+compiler, which doesn&#8217;t compile <code class="docutils literal"><span class="pre">fftw</span></code> correctly due to the lack of <code class="docutils literal"><span class="pre">openmp</span></code> support:</p>
+<div class="code highlight-python"><div class="highlight"><pre>export OMPI_CC=gcc
+</pre></div>
+</div>
+</div>
+<div class="section" id="nersc-notes">
+<h3>NERSC Notes<a class="headerlink" href="#nersc-notes" title="Permalink to this headline">¶</a></h3>
+<p>We maintain a daily build of nbodykit on <a class="reference external" href="http://www.nersc.gov/systems/">NERSC</a> systems that works with the <code class="docutils literal"><span class="pre">2.7-anaconda</span></code> Python module
+and uses the <a class="reference external" href="https://github.com/rainwoodman/python-mpi-bcast">python-mpi-bcast</a> helper tool for fast startup of Python. Please see <a class="reference external" href="https://github.com/rainwoodman/python-mpi-bcast/wiki/NERSC">this tutorial</a>
+for further details about using <code class="docutils literal"><span class="pre">python-mpi-bcast</span></code> for launching of Python applications on NERSC.</p>
+<p>Below is an example job script, that runs the friends-of-friends finder (FOF) algorithm and then measures
+the power spectrum for halos with masses greater than <img class="math" src="_images/math/7558b3a98c0e9da98ecc23aa9a143a2d701628e6.png" alt="10^{13} h^{-1} M_\odot"/></p>
+<div class="code bash highlight-python"><div class="highlight"><pre>#! /bin/bash
+
+#SBATCH -n 32
+#SBATCH -p debug
+#SBATCH -t 10:00
+
+set -x
+module load python/2.7-anaconda
+
+source /project/projectdirs/m779/nbodykit/activate.sh
+
+srun -n 16 python-mpi $NBKITBIN FOF &lt;&lt;EOF
+nmin: 10
+datasource:
+    plugin: FastPM
+    path: data/fastpm_1.0000
+linklength: 0.2
+output: output/fof_ll0.200_1.0000.hdf5
+calculate_initial_position: True
+EOF
+
+srun -n 16 python-mpi $NBKITBIN FFTPower &lt;&lt;EOF
+
+mode: 2d      # 1d or 2d
+Nmesh: 256     # size of mesh
+
+# here are the input fields
+field:
+  DataSource:
+    plugin: FOFGroups
+    path: output/fof_ll0.200_1.0000.hdf5
+    m0: 2.27e12  # mass of a particle: use OmegaM * 27.75e10 * BoxSize ** 3/ Ntot
+    rsd: z       # direction of RSD, usually use &#39;z&#39;, the default LOS direction.
+#    select: Rank &lt; 1000 # Limits to the first 1000 halos for abundance matching or
+    select: LogMass &gt; 13 # limit to the halos with logMass &gt; 13 (LRGs).
+output: output/power_2d_fofgroups.dat  # output
+EOF
+</pre></div>
+</div>
+<p>Note that we need to provide the mass of a single particle for the <code class="xref py py-class docutils literal"><span class="pre">FOFGroups</span></code> DataSource. The number is <img class="math" src="_images/math/f93556bc75911153270362ce080bac9722aba6cc.png" alt="27.75\times10^{10} \Omega_M (L / N)^3 h^{-1} M_\odot"/>, where <img class="math" src="_images/math/0a5711c7a37994043b2bc3bb374adca232491762.png" alt="L"/> is the boxsize in Mpc/h, and
+<img class="math" src="_images/math/75e27f04188974063be3230dca208cd495b77ce1.png" alt="N"/> is the number of particles per side, such that <img class="math" src="_images/math/0ed34f4040d27afc78e462efdd19cea8dcbf43c6.png" alt="N^3"/> is the total number of particles.</p>
+</div>
+</div>
+<div class="section" id="developing-on-nersc">
+<h2>Developing on NERSC<a class="headerlink" href="#developing-on-nersc" title="Permalink to this headline">¶</a></h2>
+<p>If you would like to develop the code directly on NERSC (not recommended for the typical user), more installation work is required.</p>
+<p>To install nbodykit on a NERSC Cray system (e.g. <a class="reference external" href="https://www.nersc.gov/users/computational-systems/edison/">Edison</a>, <a class="reference external" href="https://www.nersc.gov/users/computational-systems/cori">Cori</a>), we need to ensure the Python environment
+is set up to work efficiently on the computing nodes.</p>
+<p>If <a class="reference external" href="http://www.mcs.anl.gov/research/projects/darshan/">darshan</a> or <a class="reference external" href="http://www.nersc.gov/users/software/programming-libraries/altd/">altd</a> are loaded by default, be sure to unload them before installing, as they tend to interfere
+with Python:</p>
+<div class="code highlight-python"><div class="highlight"><pre>module unload darshan
+module unload altd
+</pre></div>
+</div>
+<p>and preferentially, use GNU compilers from PrgEnv-gnu</p>
+<div class="code highlight-python"><div class="highlight"><pre>module unload PrgEnv-intel
+module unload PrgEnv-cray
+module load PrgEnv-gnu
+</pre></div>
+</div>
+<p>then load the <a class="reference external" href="http://docs.continuum.io/anaconda/index">Anaconda</a> Python distribution,</p>
+<div class="code highlight-python"><div class="highlight"><pre>module load python/2.7-anaconda
+</pre></div>
+</div>
+<p>We will need to set up fast Python start-up on a Cray computer, since
+the default start-up scales badly with the number of processes. Our
+preferred method is to use the <a class="reference external" href="https://github.com/rainwoodman/python-mpi-bcast">python-mpi-bcast</a> tool.</p>
+<ol class="arabic">
+<li><p class="first">Modify the shell profile, and set PYTHONUSERBASE to a unique location.
+(e.g. a path you have access on /project) for each machine.</p>
+<p>For example, this is excertion from the profile of
+a typical user on NERSC (<code class="docutils literal"><span class="pre">.bash_profile.ext</span></code>),
+that has access to <code class="docutils literal"><span class="pre">/project/projectdirs/m779/yfeng1</span></code>.</p>
+</li>
+</ol>
+<div class="code bash highlight-python"><div class="highlight"><pre>if [ &quot;$NERSC_HOST&quot; == &quot;edison&quot; ]; then
+    export PYTHONUSERBASE=/project/projectdirs/m779/yfeng1/local-edison
+fi
+
+if [ &quot;$NERSC_HOST&quot; == &quot;cori&quot; ]; then
+    export PYTHONUSERBASE=/project/projectdirs/m779/yfeng1/local-cori
+fi
+
+export PATH=$PYTHONUSERBASE/bin:$PATH
+export LIBRARY_PATH=$PYTHONUSERBASE/lib
+export CPATH=$PYTHONUSERBASE/include
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Install nbodykit to your user base with <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--user</span></code>.
+Also, create a bundle (tarball) of nbodykit.
+Repeat this step if nbodykit (or any dependency) is updated.</li>
+</ol>
+<div class="code bash highlight-python"><div class="highlight"><pre>cd nbodykit;
+
+MPICC=cc pip install --user -r requirements $PWD
+
+# enable python-mpi-bcast (On NERSC)
+source /project/projectdirs/m779/python-mpi/activate.sh
+
+# create the bundle
+MPICC=cc bundle-pip nbodykit.tar.gz -r requirements.txt $PWD
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="examples.html" class="btn btn-neutral" title="Examples" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

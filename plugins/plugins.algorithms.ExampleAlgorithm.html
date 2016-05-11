@@ -1,70 +1,170 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>plugins.algorithms.ExampleAlgorithm module &mdash; nbodykit 0.3 documentation</title>
-    
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
-    <link rel="up" title="plugins.algorithms package" href="plugins.algorithms.html" />
-    <link rel="next" title="plugins.algorithms.FOF module" href="plugins.algorithms.FOF.html" />
-    <link rel="prev" title="plugins.algorithms.BianchiFFTPower module" href="plugins.algorithms.BianchiFFTPower.html" /> 
-  </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="plugins.algorithms.FOF.html" title="plugins.algorithms.FOF module"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="plugins.algorithms.BianchiFFTPower.html" title="plugins.algorithms.BianchiFFTPower module"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="plugins.html" >plugins package</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="plugins.algorithms.html" accesskey="U">plugins.algorithms package</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>plugins.algorithms.ExampleAlgorithm module &mdash; nbodykit 0.3 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>plugins.algorithms.ExampleAlgorithm module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/plugins.algorithms.ExampleAlgorithm.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="module-plugins.algorithms.ExampleAlgorithm">
 <span id="plugins-algorithms-examplealgorithm-module"></span><h1>plugins.algorithms.ExampleAlgorithm module<a class="headerlink" href="#module-plugins.algorithms.ExampleAlgorithm" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="plugins.algorithms.ExampleAlgorithm.Describe">
-<em class="property">class </em><code class="descclassname">plugins.algorithms.ExampleAlgorithm.</code><code class="descname">Describe</code><span class="sig-paren">(</span><em>datasource</em>, <em>column='Position'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/ExampleAlgorithm.html#Describe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.ExampleAlgorithm.Describe" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">plugins.algorithms.ExampleAlgorithm.</code><code class="descname">Describe</code><span class="sig-paren">(</span><em>datasource</em>, <em>column='Position'</em><span class="sig-paren">)</span><a class="headerlink" href="#plugins.algorithms.ExampleAlgorithm.Describe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Algorithm</span></code></p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#plugins.algorithms.ExampleAlgorithm.Describe.finalize_attributes" title="plugins.algorithms.ExampleAlgorithm.Describe.finalize_attributes"><code class="xref py py-obj docutils literal"><span class="pre">finalize_attributes</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parse_known_yaml</span></code>(kls,&nbsp;name,&nbsp;stream)</td>
+<td>Parse the known (and unknown) attributes from a YAML, where <cite>known</cite></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#plugins.algorithms.ExampleAlgorithm.Describe.register" title="plugins.algorithms.ExampleAlgorithm.Describe.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#plugins.algorithms.ExampleAlgorithm.Describe.run" title="plugins.algorithms.ExampleAlgorithm.Describe.run"><code class="xref py py-obj docutils literal"><span class="pre">run</span></code></a>()</td>
+<td>Run the algorithm, which does nothing</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#plugins.algorithms.ExampleAlgorithm.Describe.save" title="plugins.algorithms.ExampleAlgorithm.Describe.save"><code class="xref py py-obj docutils literal"><span class="pre">save</span></code></a>(output,&nbsp;data)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="plugins.algorithms.ExampleAlgorithm.Describe.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>datasource</em>, <em>column='Position'</em><span class="sig-paren">)</span><a class="headerlink" href="#plugins.algorithms.ExampleAlgorithm.Describe.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="plugins.algorithms.ExampleAlgorithm.Describe.finalize_attributes">
-<code class="descname">finalize_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/ExampleAlgorithm.html#Describe.finalize_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.ExampleAlgorithm.Describe.finalize_attributes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">finalize_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugins.algorithms.ExampleAlgorithm.Describe.finalize_attributes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -79,18 +179,18 @@
 
 <dl class="classmethod">
 <dt id="plugins.algorithms.ExampleAlgorithm.Describe.register">
-<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/ExampleAlgorithm.html#Describe.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.ExampleAlgorithm.Describe.register" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugins.algorithms.ExampleAlgorithm.Describe.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="plugins.algorithms.ExampleAlgorithm.Describe.run">
-<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/ExampleAlgorithm.html#Describe.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.ExampleAlgorithm.Describe.run" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plugins.algorithms.ExampleAlgorithm.Describe.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the algorithm, which does nothing</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="plugins.algorithms.ExampleAlgorithm.Describe.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>output</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/plugins/algorithms/ExampleAlgorithm.html#Describe.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.algorithms.ExampleAlgorithm.Describe.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>output</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#plugins.algorithms.ExampleAlgorithm.Describe.save" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -98,62 +198,62 @@
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="plugins.algorithms.BianchiFFTPower.html"
-                        title="previous chapter">plugins.algorithms.BianchiFFTPower module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="plugins.algorithms.FOF.html"
-                        title="next chapter">plugins.algorithms.FOF module</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/plugins/plugins.algorithms.ExampleAlgorithm.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="plugins.algorithms.FOF.html" title="plugins.algorithms.FOF module"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="plugins.algorithms.BianchiFFTPower.html" title="plugins.algorithms.BianchiFFTPower module"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >Plugins Reference</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="plugins.html" >plugins package</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="plugins.algorithms.html" >plugins.algorithms package</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2015, Yu Feng, Nick Hand .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
-    </div>
-  </body>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

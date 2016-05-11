@@ -20,6 +20,7 @@ Submodules
    plugins.datasource.PlainText
    plugins.datasource.RaDecRedshift
    plugins.datasource.ShiftedObserver
+   plugins.datasource.Subsample
    plugins.datasource.TPMLabel
    plugins.datasource.TPMSnapshot
    plugins.datasource.UniformBox

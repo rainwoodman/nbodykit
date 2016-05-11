@@ -1,0 +1,7 @@
+plugins.datasource.Subsample module
+===================================
+
+.. automodule:: plugins.datasource.Subsample
+    :members:
+    :undoc-members:
+    :show-inheritance:

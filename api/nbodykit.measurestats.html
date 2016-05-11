@@ -1,65 +1,137 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>nbodykit.measurestats module &mdash; nbodykit 0.3 documentation</title>
-    
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html" />
-    <link rel="up" title="nbodykit package" href="nbodykit.html" />
-    <link rel="next" title="nbodykit.ndarray module" href="nbodykit.ndarray.html" />
-    <link rel="prev" title="nbodykit.halos module" href="nbodykit.halos.html" /> 
-  </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.ndarray.html" title="nbodykit.ndarray module"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.halos.html" title="nbodykit.halos module"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="nbodykit.html" accesskey="U">nbodykit package</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.measurestats module &mdash; nbodykit 0.3 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>nbodykit.measurestats module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/nbodykit.measurestats.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="module-nbodykit.measurestats">
 <span id="nbodykit-measurestats-module"></span><h1>nbodykit.measurestats module<a class="headerlink" href="#module-nbodykit.measurestats" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="nbodykit.measurestats.compute_3d_corr">
-<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_3d_corr</code><span class="sig-paren">(</span><em>fields</em>, <em>pm</em>, <em>comm=None</em>, <em>log_level=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#compute_3d_corr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.compute_3d_corr" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_3d_corr</code><span class="sig-paren">(</span><em>fields</em>, <em>pm</em>, <em>comm=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.measurestats.compute_3d_corr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the 3d correlation function by Fourier transforming 
 the 3d power spectrum</p>
 <p>See documentation of <cite>measurestats.compute_3d_power</cite></p>
@@ -67,7 +139,7 @@ the 3d power spectrum</p>
 
 <dl class="function">
 <dt id="nbodykit.measurestats.compute_3d_power">
-<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_3d_power</code><span class="sig-paren">(</span><em>fields</em>, <em>pm</em>, <em>comm=None</em>, <em>log_level=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#compute_3d_power"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.compute_3d_power" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_3d_power</code><span class="sig-paren">(</span><em>fields</em>, <em>pm</em>, <em>comm=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.measurestats.compute_3d_power" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute and return the 3D power from two input fields</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -85,11 +157,6 @@ the 3d power spectrum</p>
 <blockquote>
 <div><p>the communicator to pass to the <code class="docutils literal"><span class="pre">ParticleMesh</span></code> object. If not
 provided, <code class="docutils literal"><span class="pre">MPI.COMM_WORLD</span></code> is used</p>
-</div></blockquote>
-<p><strong>log_level</strong> : int, optional</p>
-<blockquote>
-<div><p>logging level to use while computing. Default is <code class="docutils literal"><span class="pre">logging.DEBUG</span></code>
-which has numeric value of <cite>10</cite></p>
 </div></blockquote>
 </td>
 </tr>
@@ -115,7 +182,7 @@ by the <cite>Painter</cite> used</p>
 
 <dl class="function">
 <dt id="nbodykit.measurestats.compute_bianchi_poles">
-<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_bianchi_poles</code><span class="sig-paren">(</span><em>comm</em>, <em>max_ell</em>, <em>catalog</em>, <em>Nmesh</em>, <em>log_level=10</em>, <em>factor_hexadecapole=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#compute_bianchi_poles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.compute_bianchi_poles" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_bianchi_poles</code><span class="sig-paren">(</span><em>comm</em>, <em>max_ell</em>, <em>catalog</em>, <em>Nmesh</em>, <em>factor_hexadecapole=False</em>, <em>paintbrush='cic'</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.measurestats.compute_bianchi_poles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute and return the 3D power multipoles (ell = [0, 2, 4]) from one 
 input field, which contains non-trivial survey geometry.</p>
 <p>The estimator uses the FFT algorithm outlined in Bianchi et al. 2015 to compute
@@ -137,11 +204,6 @@ one of [0, 2, 4]</p>
 <p><strong>pm</strong> : <code class="docutils literal"><span class="pre">ParticleMesh</span></code></p>
 <blockquote>
 <div><p>particle mesh object that handles the painting and FFTs</p>
-</div></blockquote>
-<p><strong>log_level</strong> : int, optional</p>
-<blockquote>
-<div><p>logging level to use while computing. Default is <code class="docutils literal"><span class="pre">logging.DEBUG</span></code>
-which has numeric value of <cite>10</cite></p>
 </div></blockquote>
 <p><strong>factor_hexadecapole: bool, optional</strong></p>
 <blockquote>
@@ -167,7 +229,7 @@ by the <cite>FKPPainter</cite> painter</p>
 
 <dl class="function">
 <dt id="nbodykit.measurestats.compute_brutal_corr">
-<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_brutal_corr</code><span class="sig-paren">(</span><em>datasources</em>, <em>rbins</em>, <em>Nmu=0</em>, <em>comm=None</em>, <em>subsample=1</em>, <em>los='z'</em>, <em>poles=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#compute_brutal_corr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.compute_brutal_corr" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">compute_brutal_corr</code><span class="sig-paren">(</span><em>datasources</em>, <em>rbins</em>, <em>Nmu=0</em>, <em>comm=None</em>, <em>subsample=1</em>, <em>los='z'</em>, <em>poles=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.measurestats.compute_brutal_corr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the correlation function by direct pair summation, projected
 into either 1d <cite>R</cite> bins or 2d (<cite>R</cite>, <cite>mu</cite>) bins</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -226,7 +288,7 @@ Default is <cite>1</cite></p>
 
 <dl class="function">
 <dt id="nbodykit.measurestats.project_to_basis">
-<code class="descclassname">nbodykit.measurestats.</code><code class="descname">project_to_basis</code><span class="sig-paren">(</span><em>comm</em>, <em>x3d</em>, <em>y3d</em>, <em>edges</em>, <em>los='z'</em>, <em>poles=[]</em>, <em>symmetric=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#project_to_basis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.project_to_basis" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">project_to_basis</code><span class="sig-paren">(</span><em>comm</em>, <em>x3d</em>, <em>y3d</em>, <em>edges</em>, <em>los='z'</em>, <em>poles=[]</em>, <em>symmetric=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.measurestats.project_to_basis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Project a 3D statistic on to the specified basis.</p>
 <p>The projection will be onto 2d bins <cite>(x, mu)</cite>, where <cite>x</cite>
 is separation <cite>r</cite> in configuration space or wavenumber <cite>k</cite> in 
@@ -292,67 +354,68 @@ is inclusive on both ends (to include mu = 1.0)</li>
 
 <dl class="function">
 <dt id="nbodykit.measurestats.timer">
-<code class="descclassname">nbodykit.measurestats.</code><code class="descname">timer</code><span class="sig-paren">(</span><em>start</em>, <em>end</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nbodykit/measurestats.html#timer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nbodykit.measurestats.timer" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.measurestats.</code><code class="descname">timer</code><span class="sig-paren">(</span><em>start</em>, <em>end</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.measurestats.timer" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="nbodykit.halos.html"
-                        title="previous chapter">nbodykit.halos module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="nbodykit.ndarray.html"
-                        title="next chapter">nbodykit.ndarray module</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/api/nbodykit.measurestats.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.ndarray.html" title="nbodykit.ndarray module"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="nbodykit.halos.html" title="nbodykit.halos module"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nbodykit 0.3 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >API Reference</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="nbodykit.html" >nbodykit package</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2015, Yu Feng, Nick Hand .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
-    </div>
-  </body>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

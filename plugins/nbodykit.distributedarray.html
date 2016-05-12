@@ -1,0 +1,499 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.distributedarray module &mdash; nbodykit 0.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+        <link rel="up" title="nbodykit package" href="nbodykit.html"/>
+        <link rel="next" title="nbodykit.extensionpoints module" href="nbodykit.extensionpoints.html"/>
+        <link rel="prev" title="nbodykit.dataset module" href="nbodykit.dataset.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Plugins Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.corrfrompower.html">nbodykit.corrfrompower module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.cosmology.html">nbodykit.cosmology module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.dataset.html">nbodykit.dataset module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">nbodykit.distributedarray module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.extensionpoints.html">nbodykit.extensionpoints module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.files.html">nbodykit.files module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.fkp.html">nbodykit.fkp module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.fof.html">nbodykit.fof module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.halos.html">nbodykit.halos module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.measurestats.html">nbodykit.measurestats module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.ndarray.html">nbodykit.ndarray module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.pluginmanager.html">nbodykit.pluginmanager module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.storage.html">nbodykit.storage module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.stripedfile.html">nbodykit.stripedfile module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">Plugins Reference</a> &raquo;</li>
+      
+          <li><a href="nbodykit.html">nbodykit package</a> &raquo;</li>
+      
+    <li>nbodykit.distributedarray module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/nbodykit.distributedarray.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-nbodykit.distributedarray">
+<span id="nbodykit-distributedarray-module"></span><h1>nbodykit.distributedarray module<a class="headerlink" href="#module-nbodykit.distributedarray" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nbodykit.distributedarray.DistributedArray">
+<em class="property">class </em><code class="descclassname">nbodykit.distributedarray.</code><code class="descname">DistributedArray</code><span class="sig-paren">(</span><em>local</em>, <em>comm=&lt;mpi4py.MPI.Intracomm object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.DistributedArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Distributed Array Object</p>
+<p>A distributed array is striped along ranks</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>comm</td>
+<td>(<code class="xref py py-class docutils literal"><span class="pre">mpi4py.MPI.Comm</span></code>) the communicator</td>
+</tr>
+<tr class="row-even"><td>local</td>
+<td>(array_like) the local data</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.distributedarray.DistributedArray.bincount" title="nbodykit.distributedarray.DistributedArray.bincount"><code class="xref py py-obj docutils literal"><span class="pre">bincount</span></code></a>([local])</td>
+<td>Assign count numbers from sorted local data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.distributedarray.DistributedArray.sort" title="nbodykit.distributedarray.DistributedArray.sort"><code class="xref py py-obj docutils literal"><span class="pre">sort</span></code></a>([orderby])</td>
+<td>Sort array globally by key orderby.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.distributedarray.DistributedArray.unique_labels" title="nbodykit.distributedarray.DistributedArray.unique_labels"><code class="xref py py-obj docutils literal"><span class="pre">unique_labels</span></code></a>()</td>
+<td>Assign unique labels to sorted local.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.distributedarray.DistributedArray.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>local</em>, <em>comm=&lt;mpi4py.MPI.Intracomm object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.DistributedArray.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.distributedarray.DistributedArray.bincount">
+<code class="descname">bincount</code><span class="sig-paren">(</span><em>local=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.DistributedArray.bincount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign count numbers from sorted local data.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">local data must be sorted, and of integer type. (numpy.bincount)</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>local</strong> : boolean</p>
+<blockquote>
+<div><p>if local is True, only count the local array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>N</strong> :  <a class="reference internal" href="#nbodykit.distributedarray.DistributedArray" title="nbodykit.distributedarray.DistributedArray"><code class="xref py py-class docutils literal"><span class="pre">DistributedArray</span></code></a></p>
+<blockquote class="last">
+<div><p>distributed counts array. If items of the same value spans other
+chunks of array, they are added to N as well.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>if the local array is [ (0, 0), (0, 1)], 
+Then the counts array is [ (3, ), (3, 1)]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.distributedarray.DistributedArray.sort">
+<code class="descname">sort</code><span class="sig-paren">(</span><em>orderby=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.DistributedArray.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort array globally by key orderby.</p>
+<p>Due to a limitation of mpsort, self[orderby] must be u8.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.distributedarray.DistributedArray.unique_labels">
+<code class="descname">unique_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.DistributedArray.unique_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign unique labels to sorted local.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">local data must be sorted, and of simple type. (numpy.unique)</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>label</strong> :  <a class="reference internal" href="#nbodykit.distributedarray.DistributedArray" title="nbodykit.distributedarray.DistributedArray"><code class="xref py py-class docutils literal"><span class="pre">DistributedArray</span></code></a></p>
+<blockquote class="last">
+<div><p>the new labels, starting from 0</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.distributedarray.EmptyRankType">
+<em class="property">class </em><code class="descclassname">nbodykit.distributedarray.</code><code class="descname">EmptyRankType</code><a class="headerlink" href="#nbodykit.distributedarray.EmptyRankType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.distributedarray.LinearTopology">
+<em class="property">class </em><code class="descclassname">nbodykit.distributedarray.</code><code class="descname">LinearTopology</code><span class="sig-paren">(</span><em>local</em>, <em>comm</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.LinearTopology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Helper object for the topology of a distributed array</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.distributedarray.LinearTopology.heads" title="nbodykit.distributedarray.LinearTopology.heads"><code class="xref py py-obj docutils literal"><span class="pre">heads</span></code></a>()</td>
+<td>The first items on each rank.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.distributedarray.LinearTopology.next" title="nbodykit.distributedarray.LinearTopology.next"><code class="xref py py-obj docutils literal"><span class="pre">next</span></code></a>()</td>
+<td>The item after the local data.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.distributedarray.LinearTopology.prev" title="nbodykit.distributedarray.LinearTopology.prev"><code class="xref py py-obj docutils literal"><span class="pre">prev</span></code></a>()</td>
+<td>The item before the local data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.distributedarray.LinearTopology.tails" title="nbodykit.distributedarray.LinearTopology.tails"><code class="xref py py-obj docutils literal"><span class="pre">tails</span></code></a>()</td>
+<td>The last items on each rank.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.distributedarray.LinearTopology.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>local</em>, <em>comm</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.LinearTopology.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.distributedarray.LinearTopology.heads">
+<code class="descname">heads</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.LinearTopology.heads" title="Permalink to this definition">¶</a></dt>
+<dd><p>The first items on each rank.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>heads</strong> : list</p>
+<blockquote class="last">
+<div><p>a list of first items, EmptyRank is used for empty ranks</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.distributedarray.LinearTopology.next">
+<code class="descname">next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.LinearTopology.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>The item after the local data.</p>
+<p>This method the first item after the local data. 
+If the rank after current rank is empty, 
+item after that rank is used.</p>
+<p>If no item is after local data, EmptyRank is returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>next</strong> : scalar</p>
+<blockquote class="last">
+<div><p>Item after local data, or EmptyRank if all ranks after this rank is empty.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.distributedarray.LinearTopology.prev">
+<code class="descname">prev</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.LinearTopology.prev" title="Permalink to this definition">¶</a></dt>
+<dd><p>The item before the local data.</p>
+<p>This method fetches the last item before the local data.
+If the rank before is empty, the rank before is used.</p>
+<p>If no item is before this rank, EmptyRank is returned</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>prev</strong> : scalar</p>
+<blockquote class="last">
+<div><p>Item before local data, or EmptyRank if all ranks before this rank is empty.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.distributedarray.LinearTopology.tails">
+<code class="descname">tails</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.LinearTopology.tails" title="Permalink to this definition">¶</a></dt>
+<dd><p>The last items on each rank.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tails: list</p>
+<blockquote class="last">
+<div><p>a list of last items, EmptyRank is used for empty ranks</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.distributedarray.ScatterArray">
+<code class="descclassname">nbodykit.distributedarray.</code><code class="descname">ScatterArray</code><span class="sig-paren">(</span><em>data</em>, <em>comm</em>, <em>root=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.ScatterArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scatter the input data array across all ranks, assuming <cite>data</cite> is 
+initially only on <cite>root</cite> (and <cite>None</cite> on other ranks)</p>
+<p>This uses <cite>Scatterv</cite>, which avoids mpi4py pickling, and also
+avoids the 2 GB mpi4py limit for bytes using a custom datatype</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : array_like or None</p>
+<blockquote>
+<div><p>on <cite>root</cite>, this gives the data to split and scatter</p>
+</div></blockquote>
+<p><strong>comm</strong> : MPI communicator</p>
+<blockquote>
+<div><p>the MPI communicator</p>
+</div></blockquote>
+<p><strong>root</strong> : int</p>
+<blockquote>
+<div><p>the rank number that initially has the data</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>recvbuffer</strong> : array_like</p>
+<blockquote class="last">
+<div><p>the chunk of <cite>data</cite> that each rank gets</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.distributedarray.test">
+<code class="descclassname">nbodykit.distributedarray.</code><code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nbodykit.extensionpoints.html" class="btn btn-neutral float-right" title="nbodykit.extensionpoints module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nbodykit.dataset.html" class="btn btn-neutral" title="nbodykit.dataset module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

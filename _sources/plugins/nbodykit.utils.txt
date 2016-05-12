@@ -1,0 +1,18 @@
+nbodykit.utils package
+======================
+
+.. automodule:: nbodykit.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   nbodykit.utils.config
+   nbodykit.utils.numdb
+   nbodykit.utils.selectionlanguage
+   nbodykit.utils.taskmanager
+

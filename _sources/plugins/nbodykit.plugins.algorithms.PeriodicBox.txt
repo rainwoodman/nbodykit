@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.PeriodicBox module
+==============================================
+
+.. automodule:: nbodykit.plugins.algorithms.PeriodicBox
+    :members:
+    :undoc-members:
+    :show-inheritance:

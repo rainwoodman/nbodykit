@@ -1,0 +1,7 @@
+nbodykit.plugins.painter.DefaultPainter module
+==============================================
+
+.. automodule:: nbodykit.plugins.painter.DefaultPainter
+    :members:
+    :undoc-members:
+    :show-inheritance:

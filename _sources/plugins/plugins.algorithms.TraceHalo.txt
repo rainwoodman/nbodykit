@@ -1,7 +1,0 @@
-plugins.algorithms.TraceHalo module
-===================================
-
-.. automodule:: plugins.algorithms.TraceHalo
-    :members:
-    :undoc-members:
-    :show-inheritance:

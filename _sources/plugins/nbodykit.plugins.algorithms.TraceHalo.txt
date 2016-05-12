@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.TraceHalo module
+============================================
+
+.. automodule:: nbodykit.plugins.algorithms.TraceHalo
+    :members:
+    :undoc-members:
+    :show-inheritance:

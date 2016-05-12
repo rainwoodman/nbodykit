@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.TPMSnapshot module
+==============================================
+
+.. automodule:: nbodykit.plugins.datasource.TPMSnapshot
+    :members:
+    :undoc-members:
+    :show-inheritance:

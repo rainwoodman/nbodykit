@@ -1,7 +1,0 @@
-plugins.datasource.PlainText module
-===================================
-
-.. automodule:: plugins.datasource.PlainText
-    :members:
-    :undoc-members:
-    :show-inheritance:

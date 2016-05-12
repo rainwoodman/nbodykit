@@ -1,7 +1,0 @@
-plugins.algorithms.PairCountCorrelation module
-==============================================
-
-.. automodule:: plugins.algorithms.PairCountCorrelation
-    :members:
-    :undoc-members:
-    :show-inheritance:

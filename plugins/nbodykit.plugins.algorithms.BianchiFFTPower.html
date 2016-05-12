@@ -1,0 +1,331 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.plugins.algorithms.BianchiFFTPower module &mdash; nbodykit 0.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+        <link rel="up" title="nbodykit.plugins.algorithms package" href="nbodykit.plugins.algorithms.html"/>
+        <link rel="next" title="nbodykit.plugins.algorithms.ExampleAlgorithm module" href="nbodykit.plugins.algorithms.ExampleAlgorithm.html"/>
+        <link rel="prev" title="nbodykit.plugins.algorithms package" href="nbodykit.plugins.algorithms.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Plugins Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="nbodykit.plugins.html">nbodykit.plugins package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">Plugins Reference</a> &raquo;</li>
+      
+          <li><a href="nbodykit.html">nbodykit package</a> &raquo;</li>
+      
+          <li><a href="nbodykit.plugins.html">nbodykit.plugins package</a> &raquo;</li>
+      
+          <li><a href="nbodykit.plugins.algorithms.html">nbodykit.plugins.algorithms package</a> &raquo;</li>
+      
+    <li>nbodykit.plugins.algorithms.BianchiFFTPower module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/nbodykit.plugins.algorithms.BianchiFFTPower.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-nbodykit.plugins.algorithms.BianchiFFTPower">
+<span id="nbodykit-plugins-algorithms-bianchifftpower-module"></span><h1>nbodykit.plugins.algorithms.BianchiFFTPower module<a class="headerlink" href="#module-nbodykit.plugins.algorithms.BianchiFFTPower" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm">
+<em class="property">class </em><code class="descclassname">nbodykit.plugins.algorithms.BianchiFFTPower.</code><code class="descname">BianchiPowerAlgorithm</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Algorithm</span></code></p>
+<p>Algorithm to compute the power spectrum multipoles using FFTs
+for a data survey with non-trivial geometry</p>
+<p>The algorithm used to compute the multipoles is detailed
+in Bianchi et al. 2015 (<a class="reference external" href="http://adsabs.harvard.edu/abs/2015MNRAS.453L..11B">http://adsabs.harvard.edu/abs/2015MNRAS.453L..11B</a>)</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parse_known_yaml</span></code>(kls,&nbsp;name,&nbsp;stream)</td>
+<td>Parse the known (and unknown) attributes from a YAML, where <cite>known</cite></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.register" title="nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.run" title="nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.run"><code class="xref py py-obj docutils literal"><span class="pre">run</span></code></a>()</td>
+<td>Run the algorithm, which computes and returns the power spectrum</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.save" title="nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.save"><code class="xref py py-obj docutils literal"><span class="pre">save</span></code></a>(output,&nbsp;result)</td>
+<td>Save the power spectrum results to the specified output file</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>power spectrum multipoles using FFTs for a data survey with 
+non-trivial geometry, as detailed in Bianchi et al. 2015</p>
+<blockquote>
+<div>data                 DataSource representing the <cite>data</cite> catalog
+randoms              DataSource representing the <cite>randoms</cite> catalog
+Nmesh                the number of cells in the gridded mesh (per axis)
+max_ell              compute multipoles up to and including this ell value</div></blockquote>
+<blockquote>
+<div>paintbrush           the density assignment kernel to use when painting; CIC (2nd order) or TSC (3rd order) (default: cic)
+dk                   the spacing of k bins to use; if not provided, the fundamental mode of the box is used
+kmin                 the edge of the first <cite>k</cite> bin to use; default is 0 (default: 0.0)
+BoxSize              the size of the box; if not provided, automatically computed from the <cite>randoms</cite> catalog
+BoxPad               when setting the box size automatically, apply this additional buffer (default: 0.02)
+compute_fkp_weights  if set, use FKP weights, computed from <cite>P0_fkp</cite> and the provided <cite>nbar</cite> (default: False)
+P0_fkp               the fiducial power value <cite>P0</cite> used to compute FKP weights
+nbar                 read <cite>nbar(z)</cite> from this file, which provides two columns (z, nbar)
+fsky                 the sky area fraction of the tracer catalog, used in the volume calculation of <cite>nbar</cite>
+factor_hexadecapole  use the factored expression for the hexadecapole (ell=4) from eq. 27 of Scoccimarro 2015 (1506.02729) (default: False)
+keep_cache           if <cite>True</cite>, force the data cache to persist while the algorithm instance is valid (default: False)
+comm                 the global MPI communicator</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.logger">
+<code class="descname">logger</code><em class="property"> = &lt;logging.Logger object&gt;</em><a class="headerlink" href="#nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = 'BianchiFFTPower'</em><a class="headerlink" href="#nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the algorithm, which computes and returns the power spectrum</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>output</em>, <em>result</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the power spectrum results to the specified output file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>output</strong> : str</p>
+<blockquote>
+<div><p>the string specifying the file to save</p>
+</div></blockquote>
+<p><strong>result</strong> : tuple</p>
+<blockquote class="last">
+<div><p>the tuple returned by <cite>run()</cite> &#8211; first argument specifies the bin
+edges and the second is a dictionary holding the data results</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.schema">
+<code class="descname">schema</code><em class="property"> = ConstructorSchema([('data', Argument(name='data', required=True, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.DataSource'&gt;&gt;, default=None, choices=None, nargs=None, help='DataSource representing the `data` catalog', subfields=OrderedDict())), ('randoms', Argument(name='randoms', required=True, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.DataSource'&gt;&gt;, default=None, choices=None, nargs=None, help='DataSource representing the `randoms` catalog', subfields=OrderedDict())), ('Nmesh', Argument(name='Nmesh', required=True, type=&lt;type 'int'&gt;, default=None, choices=None, nargs=None, help='the number of cells in the gridded mesh (per axis)', subfields=OrderedDict())), ('max_ell', Argument(name='max_ell', required=True, type=&lt;type 'int'&gt;, default=None, choices=[0, 2, 4], nargs=None, help='compute multipoles up to and including this ell value', subfields=OrderedDict())), ('BoxSize', Argument(name='BoxSize', required=False, type=&lt;function BoxSizeParser at 0x7f8720f7b320&gt;, default=None, choices=None, nargs=None, help='the size of the box; if not provided, automatically computed from the `randoms` catalog', subfields=OrderedDict())), ('BoxPad', Argument(name='BoxPad', required=False, type=&lt;type 'float'&gt;, default=0.02, choices=None, nargs=None, help='when setting the box size automatically, apply this additional buffer', subfields=OrderedDict())), ('compute_fkp_weights', Argument(name='compute_fkp_weights', required=False, type=&lt;type 'bool'&gt;, default=False, choices=None, nargs=None, help='if set, use FKP weights, computed from `P0_fkp` and the provided `nbar`', subfields=OrderedDict())), ('P0_fkp', Argument(name='P0_fkp', required=False, type=&lt;type 'float'&gt;, default=None, choices=None, nargs=None, help='the fiducial power value `P0` used to compute FKP weights', subfields=OrderedDict())), ('nbar', Argument(name='nbar', required=False, type=&lt;type 'str'&gt;, default=None, choices=None, nargs=None, help='read `nbar(z)` from this file, which provides two columns (z, nbar)', subfields=OrderedDict())), ('fsky', Argument(name='fsky', required=False, type=&lt;type 'float'&gt;, default=None, choices=None, nargs=None, help='the sky area fraction of the tracer catalog, used in the volume calculation of `nbar`', subfields=OrderedDict())), ('paintbrush', Argument(name='paintbrush', required=False, type=&lt;function &lt;lambda&gt; at 0x7f8710cf28c0&gt;, default='cic', choices=['cic', 'tsc'], nargs=None, help='the density assignment kernel to use when painting; CIC (2nd order) or TSC (3rd order)', subfields=OrderedDict())), ('dk', Argument(name='dk', required=False, type=&lt;type 'float'&gt;, default=None, choices=None, nargs=None, help='the spacing of k bins to use; if not provided, the fundamental mode of the box is used', subfields=OrderedDict())), ('kmin', Argument(name='kmin', required=False, type=&lt;type 'float'&gt;, default=0.0, choices=None, nargs=None, help='the edge of the first `k` bin to use; default is 0', subfields=OrderedDict())), ('factor_hexadecapole', Argument(name='factor_hexadecapole', required=False, type=&lt;type 'bool'&gt;, default=False, choices=None, nargs=None, help='use the factored expression for the hexadecapole (ell=4) from eq. 27 of Scoccimarro 2015 (1506.02729)', subfields=OrderedDict())), ('keep_cache', Argument(name='keep_cache', required=False, type=&lt;type 'bool'&gt;, default=False, choices=None, nargs=None, help='if `True`, force the data cache to persist while the algorithm instance is valid', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.algorithms.BianchiFFTPower.BianchiPowerAlgorithm.schema" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nbodykit.plugins.algorithms.ExampleAlgorithm.html" class="btn btn-neutral float-right" title="nbodykit.plugins.algorithms.ExampleAlgorithm module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nbodykit.plugins.algorithms.html" class="btn btn-neutral" title="nbodykit.plugins.algorithms package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

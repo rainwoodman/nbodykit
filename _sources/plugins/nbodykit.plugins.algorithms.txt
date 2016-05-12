@@ -1,0 +1,24 @@
+nbodykit.plugins.algorithms package
+===================================
+
+.. automodule:: nbodykit.plugins.algorithms
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   nbodykit.plugins.algorithms.BianchiFFTPower
+   nbodykit.plugins.algorithms.ExampleAlgorithm
+   nbodykit.plugins.algorithms.FOF
+   nbodykit.plugins.algorithms.FOF6D
+   nbodykit.plugins.algorithms.FiberCollisions
+   nbodykit.plugins.algorithms.PairCountCorrelation
+   nbodykit.plugins.algorithms.PeriodicBox
+   nbodykit.plugins.algorithms.Subsample
+   nbodykit.plugins.algorithms.TidalTensor
+   nbodykit.plugins.algorithms.TraceHalo
+

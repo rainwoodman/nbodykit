@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.PlainText module
+============================================
+
+.. automodule:: nbodykit.plugins.datasource.PlainText
+    :members:
+    :undoc-members:
+    :show-inheritance:

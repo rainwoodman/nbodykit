@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.UniformBox module
+=============================================
+
+.. automodule:: nbodykit.plugins.datasource.UniformBox
+    :members:
+    :undoc-members:
+    :show-inheritance:

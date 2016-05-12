@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.plugins.datasource.PlainText module &mdash; nbodykit 0.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+        <link rel="up" title="nbodykit.plugins.datasource package" href="nbodykit.plugins.datasource.html"/>
+        <link rel="next" title="nbodykit.plugins.datasource.RaDecRedshift module" href="nbodykit.plugins.datasource.RaDecRedshift.html"/>
+        <link rel="prev" title="nbodykit.plugins.datasource.Pandas module" href="nbodykit.plugins.datasource.Pandas.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Plugins Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="nbodykit.plugins.html">nbodykit.plugins package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">Plugins Reference</a> &raquo;</li>
+      
+          <li><a href="nbodykit.html">nbodykit package</a> &raquo;</li>
+      
+          <li><a href="nbodykit.plugins.html">nbodykit.plugins package</a> &raquo;</li>
+      
+          <li><a href="nbodykit.plugins.datasource.html">nbodykit.plugins.datasource package</a> &raquo;</li>
+      
+    <li>nbodykit.plugins.datasource.PlainText module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/nbodykit.plugins.datasource.PlainText.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-nbodykit.plugins.datasource.PlainText">
+<span id="nbodykit-plugins-datasource-plaintext-module"></span><h1>nbodykit.plugins.datasource.PlainText module<a class="headerlink" href="#module-nbodykit.plugins.datasource.PlainText" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nbodykit.plugins.datasource.PlainText.PlainTextDataSource">
+<em class="property">class </em><code class="descclassname">nbodykit.plugins.datasource.PlainText.</code><code class="descname">PlainTextDataSource</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.PlainText.PlainTextDataSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></p>
+<p>DataSource to read a plaintext file, using <cite>numpy.recfromtxt</cite>
+to do the reading</p>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>data file is assumed to be space-separated</li>
+<li>commented lines must begin with <cite>#</cite>, with all other lines
+providing data values to be read</li>
+<li><cite>names</cite> parameter must be equal to the number of data
+columns, otherwise behavior is undefined</li>
+</ul>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">size</span></code></td>
+<td>The total size of the DataSource returned via the <cite>read</cite> operation.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">BoxSizeParser</span></code>(value)</td>
+<td>Read the <a href="#id1"><span class="problematic" id="id2">`</span></a>BoxSize, enforcing that the BoxSize must be a</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">keep_cache</span></code>()</td>
+<td>A context manager that forces the <cite>DataSource</cite> cache to persist, even if there are no open <cite>DataStream</cite> objects.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">open</span></code>([defaults])</td>
+<td>Open the <cite>DataSource</cite> by returning a <cite>DataStream</cite> from which the data can be read.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parallel_read</span></code>(columns[,&nbsp;full])</td>
+<td>Override this function for complex, large data sets.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.datasource.PlainText.PlainTextDataSource.readall" title="nbodykit.plugins.datasource.PlainText.PlainTextDataSource.readall"><code class="xref py py-obj docutils literal"><span class="pre">readall</span></code></a>()</td>
+<td>Read all available data, returning a dictionary</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.datasource.PlainText.PlainTextDataSource.register" title="nbodykit.plugins.datasource.PlainText.PlainTextDataSource.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.plugins.datasource.PlainText.PlainTextDataSource.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.PlainText.PlainTextDataSource.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>read data from a plaintext file using numpy</p>
+<blockquote>
+<div>path                 the file path to load the data from
+names                names of columns in text file or name of the data group in hdf5 file
+BoxSize              the size of the isotropic box, or the sizes of the 3 box dimensions</div></blockquote>
+<blockquote>
+<div>usecols              only read these columns from file
+poscols              names of the position columns (default: [&#8216;x&#8217;, &#8216;y&#8217;, &#8216;z&#8217;])
+velcols              names of the velocity columns
+rsd                  direction to do redshift distortion
+posf                 factor to scale the positions (default: 1.0)
+velf                 factor to scale the velocities (default: 1.0)
+select               row selection based on conditions specified as string, i.e., &#8220;Mass &gt; 1e14&#8221;
+cosmo                the <cite>Cosmology</cite> class relevant for the DataSource
+comm                 the global MPI communicator</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.datasource.PlainText.PlainTextDataSource.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = 'PlainText'</em><a class="headerlink" href="#nbodykit.plugins.datasource.PlainText.PlainTextDataSource.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.plugins.datasource.PlainText.PlainTextDataSource.readall">
+<code class="descname">readall</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.PlainText.PlainTextDataSource.readall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read all available data, returning a dictionary</p>
+<p>This provides <code class="docutils literal"><span class="pre">Position</span></code> and optionally <code class="docutils literal"><span class="pre">Velocity</span></code> columns</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.plugins.datasource.PlainText.PlainTextDataSource.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.PlainText.PlainTextDataSource.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.datasource.PlainText.PlainTextDataSource.schema">
+<code class="descname">schema</code><em class="property"> = ConstructorSchema([('path', Argument(name='path', required=True, type=&lt;type 'str'&gt;, default=None, choices=None, nargs=None, help='the file path to load the data from', subfields=OrderedDict())), ('names', Argument(name='names', required=True, type=&lt;type 'str'&gt;, default=None, choices=None, nargs='*', help='names of columns in text file or name of the data group in hdf5 file', subfields=OrderedDict())), ('BoxSize', Argument(name='BoxSize', required=True, type=&lt;function BoxSizeParser at 0x7f8720f7b320&gt;, default=None, choices=None, nargs=None, help='the size of the isotropic box, or the sizes of the 3 box dimensions', subfields=OrderedDict())), ('usecols', Argument(name='usecols', required=False, type=&lt;type 'str'&gt;, default=None, choices=None, nargs='*', help='only read these columns from file', subfields=OrderedDict())), ('poscols', Argument(name='poscols', required=False, type=&lt;type 'str'&gt;, default=['x', 'y', 'z'], choices=None, nargs=3, help='names of the position columns', subfields=OrderedDict())), ('velcols', Argument(name='velcols', required=False, type=&lt;type 'str'&gt;, default=None, choices=None, nargs=3, help='names of the velocity columns', subfields=OrderedDict())), ('rsd', Argument(name='rsd', required=False, type=&lt;type 'str'&gt;, default=None, choices='xyz', nargs=None, help='direction to do redshift distortion', subfields=OrderedDict())), ('posf', Argument(name='posf', required=False, type=&lt;type 'float'&gt;, default=1.0, choices=None, nargs=None, help='factor to scale the positions', subfields=OrderedDict())), ('velf', Argument(name='velf', required=False, type=&lt;type 'float'&gt;, default=1.0, choices=None, nargs=None, help='factor to scale the velocities', subfields=OrderedDict())), ('select', Argument(name='select', required=False, type=&lt;class 'nbodykit.utils.selectionlanguage.Query'&gt;, default=None, choices=None, nargs=None, help='row selection based on conditions specified as string, i.e., &quot;Mass &gt; 1e14&quot;', subfields=OrderedDict())), ('cosmo', Argument(name='cosmo', required=False, type=None, default=None, choices=None, nargs=None, help='the `Cosmology` class relevant for the DataSource', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.datasource.PlainText.PlainTextDataSource.schema" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nbodykit.plugins.datasource.RaDecRedshift.html" class="btn btn-neutral float-right" title="nbodykit.plugins.datasource.RaDecRedshift module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nbodykit.plugins.datasource.Pandas.html" class="btn btn-neutral" title="nbodykit.plugins.datasource.Pandas module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

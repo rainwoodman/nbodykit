@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.Pandas module
+=========================================
+
+.. automodule:: nbodykit.plugins.datasource.Pandas
+    :members:
+    :undoc-members:
+    :show-inheritance:

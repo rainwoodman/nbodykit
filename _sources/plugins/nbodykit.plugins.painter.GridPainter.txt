@@ -1,0 +1,7 @@
+nbodykit.plugins.painter.GridPainter module
+===========================================
+
+.. automodule:: nbodykit.plugins.painter.GridPainter
+    :members:
+    :undoc-members:
+    :show-inheritance:

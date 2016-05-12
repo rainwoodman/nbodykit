@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.FOF6D module
+========================================
+
+.. automodule:: nbodykit.plugins.algorithms.FOF6D
+    :members:
+    :undoc-members:
+    :show-inheritance:

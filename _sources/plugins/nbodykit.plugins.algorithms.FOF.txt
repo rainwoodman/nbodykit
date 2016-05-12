@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.FOF module
+======================================
+
+.. automodule:: nbodykit.plugins.algorithms.FOF
+    :members:
+    :undoc-members:
+    :show-inheritance:

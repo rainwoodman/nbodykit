@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.Gadget module
+=========================================
+
+.. automodule:: nbodykit.plugins.datasource.Gadget
+    :members:
+    :undoc-members:
+    :show-inheritance:

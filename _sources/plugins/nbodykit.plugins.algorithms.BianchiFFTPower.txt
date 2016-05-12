@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.BianchiFFTPower module
+==================================================
+
+.. automodule:: nbodykit.plugins.algorithms.BianchiFFTPower
+    :members:
+    :undoc-members:
+    :show-inheritance:

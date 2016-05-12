@@ -1,7 +1,0 @@
-plugins.datasource.Grid module
-==============================
-
-.. automodule:: plugins.datasource.Grid
-    :members:
-    :undoc-members:
-    :show-inheritance:

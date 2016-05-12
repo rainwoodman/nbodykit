@@ -1,7 +1,0 @@
-plugins.datasource.FOFGroups module
-===================================
-
-.. automodule:: plugins.datasource.FOFGroups
-    :members:
-    :undoc-members:
-    :show-inheritance:

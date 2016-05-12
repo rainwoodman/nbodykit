@@ -1,0 +1,15 @@
+nbodykit.plugins.transfer package
+=================================
+
+.. automodule:: nbodykit.plugins.transfer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   nbodykit.plugins.transfer.TransferFunction
+

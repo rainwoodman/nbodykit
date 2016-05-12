@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.HaloLabel module
+============================================
+
+.. automodule:: nbodykit.plugins.datasource.HaloLabel
+    :members:
+    :undoc-members:
+    :show-inheritance:

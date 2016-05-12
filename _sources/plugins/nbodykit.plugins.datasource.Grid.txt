@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.Grid module
+=======================================
+
+.. automodule:: nbodykit.plugins.datasource.Grid
+    :members:
+    :undoc-members:
+    :show-inheritance:

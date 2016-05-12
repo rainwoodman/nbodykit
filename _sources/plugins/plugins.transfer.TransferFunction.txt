@@ -1,7 +1,0 @@
-plugins.transfer.TransferFunction module
-========================================
-
-.. automodule:: plugins.transfer.TransferFunction
-    :members:
-    :undoc-members:
-    :show-inheritance:

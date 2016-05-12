@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.TidalTensor module
+==============================================
+
+.. automodule:: nbodykit.plugins.algorithms.TidalTensor
+    :members:
+    :undoc-members:
+    :show-inheritance:

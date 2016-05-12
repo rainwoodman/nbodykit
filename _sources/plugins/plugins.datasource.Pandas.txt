@@ -1,7 +1,0 @@
-plugins.datasource.Pandas module
-================================
-
-.. automodule:: plugins.datasource.Pandas
-    :members:
-    :undoc-members:
-    :show-inheritance:

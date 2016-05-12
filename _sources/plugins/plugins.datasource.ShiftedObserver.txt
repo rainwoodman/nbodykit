@@ -1,7 +1,0 @@
-plugins.datasource.ShiftedObserver module
-=========================================
-
-.. automodule:: plugins.datasource.ShiftedObserver
-    :members:
-    :undoc-members:
-    :show-inheritance:

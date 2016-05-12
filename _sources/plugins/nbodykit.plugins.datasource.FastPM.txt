@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.FastPM module
+=========================================
+
+.. automodule:: nbodykit.plugins.datasource.FastPM
+    :members:
+    :undoc-members:
+    :show-inheritance:

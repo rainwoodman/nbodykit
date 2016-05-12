@@ -1,7 +1,0 @@
-plugins.algorithms.PeriodicBox module
-=====================================
-
-.. automodule:: plugins.algorithms.PeriodicBox
-    :members:
-    :undoc-members:
-    :show-inheritance:

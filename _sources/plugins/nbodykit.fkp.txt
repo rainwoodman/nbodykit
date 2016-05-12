@@ -1,0 +1,7 @@
+nbodykit.fkp module
+===================
+
+.. automodule:: nbodykit.fkp
+    :members:
+    :undoc-members:
+    :show-inheritance:

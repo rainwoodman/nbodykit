@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.RaDecRedshift module
+================================================
+
+.. automodule:: nbodykit.plugins.datasource.RaDecRedshift
+    :members:
+    :undoc-members:
+    :show-inheritance:

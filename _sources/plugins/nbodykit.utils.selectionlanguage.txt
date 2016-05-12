@@ -1,0 +1,7 @@
+nbodykit.utils.selectionlanguage module
+=======================================
+
+.. automodule:: nbodykit.utils.selectionlanguage
+    :members:
+    :undoc-members:
+    :show-inheritance:

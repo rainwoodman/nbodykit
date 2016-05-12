@@ -1,0 +1,7 @@
+nbodykit.utils.numdb module
+===========================
+
+.. automodule:: nbodykit.utils.numdb
+    :members:
+    :undoc-members:
+    :show-inheritance:

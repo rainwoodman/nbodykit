@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.FOFGroups module
+============================================
+
+.. automodule:: nbodykit.plugins.datasource.FOFGroups
+    :members:
+    :undoc-members:
+    :show-inheritance:

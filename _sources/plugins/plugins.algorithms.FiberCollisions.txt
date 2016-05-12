@@ -1,7 +1,0 @@
-plugins.algorithms.FiberCollisions module
-=========================================
-
-.. automodule:: plugins.algorithms.FiberCollisions
-    :members:
-    :undoc-members:
-    :show-inheritance:

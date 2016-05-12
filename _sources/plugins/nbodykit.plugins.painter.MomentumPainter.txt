@@ -1,0 +1,7 @@
+nbodykit.plugins.painter.MomentumPainter module
+===============================================
+
+.. automodule:: nbodykit.plugins.painter.MomentumPainter
+    :members:
+    :undoc-members:
+    :show-inheritance:

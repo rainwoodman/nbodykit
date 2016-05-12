@@ -185,7 +185,7 @@ object with named attributes.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.And">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">And</code><span class="sig-paren">(</span><em>exprs</em>, <em>savelist=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.And" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseExpression" title="nbodykit.utils.selectionlanguage.ParseExpression"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseExpression</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseExpression" title="nbodykit.utils.selectionlanguage.ParseExpression"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseExpression</span></code></a></p>
 <p>Requires all given C{ParseExpression}s to be found in the given order.
 Expressions may be separated by whitespace.
 May be constructed using the C{&#8216;+&#8217;} operator.</p>
@@ -205,7 +205,7 @@ May be constructed using the C{&#8216;+&#8217;} operator.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">append</span></code>(other)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.And.checkRecursion" title="nbodykit.utils.selectionlanguage.And.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.And.checkRecursion" title="nbodykit.utils.selectionlanguage.And.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code>()</td>
@@ -224,12 +224,12 @@ May be constructed using the C{&#8216;+&#8217;} operator.</p>
 <td>Extends C{leaveWhitespace} defined in base class, and also invokes C{leaveWhitespace} on all contained expressions.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.And.parseImpl" title="nbodykit.utils.selectionlanguage.And.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.And.parseImpl" title="nbodykit.utils.selectionlanguage.And.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -317,7 +317,7 @@ May be constructed using the C{&#8216;+&#8217;} operator.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.CaselessKeyword">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">CaselessKeyword</code><span class="sig-paren">(</span><em>matchString</em>, <em>identChars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_$'</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.CaselessKeyword" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Keyword" title="nbodykit.utils.selectionlanguage.Keyword"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Keyword</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Keyword" title="nbodykit.utils.selectionlanguage.Keyword"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Keyword</span></code></a></p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -350,12 +350,12 @@ May be constructed using the C{&#8216;+&#8217;} operator.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.CaselessKeyword.parseImpl" title="nbodykit.utils.selectionlanguage.CaselessKeyword.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.CaselessKeyword.parseImpl" title="nbodykit.utils.selectionlanguage.CaselessKeyword.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -441,7 +441,7 @@ May be constructed using the C{&#8216;+&#8217;} operator.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.CaselessLiteral">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">CaselessLiteral</code><span class="sig-paren">(</span><em>matchString</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.CaselessLiteral" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Literal</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Literal</span></code></a></p>
 <p>Token to match a specified string, ignoring case of letters.
 Note: the matched results will always be in the case of the given
 match string, NOT the case of the input text.</p>
@@ -477,12 +477,12 @@ match string, NOT the case of the input text.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.CaselessLiteral.parseImpl" title="nbodykit.utils.selectionlanguage.CaselessLiteral.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.CaselessLiteral.parseImpl" title="nbodykit.utils.selectionlanguage.CaselessLiteral.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -565,7 +565,7 @@ match string, NOT the case of the input text.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.CharsNotIn">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">CharsNotIn</code><span class="sig-paren">(</span><em>notChars</em>, <em>min=1</em>, <em>max=0</em>, <em>exact=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.CharsNotIn" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
 <p>Token for matching words composed of characters <em>not</em> in a given set.
 Defined with string containing all disallowed characters, and an optional
 minimum, maximum, and/or exact length.  The default value for C{min} is 1 (a
@@ -603,12 +603,12 @@ are 0, meaning no maximum or exact length restriction.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.CharsNotIn.parseImpl" title="nbodykit.utils.selectionlanguage.CharsNotIn.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.CharsNotIn.parseImpl" title="nbodykit.utils.selectionlanguage.CharsNotIn.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -691,7 +691,7 @@ are 0, meaning no maximum or exact length restriction.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Combine">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Combine</code><span class="sig-paren">(</span><em>expr</em>, <em>joinString=''</em>, <em>adjacent=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Combine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.TokenConverter" title="nbodykit.utils.selectionlanguage.TokenConverter"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.TokenConverter</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.TokenConverter" title="nbodykit.utils.selectionlanguage.TokenConverter"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.TokenConverter</span></code></a></p>
 <p>Converter to concatenate all matching tokens to a single string.
 By default, the matching patterns must also be contiguous in the input string;
 this can be disabled by specifying C{&#8216;adjacent=False&#8217;} in the constructor.</p>
@@ -717,7 +717,7 @@ this can be disabled by specifying C{&#8216;adjacent=False&#8217;} in the constr
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">enablePackrat</span></code>()</td>
 <td>Enables &#8220;packrat&#8221; parsing, which adds memoizing to the parsing logic.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Combine.ignore" title="nbodykit.utils.selectionlanguage.Combine.ignore"><code class="xref py py-obj docutils literal"><span class="pre">ignore</span></code></a>(other)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Combine.ignore" title="nbodykit.utils.selectionlanguage.Combine.ignore"><code class="xref py py-obj docutils literal"><span class="pre">ignore</span></code></a>(other)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">inlineLiteralsUsing</span></code>()</td>
@@ -727,7 +727,7 @@ this can be disabled by specifying C{&#8216;adjacent=False&#8217;} in the constr
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
@@ -741,7 +741,7 @@ this can be disabled by specifying C{&#8216;adjacent=False&#8217;} in the constr
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseWithTabs</span></code>()</td>
 <td>Overrides default behavior to expand C{&lt;TAB&gt;}s to spaces before parsing the input string.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Combine.postParse" title="nbodykit.utils.selectionlanguage.Combine.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Combine.postParse" title="nbodykit.utils.selectionlanguage.Combine.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">preParse</span></code>(instring,&nbsp;loc)</td>
@@ -820,7 +820,7 @@ this can be disabled by specifying C{&#8216;adjacent=False&#8217;} in the constr
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Dict">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Dict</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.TokenConverter" title="nbodykit.utils.selectionlanguage.TokenConverter"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.TokenConverter</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.TokenConverter" title="nbodykit.utils.selectionlanguage.TokenConverter"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.TokenConverter</span></code></a></p>
 <p>Converter to return a repetitive expression as a list, but also as a dictionary.
 Each element can also be referenced using the first token in the expression as its key.
 Useful for tabular report scraping when the first column can be used as a item key.</p>
@@ -856,7 +856,7 @@ Useful for tabular report scraping when the first column can be used as a item k
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
@@ -870,7 +870,7 @@ Useful for tabular report scraping when the first column can be used as a item k
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseWithTabs</span></code>()</td>
 <td>Overrides default behavior to expand C{&lt;TAB&gt;}s to spaces before parsing the input string.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Dict.postParse" title="nbodykit.utils.selectionlanguage.Dict.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Dict.postParse" title="nbodykit.utils.selectionlanguage.Dict.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">preParse</span></code>(instring,&nbsp;loc)</td>
@@ -944,7 +944,7 @@ Useful for tabular report scraping when the first column can be used as a item k
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Each">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Each</code><span class="sig-paren">(</span><em>exprs</em>, <em>savelist=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Each" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseExpression" title="nbodykit.utils.selectionlanguage.ParseExpression"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseExpression</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseExpression" title="nbodykit.utils.selectionlanguage.ParseExpression"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseExpression</span></code></a></p>
 <p>Requires all given C{ParseExpression}s to be found, but in any order.
 Expressions may be separated by whitespace.
 May be constructed using the C{&#8216;&amp;&#8217;} operator.</p>
@@ -964,7 +964,7 @@ May be constructed using the C{&#8216;&amp;&#8217;} operator.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">append</span></code>(other)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Each.checkRecursion" title="nbodykit.utils.selectionlanguage.Each.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Each.checkRecursion" title="nbodykit.utils.selectionlanguage.Each.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code>()</td>
@@ -983,12 +983,12 @@ May be constructed using the C{&#8216;&amp;&#8217;} operator.</p>
 <td>Extends C{leaveWhitespace} defined in base class, and also invokes C{leaveWhitespace} on all contained expressions.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Each.parseImpl" title="nbodykit.utils.selectionlanguage.Each.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Each.parseImpl" title="nbodykit.utils.selectionlanguage.Each.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -1076,7 +1076,7 @@ May be constructed using the C{&#8216;&amp;&#8217;} operator.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Empty">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Empty</code><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Empty" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
 <p>An empty token, will always match.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -1110,7 +1110,7 @@ May be constructed using the C{&#8216;&amp;&#8217;} operator.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
@@ -1193,7 +1193,7 @@ May be constructed using the C{&#8216;&amp;&#8217;} operator.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.FollowedBy">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">FollowedBy</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.FollowedBy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
 <p>Lookahead matching of the given parse expression.  C{FollowedBy}
 does <em>not</em> advance the parsing position within the input string, it only
 verifies that the specified parse expression matches at the current
@@ -1230,12 +1230,12 @@ position.  C{FollowedBy} always returns a null token list.</p>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.FollowedBy.parseImpl" title="nbodykit.utils.selectionlanguage.FollowedBy.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.FollowedBy.parseImpl" title="nbodykit.utils.selectionlanguage.FollowedBy.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -1318,7 +1318,7 @@ position.  C{FollowedBy} always returns a null token list.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Forward">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Forward</code><span class="sig-paren">(</span><em>other=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
 <p>Forward declaration of an expression to be defined later -
 used for recursive grammars, such as algebraic infix notation.
 When the expression is known, it is assigned to the C{Forward} variable using the &#8216;&lt;&lt;&#8217; operator.</p>
@@ -1353,7 +1353,7 @@ explicitly group the values inserted into the C{Forward}:</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code>(parseElementList)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Forward.copy" title="nbodykit.utils.selectionlanguage.Forward.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Forward.copy" title="nbodykit.utils.selectionlanguage.Forward.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">enablePackrat</span></code>()</td>
@@ -1365,11 +1365,11 @@ explicitly group the values inserted into the C{Forward}:</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">inlineLiteralsUsing</span></code>()</td>
 <td>Set class to be used for inclusion of string literals into a parser.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Forward.leaveWhitespace" title="nbodykit.utils.selectionlanguage.Forward.leaveWhitespace"><code class="xref py py-obj docutils literal"><span class="pre">leaveWhitespace</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Forward.leaveWhitespace" title="nbodykit.utils.selectionlanguage.Forward.leaveWhitespace"><code class="xref py py-obj docutils literal"><span class="pre">leaveWhitespace</span></code></a>()</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
@@ -1425,7 +1425,7 @@ explicitly group the values inserted into the C{Forward}:</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setWhitespaceChars</span></code>(chars)</td>
 <td>Overrides the default whitespace chars</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Forward.streamline" title="nbodykit.utils.selectionlanguage.Forward.streamline"><code class="xref py py-obj docutils literal"><span class="pre">streamline</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Forward.streamline" title="nbodykit.utils.selectionlanguage.Forward.streamline"><code class="xref py py-obj docutils literal"><span class="pre">streamline</span></code></a>()</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">suppress</span></code>()</td>
@@ -1437,7 +1437,7 @@ explicitly group the values inserted into the C{Forward}:</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">tryParse</span></code>(instring,&nbsp;loc)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Forward.validate" title="nbodykit.utils.selectionlanguage.Forward.validate"><code class="xref py py-obj docutils literal"><span class="pre">validate</span></code></a>([validateTrace])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Forward.validate" title="nbodykit.utils.selectionlanguage.Forward.validate"><code class="xref py py-obj docutils literal"><span class="pre">validate</span></code></a>([validateTrace])</td>
 <td></td>
 </tr>
 </tbody>
@@ -1506,12 +1506,12 @@ explicitly group the values inserted into the C{Forward}:</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.GoToColumn.parseImpl" title="nbodykit.utils.selectionlanguage.GoToColumn.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.GoToColumn.parseImpl" title="nbodykit.utils.selectionlanguage.GoToColumn.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -1523,7 +1523,7 @@ explicitly group the values inserted into the C{Forward}:</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.GoToColumn.preParse" title="nbodykit.utils.selectionlanguage.GoToColumn.preParse"><code class="xref py py-obj docutils literal"><span class="pre">preParse</span></code></a>(instring,&nbsp;loc)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.GoToColumn.preParse" title="nbodykit.utils.selectionlanguage.GoToColumn.preParse"><code class="xref py py-obj docutils literal"><span class="pre">preParse</span></code></a>(instring,&nbsp;loc)</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">resetCache</span></code>()</td>
@@ -1599,7 +1599,7 @@ explicitly group the values inserted into the C{Forward}:</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Group">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Group</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Group" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.TokenConverter" title="nbodykit.utils.selectionlanguage.TokenConverter"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.TokenConverter</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.TokenConverter" title="nbodykit.utils.selectionlanguage.TokenConverter"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.TokenConverter</span></code></a></p>
 <p>Converter to return the matched tokens as a list - useful for returning tokens of C{L{ZeroOrMore}} and C{L{OneOrMore}} expressions.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -1633,7 +1633,7 @@ explicitly group the values inserted into the C{Forward}:</p>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
@@ -1647,7 +1647,7 @@ explicitly group the values inserted into the C{Forward}:</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseWithTabs</span></code>()</td>
 <td>Overrides default behavior to expand C{&lt;TAB&gt;}s to spaces before parsing the input string.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Group.postParse" title="nbodykit.utils.selectionlanguage.Group.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Group.postParse" title="nbodykit.utils.selectionlanguage.Group.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">preParse</span></code>(instring,&nbsp;loc)</td>
@@ -1721,7 +1721,7 @@ explicitly group the values inserted into the C{Forward}:</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Keyword">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Keyword</code><span class="sig-paren">(</span><em>matchString</em>, <em>identChars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_$'</em>, <em>caseless=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Keyword" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
 <p>Token to exactly match a specified string as a keyword, that is, it must be
 immediately followed by a non-keyword character.  Compare with C{L{Literal}}:</p>
 <div class="highlight-python"><div class="highlight"><pre>Literal(&quot;if&quot;) will match the leading C{&#39;if&#39;} in C{&#39;ifAndOnlyIf&#39;}.
@@ -1748,7 +1748,7 @@ matching, default is C{False}.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code>(parseElementList)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Keyword.copy" title="nbodykit.utils.selectionlanguage.Keyword.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Keyword.copy" title="nbodykit.utils.selectionlanguage.Keyword.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">enablePackrat</span></code>()</td>
@@ -1764,12 +1764,12 @@ matching, default is C{False}.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Keyword.parseImpl" title="nbodykit.utils.selectionlanguage.Keyword.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Keyword.parseImpl" title="nbodykit.utils.selectionlanguage.Keyword.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -1802,7 +1802,7 @@ matching, default is C{False}.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setDebugActions</span></code>(startAction,&nbsp;successAction,&nbsp;...)</td>
 <td>Enable display of debugging messages while doing pattern matching.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Keyword.setDefaultKeywordChars" title="nbodykit.utils.selectionlanguage.Keyword.setDefaultKeywordChars"><code class="xref py py-obj docutils literal"><span class="pre">setDefaultKeywordChars</span></code></a>(chars)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Keyword.setDefaultKeywordChars" title="nbodykit.utils.selectionlanguage.Keyword.setDefaultKeywordChars"><code class="xref py py-obj docutils literal"><span class="pre">setDefaultKeywordChars</span></code></a>(chars)</td>
 <td>Overrides the default Keyword chars</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setDefaultWhitespaceChars</span></code>(chars)</td>
@@ -1905,12 +1905,12 @@ matching, default is C{False}.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.LineEnd.parseImpl" title="nbodykit.utils.selectionlanguage.LineEnd.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.LineEnd.parseImpl" title="nbodykit.utils.selectionlanguage.LineEnd.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -2027,12 +2027,12 @@ matching, default is C{False}.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.LineStart.parseImpl" title="nbodykit.utils.selectionlanguage.LineStart.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.LineStart.parseImpl" title="nbodykit.utils.selectionlanguage.LineStart.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -2044,7 +2044,7 @@ matching, default is C{False}.</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.LineStart.preParse" title="nbodykit.utils.selectionlanguage.LineStart.preParse"><code class="xref py py-obj docutils literal"><span class="pre">preParse</span></code></a>(instring,&nbsp;loc)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.LineStart.preParse" title="nbodykit.utils.selectionlanguage.LineStart.preParse"><code class="xref py py-obj docutils literal"><span class="pre">preParse</span></code></a>(instring,&nbsp;loc)</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">resetCache</span></code>()</td>
@@ -2120,7 +2120,7 @@ matching, default is C{False}.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Literal">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Literal</code><span class="sig-paren">(</span><em>matchString</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Literal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
 <p>Token to exactly match a specified string.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -2154,12 +2154,12 @@ matching, default is C{False}.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal.parseImpl" title="nbodykit.utils.selectionlanguage.Literal.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal.parseImpl" title="nbodykit.utils.selectionlanguage.Literal.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -2242,7 +2242,7 @@ matching, default is C{False}.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.MatchFirst">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">MatchFirst</code><span class="sig-paren">(</span><em>exprs</em>, <em>savelist=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.MatchFirst" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseExpression" title="nbodykit.utils.selectionlanguage.ParseExpression"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseExpression</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseExpression" title="nbodykit.utils.selectionlanguage.ParseExpression"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseExpression</span></code></a></p>
 <p>Requires that at least one C{ParseExpression} is found.
 If two expressions match, the first one listed is the one that will match.
 May be constructed using the C{&#8216;|&#8217;} operator.</p>
@@ -2262,7 +2262,7 @@ May be constructed using the C{&#8216;|&#8217;} operator.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">append</span></code>(other)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.MatchFirst.checkRecursion" title="nbodykit.utils.selectionlanguage.MatchFirst.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.MatchFirst.checkRecursion" title="nbodykit.utils.selectionlanguage.MatchFirst.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code>()</td>
@@ -2281,12 +2281,12 @@ May be constructed using the C{&#8216;|&#8217;} operator.</p>
 <td>Extends C{leaveWhitespace} defined in base class, and also invokes C{leaveWhitespace} on all contained expressions.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.MatchFirst.parseImpl" title="nbodykit.utils.selectionlanguage.MatchFirst.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.MatchFirst.parseImpl" title="nbodykit.utils.selectionlanguage.MatchFirst.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -2374,7 +2374,7 @@ May be constructed using the C{&#8216;|&#8217;} operator.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.NoMatch">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">NoMatch</code><a class="headerlink" href="#nbodykit.utils.selectionlanguage.NoMatch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
 <p>A token that will never match.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -2408,12 +2408,12 @@ May be constructed using the C{&#8216;|&#8217;} operator.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.NoMatch.parseImpl" title="nbodykit.utils.selectionlanguage.NoMatch.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.NoMatch.parseImpl" title="nbodykit.utils.selectionlanguage.NoMatch.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -2496,7 +2496,7 @@ May be constructed using the C{&#8216;|&#8217;} operator.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.NotAny">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">NotAny</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.NotAny" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
 <p>Lookahead to disallow matching with the given parse expression.  C{NotAny}
 does <em>not</em> advance the parsing position within the input string, it only
 verifies that the specified parse expression does <em>not</em> match at the current
@@ -2534,12 +2534,12 @@ always returns a null token list.  May be constructed using the &#8216;~&#8217; 
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.NotAny.parseImpl" title="nbodykit.utils.selectionlanguage.NotAny.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.NotAny.parseImpl" title="nbodykit.utils.selectionlanguage.NotAny.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -2622,7 +2622,7 @@ always returns a null token list.  May be constructed using the &#8216;~&#8217; 
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.OneOrMore">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">OneOrMore</code><span class="sig-paren">(</span><em>expr</em>, <em>savelist=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.OneOrMore" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
 <p>Repetition of one or more of the given expression.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -2656,12 +2656,12 @@ always returns a null token list.  May be constructed using the &#8216;~&#8217; 
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.OneOrMore.parseImpl" title="nbodykit.utils.selectionlanguage.OneOrMore.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.OneOrMore.parseImpl" title="nbodykit.utils.selectionlanguage.OneOrMore.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -2706,7 +2706,7 @@ always returns a null token list.  May be constructed using the &#8216;~&#8217; 
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setParseAction</span></code>(*fns,&nbsp;**kwargs)</td>
 <td>Define action to perform when successfully matching parse element definition.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.OneOrMore.setResultsName" title="nbodykit.utils.selectionlanguage.OneOrMore.setResultsName"><code class="xref py py-obj docutils literal"><span class="pre">setResultsName</span></code></a>(name[,&nbsp;listAllMatches])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.OneOrMore.setResultsName" title="nbodykit.utils.selectionlanguage.OneOrMore.setResultsName"><code class="xref py py-obj docutils literal"><span class="pre">setResultsName</span></code></a>(name[,&nbsp;listAllMatches])</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setWhitespaceChars</span></code>(chars)</td>
@@ -2756,7 +2756,7 @@ always returns a null token list.  May be constructed using the &#8216;~&#8217; 
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(s,&nbsp;l,&nbsp;t)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.OnlyOnce.reset" title="nbodykit.utils.selectionlanguage.OnlyOnce.reset"><code class="xref py py-obj docutils literal"><span class="pre">reset</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.OnlyOnce.reset" title="nbodykit.utils.selectionlanguage.OnlyOnce.reset"><code class="xref py py-obj docutils literal"><span class="pre">reset</span></code></a>()</td>
 <td></td>
 </tr>
 </tbody>
@@ -2776,7 +2776,7 @@ always returns a null token list.  May be constructed using the &#8216;~&#8217; 
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Optional">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Optional</code><span class="sig-paren">(</span><em>expr</em>, <em>default=&lt;nbodykit.utils.selectionlanguage._NullToken object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Optional" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
 <p>Optional matching of the given expression.
 A default return string can also be specified, if the optional expression
 is not found.</p>
@@ -2812,12 +2812,12 @@ is not found.</p>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Optional.parseImpl" title="nbodykit.utils.selectionlanguage.Optional.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Optional.parseImpl" title="nbodykit.utils.selectionlanguage.Optional.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -2900,7 +2900,7 @@ is not found.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Or">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Or</code><span class="sig-paren">(</span><em>exprs</em>, <em>savelist=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Or" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseExpression" title="nbodykit.utils.selectionlanguage.ParseExpression"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseExpression</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseExpression" title="nbodykit.utils.selectionlanguage.ParseExpression"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseExpression</span></code></a></p>
 <p>Requires that at least one C{ParseExpression} is found.
 If two expressions match, the expression that matches the longest string will be used.
 May be constructed using the C{&#8216;^&#8217;} operator.</p>
@@ -2920,7 +2920,7 @@ May be constructed using the C{&#8216;^&#8217;} operator.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">append</span></code>(other)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Or.checkRecursion" title="nbodykit.utils.selectionlanguage.Or.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Or.checkRecursion" title="nbodykit.utils.selectionlanguage.Or.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code>()</td>
@@ -2939,12 +2939,12 @@ May be constructed using the C{&#8216;^&#8217;} operator.</p>
 <td>Extends C{leaveWhitespace} defined in base class, and also invokes C{leaveWhitespace} on all contained expressions.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Or.parseImpl" title="nbodykit.utils.selectionlanguage.Or.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Or.parseImpl" title="nbodykit.utils.selectionlanguage.Or.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -3051,7 +3051,7 @@ the location of the exception with a special symbol.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.ParseElementEnhance">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">ParseElementEnhance</code><span class="sig-paren">(</span><em>expr</em>, <em>savelist=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement" title="nbodykit.utils.selectionlanguage.ParserElement"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParserElement</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement" title="nbodykit.utils.selectionlanguage.ParserElement"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParserElement</span></code></a></p>
 <p>Abstract subclass of C{ParserElement}, for combining and post-processing parsed tokens.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -3066,7 +3066,7 @@ the location of the exception with a special symbol.</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">addParseAction</span></code>(*fns,&nbsp;**kwargs)</td>
 <td>Add parse action to expression&#8217;s list of parse actions.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance.checkRecursion" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance.checkRecursion" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code>()</td>
@@ -3075,22 +3075,22 @@ the location of the exception with a special symbol.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">enablePackrat</span></code>()</td>
 <td>Enables &#8220;packrat&#8221; parsing, which adds memoizing to the parsing logic.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance.ignore" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.ignore"><code class="xref py py-obj docutils literal"><span class="pre">ignore</span></code></a>(other)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance.ignore" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.ignore"><code class="xref py py-obj docutils literal"><span class="pre">ignore</span></code></a>(other)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">inlineLiteralsUsing</span></code>()</td>
 <td>Set class to be used for inclusion of string literals into a parser.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance.leaveWhitespace" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.leaveWhitespace"><code class="xref py py-obj docutils literal"><span class="pre">leaveWhitespace</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance.leaveWhitespace" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.leaveWhitespace"><code class="xref py py-obj docutils literal"><span class="pre">leaveWhitespace</span></code></a>()</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance.parseImpl" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance.parseImpl" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -3141,7 +3141,7 @@ the location of the exception with a special symbol.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setWhitespaceChars</span></code>(chars)</td>
 <td>Overrides the default whitespace chars</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance.streamline" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.streamline"><code class="xref py py-obj docutils literal"><span class="pre">streamline</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance.streamline" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.streamline"><code class="xref py py-obj docutils literal"><span class="pre">streamline</span></code></a>()</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">suppress</span></code>()</td>
@@ -3153,7 +3153,7 @@ the location of the exception with a special symbol.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">tryParse</span></code>(instring,&nbsp;loc)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance.validate" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.validate"><code class="xref py py-obj docutils literal"><span class="pre">validate</span></code></a>([validateTrace])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance.validate" title="nbodykit.utils.selectionlanguage.ParseElementEnhance.validate"><code class="xref py py-obj docutils literal"><span class="pre">validate</span></code></a>([validateTrace])</td>
 <td></td>
 </tr>
 </tbody>
@@ -3198,7 +3198,7 @@ the location of the exception with a special symbol.</p>
 <dl class="exception">
 <dt id="nbodykit.utils.selectionlanguage.ParseException">
 <em class="property">exception </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">ParseException</code><span class="sig-paren">(</span><em>pstr</em>, <em>loc=0</em>, <em>msg=None</em>, <em>elem=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.ParseException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseBaseException" title="nbodykit.utils.selectionlanguage.ParseBaseException"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseBaseException</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseBaseException" title="nbodykit.utils.selectionlanguage.ParseBaseException"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseBaseException</span></code></a></p>
 <p>exception thrown when parse expressions don&#8217;t match class;
 supported attributes by name are:</p>
 <blockquote>
@@ -3213,7 +3213,7 @@ supported attributes by name are:</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.ParseExpression">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">ParseExpression</code><span class="sig-paren">(</span><em>exprs</em>, <em>savelist=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.ParseExpression" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement" title="nbodykit.utils.selectionlanguage.ParserElement"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParserElement</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement" title="nbodykit.utils.selectionlanguage.ParserElement"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParserElement</span></code></a></p>
 <p>Abstract subclass of ParserElement, for combining and post-processing parsed tokens.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -3228,29 +3228,29 @@ supported attributes by name are:</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">addParseAction</span></code>(*fns,&nbsp;**kwargs)</td>
 <td>Add parse action to expression&#8217;s list of parse actions.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseExpression.append" title="nbodykit.utils.selectionlanguage.ParseExpression.append"><code class="xref py py-obj docutils literal"><span class="pre">append</span></code></a>(other)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseExpression.append" title="nbodykit.utils.selectionlanguage.ParseExpression.append"><code class="xref py py-obj docutils literal"><span class="pre">append</span></code></a>(other)</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code>(parseElementList)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseExpression.copy" title="nbodykit.utils.selectionlanguage.ParseExpression.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseExpression.copy" title="nbodykit.utils.selectionlanguage.ParseExpression.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">enablePackrat</span></code>()</td>
 <td>Enables &#8220;packrat&#8221; parsing, which adds memoizing to the parsing logic.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseExpression.ignore" title="nbodykit.utils.selectionlanguage.ParseExpression.ignore"><code class="xref py py-obj docutils literal"><span class="pre">ignore</span></code></a>(other)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseExpression.ignore" title="nbodykit.utils.selectionlanguage.ParseExpression.ignore"><code class="xref py py-obj docutils literal"><span class="pre">ignore</span></code></a>(other)</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">inlineLiteralsUsing</span></code>()</td>
 <td>Set class to be used for inclusion of string literals into a parser.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseExpression.leaveWhitespace" title="nbodykit.utils.selectionlanguage.ParseExpression.leaveWhitespace"><code class="xref py py-obj docutils literal"><span class="pre">leaveWhitespace</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseExpression.leaveWhitespace" title="nbodykit.utils.selectionlanguage.ParseExpression.leaveWhitespace"><code class="xref py py-obj docutils literal"><span class="pre">leaveWhitespace</span></code></a>()</td>
 <td>Extends C{leaveWhitespace} defined in base class, and also invokes C{leaveWhitespace} on all contained expressions.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
@@ -3300,13 +3300,13 @@ supported attributes by name are:</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">setParseAction</span></code>(*fns,&nbsp;**kwargs)</td>
 <td>Define action to perform when successfully matching parse element definition.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseExpression.setResultsName" title="nbodykit.utils.selectionlanguage.ParseExpression.setResultsName"><code class="xref py py-obj docutils literal"><span class="pre">setResultsName</span></code></a>(name[,&nbsp;listAllMatches])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseExpression.setResultsName" title="nbodykit.utils.selectionlanguage.ParseExpression.setResultsName"><code class="xref py py-obj docutils literal"><span class="pre">setResultsName</span></code></a>(name[,&nbsp;listAllMatches])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">setWhitespaceChars</span></code>(chars)</td>
 <td>Overrides the default whitespace chars</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseExpression.streamline" title="nbodykit.utils.selectionlanguage.ParseExpression.streamline"><code class="xref py py-obj docutils literal"><span class="pre">streamline</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseExpression.streamline" title="nbodykit.utils.selectionlanguage.ParseExpression.streamline"><code class="xref py py-obj docutils literal"><span class="pre">streamline</span></code></a>()</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">suppress</span></code>()</td>
@@ -3318,7 +3318,7 @@ supported attributes by name are:</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">tryParse</span></code>(instring,&nbsp;loc)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseExpression.validate" title="nbodykit.utils.selectionlanguage.ParseExpression.validate"><code class="xref py py-obj docutils literal"><span class="pre">validate</span></code></a>([validateTrace])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseExpression.validate" title="nbodykit.utils.selectionlanguage.ParseExpression.validate"><code class="xref py py-obj docutils literal"><span class="pre">validate</span></code></a>([validateTrace])</td>
 <td></td>
 </tr>
 </tbody>
@@ -3370,7 +3370,7 @@ all contained expressions.</p>
 <dl class="exception">
 <dt id="nbodykit.utils.selectionlanguage.ParseFatalException">
 <em class="property">exception </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">ParseFatalException</code><span class="sig-paren">(</span><em>pstr</em>, <em>loc=0</em>, <em>msg=None</em>, <em>elem=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.ParseFatalException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseBaseException" title="nbodykit.utils.selectionlanguage.ParseBaseException"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseBaseException</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseBaseException" title="nbodykit.utils.selectionlanguage.ParseBaseException"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseBaseException</span></code></a></p>
 <p>user-throwable exception thrown when inconsistent parse content
 is found; stops all parsing immediately</p>
 </dd></dl>
@@ -3390,64 +3390,64 @@ is found; stops all parsing immediately</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.append" title="nbodykit.utils.selectionlanguage.ParseResults.append"><code class="xref py py-obj docutils literal"><span class="pre">append</span></code></a>(item)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.append" title="nbodykit.utils.selectionlanguage.ParseResults.append"><code class="xref py py-obj docutils literal"><span class="pre">append</span></code></a>(item)</td>
 <td>Add single element to end of ParseResults list of elements.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.asDict" title="nbodykit.utils.selectionlanguage.ParseResults.asDict"><code class="xref py py-obj docutils literal"><span class="pre">asDict</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.asDict" title="nbodykit.utils.selectionlanguage.ParseResults.asDict"><code class="xref py py-obj docutils literal"><span class="pre">asDict</span></code></a>()</td>
 <td>Returns the named parse results as dictionary.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.asList" title="nbodykit.utils.selectionlanguage.ParseResults.asList"><code class="xref py py-obj docutils literal"><span class="pre">asList</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.asList" title="nbodykit.utils.selectionlanguage.ParseResults.asList"><code class="xref py py-obj docutils literal"><span class="pre">asList</span></code></a>()</td>
 <td>Returns the parse results as a nested list of matching tokens, all converted to strings.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.asXML" title="nbodykit.utils.selectionlanguage.ParseResults.asXML"><code class="xref py py-obj docutils literal"><span class="pre">asXML</span></code></a>([doctag,&nbsp;namedItemsOnly,&nbsp;indent,&nbsp;...])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.asXML" title="nbodykit.utils.selectionlanguage.ParseResults.asXML"><code class="xref py py-obj docutils literal"><span class="pre">asXML</span></code></a>([doctag,&nbsp;namedItemsOnly,&nbsp;indent,&nbsp;...])</td>
 <td>Returns the parse results as XML.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.clear" title="nbodykit.utils.selectionlanguage.ParseResults.clear"><code class="xref py py-obj docutils literal"><span class="pre">clear</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.clear" title="nbodykit.utils.selectionlanguage.ParseResults.clear"><code class="xref py py-obj docutils literal"><span class="pre">clear</span></code></a>()</td>
 <td>Clear all elements and results names.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.copy" title="nbodykit.utils.selectionlanguage.ParseResults.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.copy" title="nbodykit.utils.selectionlanguage.ParseResults.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
 <td>Returns a new copy of a C{ParseResults} object.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.dump" title="nbodykit.utils.selectionlanguage.ParseResults.dump"><code class="xref py py-obj docutils literal"><span class="pre">dump</span></code></a>([indent,&nbsp;depth])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.dump" title="nbodykit.utils.selectionlanguage.ParseResults.dump"><code class="xref py py-obj docutils literal"><span class="pre">dump</span></code></a>([indent,&nbsp;depth])</td>
 <td>Diagnostic method for listing out the contents of a C{ParseResults}.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.extend" title="nbodykit.utils.selectionlanguage.ParseResults.extend"><code class="xref py py-obj docutils literal"><span class="pre">extend</span></code></a>(itemseq)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.extend" title="nbodykit.utils.selectionlanguage.ParseResults.extend"><code class="xref py py-obj docutils literal"><span class="pre">extend</span></code></a>(itemseq)</td>
 <td>Add sequence of elements to end of ParseResults list of elements.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.get" title="nbodykit.utils.selectionlanguage.ParseResults.get"><code class="xref py py-obj docutils literal"><span class="pre">get</span></code></a>(key[,&nbsp;defaultValue])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.get" title="nbodykit.utils.selectionlanguage.ParseResults.get"><code class="xref py py-obj docutils literal"><span class="pre">get</span></code></a>(key[,&nbsp;defaultValue])</td>
 <td>Returns named result matching the given key, or if there is no such name, then returns the given C{defaultValue} or C{None} if no C{defaultValue} is specified.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.getName" title="nbodykit.utils.selectionlanguage.ParseResults.getName"><code class="xref py py-obj docutils literal"><span class="pre">getName</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.getName" title="nbodykit.utils.selectionlanguage.ParseResults.getName"><code class="xref py py-obj docutils literal"><span class="pre">getName</span></code></a>()</td>
 <td>Returns the results name for this token expression.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.haskeys" title="nbodykit.utils.selectionlanguage.ParseResults.haskeys"><code class="xref py py-obj docutils literal"><span class="pre">haskeys</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.haskeys" title="nbodykit.utils.selectionlanguage.ParseResults.haskeys"><code class="xref py py-obj docutils literal"><span class="pre">haskeys</span></code></a>()</td>
 <td>Since keys() returns an iterator, this method is helpful in bypassing code that looks for the existence of any defined results names.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.insert" title="nbodykit.utils.selectionlanguage.ParseResults.insert"><code class="xref py py-obj docutils literal"><span class="pre">insert</span></code></a>(index,&nbsp;insStr)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.insert" title="nbodykit.utils.selectionlanguage.ParseResults.insert"><code class="xref py py-obj docutils literal"><span class="pre">insert</span></code></a>(index,&nbsp;insStr)</td>
 <td>Inserts new element at location index in the list of parsed tokens.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.items" title="nbodykit.utils.selectionlanguage.ParseResults.items"><code class="xref py py-obj docutils literal"><span class="pre">items</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.items" title="nbodykit.utils.selectionlanguage.ParseResults.items"><code class="xref py py-obj docutils literal"><span class="pre">items</span></code></a>()</td>
 <td>Returns all named result keys and values as a list of tuples.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.iteritems" title="nbodykit.utils.selectionlanguage.ParseResults.iteritems"><code class="xref py py-obj docutils literal"><span class="pre">iteritems</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.iteritems" title="nbodykit.utils.selectionlanguage.ParseResults.iteritems"><code class="xref py py-obj docutils literal"><span class="pre">iteritems</span></code></a>()</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.iterkeys" title="nbodykit.utils.selectionlanguage.ParseResults.iterkeys"><code class="xref py py-obj docutils literal"><span class="pre">iterkeys</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.iterkeys" title="nbodykit.utils.selectionlanguage.ParseResults.iterkeys"><code class="xref py py-obj docutils literal"><span class="pre">iterkeys</span></code></a>()</td>
 <td>Returns all named result keys.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.itervalues" title="nbodykit.utils.selectionlanguage.ParseResults.itervalues"><code class="xref py py-obj docutils literal"><span class="pre">itervalues</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.itervalues" title="nbodykit.utils.selectionlanguage.ParseResults.itervalues"><code class="xref py py-obj docutils literal"><span class="pre">itervalues</span></code></a>()</td>
 <td>Returns all named result values.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.keys" title="nbodykit.utils.selectionlanguage.ParseResults.keys"><code class="xref py py-obj docutils literal"><span class="pre">keys</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.keys" title="nbodykit.utils.selectionlanguage.ParseResults.keys"><code class="xref py py-obj docutils literal"><span class="pre">keys</span></code></a>()</td>
 <td>Returns all named result keys.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.pop" title="nbodykit.utils.selectionlanguage.ParseResults.pop"><code class="xref py py-obj docutils literal"><span class="pre">pop</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.pop" title="nbodykit.utils.selectionlanguage.ParseResults.pop"><code class="xref py py-obj docutils literal"><span class="pre">pop</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Removes and returns item at specified index (default=last).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.pprint" title="nbodykit.utils.selectionlanguage.ParseResults.pprint"><code class="xref py py-obj docutils literal"><span class="pre">pprint</span></code></a>(*args,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.pprint" title="nbodykit.utils.selectionlanguage.ParseResults.pprint"><code class="xref py py-obj docutils literal"><span class="pre">pprint</span></code></a>(*args,&nbsp;**kwargs)</td>
 <td>Pretty-printer for parsed results as a list, using the C{pprint} module.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseResults.values" title="nbodykit.utils.selectionlanguage.ParseResults.values"><code class="xref py py-obj docutils literal"><span class="pre">values</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseResults.values" title="nbodykit.utils.selectionlanguage.ParseResults.values"><code class="xref py py-obj docutils literal"><span class="pre">values</span></code></a>()</td>
 <td>Returns all named result values.</td>
 </tr>
 </tbody>
@@ -3595,7 +3595,7 @@ C{pprint.pprint} method. (U{<a class="reference external" href="http://docs.pyth
 <dl class="exception">
 <dt id="nbodykit.utils.selectionlanguage.ParseSyntaxException">
 <em class="property">exception </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">ParseSyntaxException</code><span class="sig-paren">(</span><em>pe</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.ParseSyntaxException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseFatalException" title="nbodykit.utils.selectionlanguage.ParseFatalException"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseFatalException</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseFatalException" title="nbodykit.utils.selectionlanguage.ParseFatalException"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseFatalException</span></code></a></p>
 <p>just like C{L{ParseFatalException}}, but thrown internally when an
 C{L{ErrorStop&lt;And._ErrorStop&gt;}} (&#8216;-&#8216; operator) indicates that parsing is to stop immediately because
 an unbacktrackable syntax error has been found</p>
@@ -3621,97 +3621,97 @@ an unbacktrackable syntax error has been found</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>([name])</td>
 <td>Shortcut for C{L{setResultsName}}, with C{listAllMatches=default}:</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.addParseAction" title="nbodykit.utils.selectionlanguage.ParserElement.addParseAction"><code class="xref py py-obj docutils literal"><span class="pre">addParseAction</span></code></a>(*fns,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.addParseAction" title="nbodykit.utils.selectionlanguage.ParserElement.addParseAction"><code class="xref py py-obj docutils literal"><span class="pre">addParseAction</span></code></a>(*fns,&nbsp;**kwargs)</td>
 <td>Add parse action to expression&#8217;s list of parse actions.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.checkRecursion" title="nbodykit.utils.selectionlanguage.ParserElement.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.checkRecursion" title="nbodykit.utils.selectionlanguage.ParserElement.checkRecursion"><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code></a>(parseElementList)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.copy" title="nbodykit.utils.selectionlanguage.ParserElement.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.copy" title="nbodykit.utils.selectionlanguage.ParserElement.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
 <td>Make a copy of this C{ParserElement}.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.enablePackrat" title="nbodykit.utils.selectionlanguage.ParserElement.enablePackrat"><code class="xref py py-obj docutils literal"><span class="pre">enablePackrat</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.enablePackrat" title="nbodykit.utils.selectionlanguage.ParserElement.enablePackrat"><code class="xref py py-obj docutils literal"><span class="pre">enablePackrat</span></code></a>()</td>
 <td>Enables &#8220;packrat&#8221; parsing, which adds memoizing to the parsing logic.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.ignore" title="nbodykit.utils.selectionlanguage.ParserElement.ignore"><code class="xref py py-obj docutils literal"><span class="pre">ignore</span></code></a>(other)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.ignore" title="nbodykit.utils.selectionlanguage.ParserElement.ignore"><code class="xref py py-obj docutils literal"><span class="pre">ignore</span></code></a>(other)</td>
 <td>Define expression to be ignored (e.g., comments) while doing pattern matching; may be called repeatedly, to define multiple comment or other ignorable patterns.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.inlineLiteralsUsing" title="nbodykit.utils.selectionlanguage.ParserElement.inlineLiteralsUsing"><code class="xref py py-obj docutils literal"><span class="pre">inlineLiteralsUsing</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.inlineLiteralsUsing" title="nbodykit.utils.selectionlanguage.ParserElement.inlineLiteralsUsing"><code class="xref py py-obj docutils literal"><span class="pre">inlineLiteralsUsing</span></code></a>()</td>
 <td>Set class to be used for inclusion of string literals into a parser.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.leaveWhitespace" title="nbodykit.utils.selectionlanguage.ParserElement.leaveWhitespace"><code class="xref py py-obj docutils literal"><span class="pre">leaveWhitespace</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.leaveWhitespace" title="nbodykit.utils.selectionlanguage.ParserElement.leaveWhitespace"><code class="xref py py-obj docutils literal"><span class="pre">leaveWhitespace</span></code></a>()</td>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.literalStringClass" title="nbodykit.utils.selectionlanguage.ParserElement.literalStringClass"><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></a></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.literalStringClass" title="nbodykit.utils.selectionlanguage.ParserElement.literalStringClass"><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.parseFile" title="nbodykit.utils.selectionlanguage.ParserElement.parseFile"><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code></a>(file_or_filename[,&nbsp;parseAll])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.parseFile" title="nbodykit.utils.selectionlanguage.ParserElement.parseFile"><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code></a>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.parseImpl" title="nbodykit.utils.selectionlanguage.ParserElement.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.parseImpl" title="nbodykit.utils.selectionlanguage.ParserElement.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.parseString" title="nbodykit.utils.selectionlanguage.ParserElement.parseString"><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code></a>(instring[,&nbsp;parseAll])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.parseString" title="nbodykit.utils.selectionlanguage.ParserElement.parseString"><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code></a>(instring[,&nbsp;parseAll])</td>
 <td>Execute the parse expression with the given string.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.parseWithTabs" title="nbodykit.utils.selectionlanguage.ParserElement.parseWithTabs"><code class="xref py py-obj docutils literal"><span class="pre">parseWithTabs</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.parseWithTabs" title="nbodykit.utils.selectionlanguage.ParserElement.parseWithTabs"><code class="xref py py-obj docutils literal"><span class="pre">parseWithTabs</span></code></a>()</td>
 <td>Overrides default behavior to expand C{&lt;TAB&gt;}s to spaces before parsing the input string.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.postParse" title="nbodykit.utils.selectionlanguage.ParserElement.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.postParse" title="nbodykit.utils.selectionlanguage.ParserElement.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.preParse" title="nbodykit.utils.selectionlanguage.ParserElement.preParse"><code class="xref py py-obj docutils literal"><span class="pre">preParse</span></code></a>(instring,&nbsp;loc)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.preParse" title="nbodykit.utils.selectionlanguage.ParserElement.preParse"><code class="xref py py-obj docutils literal"><span class="pre">preParse</span></code></a>(instring,&nbsp;loc)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.resetCache" title="nbodykit.utils.selectionlanguage.ParserElement.resetCache"><code class="xref py py-obj docutils literal"><span class="pre">resetCache</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.resetCache" title="nbodykit.utils.selectionlanguage.ParserElement.resetCache"><code class="xref py py-obj docutils literal"><span class="pre">resetCache</span></code></a>()</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.scanString" title="nbodykit.utils.selectionlanguage.ParserElement.scanString"><code class="xref py py-obj docutils literal"><span class="pre">scanString</span></code></a>(instring[,&nbsp;maxMatches,&nbsp;overlap])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.scanString" title="nbodykit.utils.selectionlanguage.ParserElement.scanString"><code class="xref py py-obj docutils literal"><span class="pre">scanString</span></code></a>(instring[,&nbsp;maxMatches,&nbsp;overlap])</td>
 <td>Scan the input string for expression matches.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.searchString" title="nbodykit.utils.selectionlanguage.ParserElement.searchString"><code class="xref py py-obj docutils literal"><span class="pre">searchString</span></code></a>(instring[,&nbsp;maxMatches])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.searchString" title="nbodykit.utils.selectionlanguage.ParserElement.searchString"><code class="xref py py-obj docutils literal"><span class="pre">searchString</span></code></a>(instring[,&nbsp;maxMatches])</td>
 <td>Another extension to C{L{scanString}}, simplifying the access to the tokens found to match the given parse expression.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.setBreak" title="nbodykit.utils.selectionlanguage.ParserElement.setBreak"><code class="xref py py-obj docutils literal"><span class="pre">setBreak</span></code></a>([breakFlag])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.setBreak" title="nbodykit.utils.selectionlanguage.ParserElement.setBreak"><code class="xref py py-obj docutils literal"><span class="pre">setBreak</span></code></a>([breakFlag])</td>
 <td>Method to invoke the Python pdb debugger when this element is about to be parsed.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.setDebug" title="nbodykit.utils.selectionlanguage.ParserElement.setDebug"><code class="xref py py-obj docutils literal"><span class="pre">setDebug</span></code></a>([flag])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.setDebug" title="nbodykit.utils.selectionlanguage.ParserElement.setDebug"><code class="xref py py-obj docutils literal"><span class="pre">setDebug</span></code></a>([flag])</td>
 <td>Enable display of debugging messages while doing pattern matching.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.setDebugActions" title="nbodykit.utils.selectionlanguage.ParserElement.setDebugActions"><code class="xref py py-obj docutils literal"><span class="pre">setDebugActions</span></code></a>(startAction,&nbsp;successAction,&nbsp;...)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.setDebugActions" title="nbodykit.utils.selectionlanguage.ParserElement.setDebugActions"><code class="xref py py-obj docutils literal"><span class="pre">setDebugActions</span></code></a>(startAction,&nbsp;successAction,&nbsp;...)</td>
 <td>Enable display of debugging messages while doing pattern matching.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.setDefaultWhitespaceChars" title="nbodykit.utils.selectionlanguage.ParserElement.setDefaultWhitespaceChars"><code class="xref py py-obj docutils literal"><span class="pre">setDefaultWhitespaceChars</span></code></a>(chars)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.setDefaultWhitespaceChars" title="nbodykit.utils.selectionlanguage.ParserElement.setDefaultWhitespaceChars"><code class="xref py py-obj docutils literal"><span class="pre">setDefaultWhitespaceChars</span></code></a>(chars)</td>
 <td>Overrides the default whitespace chars</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.setFailAction" title="nbodykit.utils.selectionlanguage.ParserElement.setFailAction"><code class="xref py py-obj docutils literal"><span class="pre">setFailAction</span></code></a>(fn)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.setFailAction" title="nbodykit.utils.selectionlanguage.ParserElement.setFailAction"><code class="xref py py-obj docutils literal"><span class="pre">setFailAction</span></code></a>(fn)</td>
 <td>Define action to perform if parsing fails at this expression.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.setName" title="nbodykit.utils.selectionlanguage.ParserElement.setName"><code class="xref py py-obj docutils literal"><span class="pre">setName</span></code></a>(name)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.setName" title="nbodykit.utils.selectionlanguage.ParserElement.setName"><code class="xref py py-obj docutils literal"><span class="pre">setName</span></code></a>(name)</td>
 <td>Define name for this expression, for use in debugging.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.setParseAction" title="nbodykit.utils.selectionlanguage.ParserElement.setParseAction"><code class="xref py py-obj docutils literal"><span class="pre">setParseAction</span></code></a>(*fns,&nbsp;**kwargs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.setParseAction" title="nbodykit.utils.selectionlanguage.ParserElement.setParseAction"><code class="xref py py-obj docutils literal"><span class="pre">setParseAction</span></code></a>(*fns,&nbsp;**kwargs)</td>
 <td>Define action to perform when successfully matching parse element definition.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.setResultsName" title="nbodykit.utils.selectionlanguage.ParserElement.setResultsName"><code class="xref py py-obj docutils literal"><span class="pre">setResultsName</span></code></a>(name[,&nbsp;listAllMatches])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.setResultsName" title="nbodykit.utils.selectionlanguage.ParserElement.setResultsName"><code class="xref py py-obj docutils literal"><span class="pre">setResultsName</span></code></a>(name[,&nbsp;listAllMatches])</td>
 <td>Define name for referencing matching tokens as a nested attribute of the returned parse results.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.setWhitespaceChars" title="nbodykit.utils.selectionlanguage.ParserElement.setWhitespaceChars"><code class="xref py py-obj docutils literal"><span class="pre">setWhitespaceChars</span></code></a>(chars)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.setWhitespaceChars" title="nbodykit.utils.selectionlanguage.ParserElement.setWhitespaceChars"><code class="xref py py-obj docutils literal"><span class="pre">setWhitespaceChars</span></code></a>(chars)</td>
 <td>Overrides the default whitespace chars</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.streamline" title="nbodykit.utils.selectionlanguage.ParserElement.streamline"><code class="xref py py-obj docutils literal"><span class="pre">streamline</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.streamline" title="nbodykit.utils.selectionlanguage.ParserElement.streamline"><code class="xref py py-obj docutils literal"><span class="pre">streamline</span></code></a>()</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.suppress" title="nbodykit.utils.selectionlanguage.ParserElement.suppress"><code class="xref py py-obj docutils literal"><span class="pre">suppress</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.suppress" title="nbodykit.utils.selectionlanguage.ParserElement.suppress"><code class="xref py py-obj docutils literal"><span class="pre">suppress</span></code></a>()</td>
 <td>Suppresses the output of this C{ParserElement}; useful to keep punctuation from cluttering up returned output.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.transformString" title="nbodykit.utils.selectionlanguage.ParserElement.transformString"><code class="xref py py-obj docutils literal"><span class="pre">transformString</span></code></a>(instring)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.transformString" title="nbodykit.utils.selectionlanguage.ParserElement.transformString"><code class="xref py py-obj docutils literal"><span class="pre">transformString</span></code></a>(instring)</td>
 <td>Extension to C{L{scanString}}, to modify matching text with modified tokens that may be returned from a parse action.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.tryParse" title="nbodykit.utils.selectionlanguage.ParserElement.tryParse"><code class="xref py py-obj docutils literal"><span class="pre">tryParse</span></code></a>(instring,&nbsp;loc)</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.tryParse" title="nbodykit.utils.selectionlanguage.ParserElement.tryParse"><code class="xref py py-obj docutils literal"><span class="pre">tryParse</span></code></a>(instring,&nbsp;loc)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement.validate" title="nbodykit.utils.selectionlanguage.ParserElement.validate"><code class="xref py py-obj docutils literal"><span class="pre">validate</span></code></a>([validateTrace])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement.validate" title="nbodykit.utils.selectionlanguage.ParserElement.validate"><code class="xref py py-obj docutils literal"><span class="pre">validate</span></code></a>([validateTrace])</td>
 <td>Check defined expressions for valid structure, check for infinite recursive definitions.</td>
 </tr>
 </tbody>
@@ -3787,7 +3787,7 @@ the pyparsing module, but may be needed in some whitespace-sensitive grammars.</
 <dl class="attribute">
 <dt id="nbodykit.utils.selectionlanguage.ParserElement.literalStringClass">
 <code class="descname">literalStringClass</code><a class="headerlink" href="#nbodykit.utils.selectionlanguage.ParserElement.literalStringClass" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></p>
+<dd><p>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></p>
 </dd></dl>
 
 <dl class="method">
@@ -4010,7 +4010,7 @@ action.  C{transformString()} returns the resulting transformed string.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.QuotedString">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">QuotedString</code><span class="sig-paren">(</span><em>quoteChar</em>, <em>escChar=None</em>, <em>escQuote=None</em>, <em>multiline=False</em>, <em>unquoteResults=True</em>, <em>endQuoteChar=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.QuotedString" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
 <p>Token for matching strings that are delimited by quoting characters.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -4044,12 +4044,12 @@ action.  C{transformString()} returns the resulting transformed string.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.QuotedString.parseImpl" title="nbodykit.utils.selectionlanguage.QuotedString.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.QuotedString.parseImpl" title="nbodykit.utils.selectionlanguage.QuotedString.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -4156,7 +4156,7 @@ action.  C{transformString()} returns the resulting transformed string.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Regex">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Regex</code><span class="sig-paren">(</span><em>pattern</em>, <em>flags=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Regex" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
 <p>Token for matching strings that match a given regular expression.
 Defined with string specifying the regular expression in a form recognized by the inbuilt Python re module.</p>
 <p class="rubric">Methods</p>
@@ -4175,7 +4175,7 @@ Defined with string specifying the regular expression in a form recognized by th
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">checkRecursion</span></code>(parseElementList)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Regex.compiledREtype" title="nbodykit.utils.selectionlanguage.Regex.compiledREtype"><code class="xref py py-obj docutils literal"><span class="pre">compiledREtype</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Regex.compiledREtype" title="nbodykit.utils.selectionlanguage.Regex.compiledREtype"><code class="xref py py-obj docutils literal"><span class="pre">compiledREtype</span></code></a></td>
 <td>alias of <code class="xref py py-class docutils literal"><span class="pre">SRE_Pattern</span></code></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code>()</td>
@@ -4194,12 +4194,12 @@ Defined with string specifying the regular expression in a form recognized by th
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Regex.parseImpl" title="nbodykit.utils.selectionlanguage.Regex.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Regex.parseImpl" title="nbodykit.utils.selectionlanguage.Regex.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -4289,7 +4289,7 @@ Defined with string specifying the regular expression in a form recognized by th
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.SkipTo">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">SkipTo</code><span class="sig-paren">(</span><em>other</em>, <em>include=False</em>, <em>ignore=None</em>, <em>failOn=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.SkipTo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
 <p>Token for skipping over all undefined text until the matched expression is found.
 If C{include} is set to true, the matched expression is also parsed (the skipped text
 and matched expression are returned as a 2-element list).  The C{ignore}
@@ -4327,12 +4327,12 @@ might contain false matches.</p>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.SkipTo.parseImpl" title="nbodykit.utils.selectionlanguage.SkipTo.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.SkipTo.parseImpl" title="nbodykit.utils.selectionlanguage.SkipTo.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -4449,12 +4449,12 @@ might contain false matches.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.StringEnd.parseImpl" title="nbodykit.utils.selectionlanguage.StringEnd.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.StringEnd.parseImpl" title="nbodykit.utils.selectionlanguage.StringEnd.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -4571,12 +4571,12 @@ might contain false matches.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.StringStart.parseImpl" title="nbodykit.utils.selectionlanguage.StringStart.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.StringStart.parseImpl" title="nbodykit.utils.selectionlanguage.StringStart.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -4659,7 +4659,7 @@ might contain false matches.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Suppress">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Suppress</code><span class="sig-paren">(</span><em>expr</em>, <em>savelist=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Suppress" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.TokenConverter" title="nbodykit.utils.selectionlanguage.TokenConverter"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.TokenConverter</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.TokenConverter" title="nbodykit.utils.selectionlanguage.TokenConverter"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.TokenConverter</span></code></a></p>
 <p>Converter for ignoring the results of a parsed expression.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -4693,7 +4693,7 @@ might contain false matches.</p>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
@@ -4707,7 +4707,7 @@ might contain false matches.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseWithTabs</span></code>()</td>
 <td>Overrides default behavior to expand C{&lt;TAB&gt;}s to spaces before parsing the input string.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Suppress.postParse" title="nbodykit.utils.selectionlanguage.Suppress.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Suppress.postParse" title="nbodykit.utils.selectionlanguage.Suppress.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">preParse</span></code>(instring,&nbsp;loc)</td>
@@ -4752,7 +4752,7 @@ might contain false matches.</p>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">streamline</span></code>()</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Suppress.suppress" title="nbodykit.utils.selectionlanguage.Suppress.suppress"><code class="xref py py-obj docutils literal"><span class="pre">suppress</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Suppress.suppress" title="nbodykit.utils.selectionlanguage.Suppress.suppress"><code class="xref py py-obj docutils literal"><span class="pre">suppress</span></code></a>()</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">transformString</span></code>(instring)</td>
@@ -4781,7 +4781,7 @@ might contain false matches.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Token">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Token</code><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Token" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParserElement" title="nbodykit.utils.selectionlanguage.ParserElement"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParserElement</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParserElement" title="nbodykit.utils.selectionlanguage.ParserElement"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParserElement</span></code></a></p>
 <p>Abstract C{ParserElement} subclass, for defining atomic matching patterns.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -4815,7 +4815,7 @@ might contain false matches.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
@@ -4859,7 +4859,7 @@ might contain false matches.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setFailAction</span></code>(fn)</td>
 <td>Define action to perform if parsing fails at this expression.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Token.setName" title="nbodykit.utils.selectionlanguage.Token.setName"><code class="xref py py-obj docutils literal"><span class="pre">setName</span></code></a>(name)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Token.setName" title="nbodykit.utils.selectionlanguage.Token.setName"><code class="xref py py-obj docutils literal"><span class="pre">setName</span></code></a>(name)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setParseAction</span></code>(*fns,&nbsp;**kwargs)</td>
@@ -4903,7 +4903,7 @@ might contain false matches.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.TokenConverter">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">TokenConverter</code><span class="sig-paren">(</span><em>expr</em>, <em>savelist=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.TokenConverter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
 <p>Abstract subclass of C{ParseExpression}, for converting parsed results.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -4937,7 +4937,7 @@ might contain false matches.</p>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
@@ -5020,7 +5020,7 @@ might contain false matches.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Upcase">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Upcase</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Upcase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.TokenConverter" title="nbodykit.utils.selectionlanguage.TokenConverter"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.TokenConverter</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.TokenConverter" title="nbodykit.utils.selectionlanguage.TokenConverter"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.TokenConverter</span></code></a></p>
 <p>Converter to upper case all matching tokens.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -5054,7 +5054,7 @@ might contain false matches.</p>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
@@ -5068,7 +5068,7 @@ might contain false matches.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parseWithTabs</span></code>()</td>
 <td>Overrides default behavior to expand C{&lt;TAB&gt;}s to spaces before parsing the input string.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Upcase.postParse" title="nbodykit.utils.selectionlanguage.Upcase.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Upcase.postParse" title="nbodykit.utils.selectionlanguage.Upcase.postParse"><code class="xref py py-obj docutils literal"><span class="pre">postParse</span></code></a>(instring,&nbsp;loc,&nbsp;tokenlist)</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">preParse</span></code>(instring,&nbsp;loc)</td>
@@ -5142,7 +5142,7 @@ might contain false matches.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.White">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">White</code><span class="sig-paren">(</span><em>ws=' trn'</em>, <em>min=1</em>, <em>max=0</em>, <em>exact=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.White" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
 <p>Special matching class for matching whitespace.  Normally, whitespace is ignored
 by pyparsing grammars.  This class is included when some whitespace structures
 are significant.  Define with a string containing the whitespace characters to be
@@ -5180,12 +5180,12 @@ as defined for the C{L{Word}} class.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.White.parseImpl" title="nbodykit.utils.selectionlanguage.White.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.White.parseImpl" title="nbodykit.utils.selectionlanguage.White.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -5273,7 +5273,7 @@ as defined for the C{L{Word}} class.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.Word">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">Word</code><span class="sig-paren">(</span><em>initChars</em>, <em>bodyChars=None</em>, <em>min=1</em>, <em>max=0</em>, <em>exact=0</em>, <em>asKeyword=False</em>, <em>excludeChars=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.Word" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Token" title="nbodykit.utils.selectionlanguage.Token"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.Token</span></code></a></p>
 <p>Token for matching words composed of allowed character sets.
 Defined with string containing all allowed initial characters,
 an optional string containing allowed body characters (if omitted,
@@ -5316,12 +5316,12 @@ except for one or two characters, for instance.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.Word.parseImpl" title="nbodykit.utils.selectionlanguage.Word.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Word.parseImpl" title="nbodykit.utils.selectionlanguage.Word.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -5442,12 +5442,12 @@ the string being parsed, or at the end of a line.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.WordEnd.parseImpl" title="nbodykit.utils.selectionlanguage.WordEnd.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.WordEnd.parseImpl" title="nbodykit.utils.selectionlanguage.WordEnd.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -5568,12 +5568,12 @@ the string being parsed, or at the beginning of a line.</p>
 <td>Disables the skipping of whitespace before matching the characters in the C{ParserElement}&#8217;s defined pattern.</td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.WordStart.parseImpl" title="nbodykit.utils.selectionlanguage.WordStart.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.WordStart.parseImpl" title="nbodykit.utils.selectionlanguage.WordStart.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -5656,7 +5656,7 @@ the string being parsed, or at the beginning of a line.</p>
 <dl class="class">
 <dt id="nbodykit.utils.selectionlanguage.ZeroOrMore">
 <em class="property">class </em><code class="descclassname">nbodykit.utils.selectionlanguage.</code><code class="descname">ZeroOrMore</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.utils.selectionlanguage.ZeroOrMore" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ParseElementEnhance" title="nbodykit.utils.selectionlanguage.ParseElementEnhance"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.utils.selectionlanguage.ParseElementEnhance</span></code></a></p>
 <p>Optional repetition of zero or more of the given expression.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -5690,12 +5690,12 @@ the string being parsed, or at the beginning of a line.</p>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">literalStringClass</span></code></td>
-<td>alias of <a class="reference internal" href="#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+<td>alias of <a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.Literal" title="nbodykit.utils.selectionlanguage.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseFile</span></code>(file_or_filename[,&nbsp;parseAll])</td>
 <td>Execute the parse expression on the given file or filename.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ZeroOrMore.parseImpl" title="nbodykit.utils.selectionlanguage.ZeroOrMore.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
+<tr class="row-odd"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ZeroOrMore.parseImpl" title="nbodykit.utils.selectionlanguage.ZeroOrMore.parseImpl"><code class="xref py py-obj docutils literal"><span class="pre">parseImpl</span></code></a>(instring,&nbsp;loc[,&nbsp;doActions])</td>
 <td></td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parseString</span></code>(instring[,&nbsp;parseAll])</td>
@@ -5740,7 +5740,7 @@ the string being parsed, or at the beginning of a line.</p>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setParseAction</span></code>(*fns,&nbsp;**kwargs)</td>
 <td>Define action to perform when successfully matching parse element definition.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.utils.selectionlanguage.ZeroOrMore.setResultsName" title="nbodykit.utils.selectionlanguage.ZeroOrMore.setResultsName"><code class="xref py py-obj docutils literal"><span class="pre">setResultsName</span></code></a>(name[,&nbsp;listAllMatches])</td>
+<tr class="row-even"><td><a class="reference internal" href="../plugins/nbodykit.utils.selectionlanguage.html#nbodykit.utils.selectionlanguage.ZeroOrMore.setResultsName" title="nbodykit.utils.selectionlanguage.ZeroOrMore.setResultsName"><code class="xref py py-obj docutils literal"><span class="pre">setResultsName</span></code></a>(name[,&nbsp;listAllMatches])</td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setWhitespaceChars</span></code>(chars)</td>

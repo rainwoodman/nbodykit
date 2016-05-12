@@ -1,0 +1,7 @@
+nbodykit.utils.taskmanager module
+=================================
+
+.. automodule:: nbodykit.utils.taskmanager
+    :members:
+    :undoc-members:
+    :show-inheritance:

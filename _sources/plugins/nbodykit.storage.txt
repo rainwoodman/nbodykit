@@ -1,0 +1,7 @@
+nbodykit.storage module
+=======================
+
+.. automodule:: nbodykit.storage
+    :members:
+    :undoc-members:
+    :show-inheritance:

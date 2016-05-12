@@ -1,7 +1,0 @@
-plugins.datasource.TPMSnapshot module
-=====================================
-
-.. automodule:: plugins.datasource.TPMSnapshot
-    :members:
-    :undoc-members:
-    :show-inheritance:

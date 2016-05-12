@@ -1,7 +1,0 @@
-plugins.painter.MomentumPainter module
-======================================
-
-.. automodule:: plugins.painter.MomentumPainter
-    :members:
-    :undoc-members:
-    :show-inheritance:

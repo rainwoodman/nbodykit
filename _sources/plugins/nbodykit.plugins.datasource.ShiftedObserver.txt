@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.ShiftedObserver module
+==================================================
+
+.. automodule:: nbodykit.plugins.datasource.ShiftedObserver
+    :members:
+    :undoc-members:
+    :show-inheritance:

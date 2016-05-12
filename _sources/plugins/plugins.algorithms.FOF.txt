@@ -1,7 +1,0 @@
-plugins.algorithms.FOF module
-=============================
-
-.. automodule:: plugins.algorithms.FOF
-    :members:
-    :undoc-members:
-    :show-inheritance:

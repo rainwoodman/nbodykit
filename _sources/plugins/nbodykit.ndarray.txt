@@ -1,0 +1,7 @@
+nbodykit.ndarray module
+=======================
+
+.. automodule:: nbodykit.ndarray
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,1055 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.dataset module &mdash; nbodykit 0.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+        <link rel="up" title="nbodykit package" href="nbodykit.html"/>
+        <link rel="next" title="nbodykit.distributedarray module" href="nbodykit.distributedarray.html"/>
+        <link rel="prev" title="nbodykit.cosmology module" href="nbodykit.cosmology.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Plugins Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.corrfrompower.html">nbodykit.corrfrompower module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.cosmology.html">nbodykit.cosmology module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">nbodykit.dataset module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.distributedarray.html">nbodykit.distributedarray module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.extensionpoints.html">nbodykit.extensionpoints module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.files.html">nbodykit.files module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.fkp.html">nbodykit.fkp module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.fof.html">nbodykit.fof module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.halos.html">nbodykit.halos module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.measurestats.html">nbodykit.measurestats module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.ndarray.html">nbodykit.ndarray module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.pluginmanager.html">nbodykit.pluginmanager module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.storage.html">nbodykit.storage module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.stripedfile.html">nbodykit.stripedfile module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">Plugins Reference</a> &raquo;</li>
+      
+          <li><a href="nbodykit.html">nbodykit package</a> &raquo;</li>
+      
+    <li>nbodykit.dataset module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/nbodykit.dataset.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-nbodykit.dataset">
+<span id="nbodykit-dataset-module"></span><h1>nbodykit.dataset module<a class="headerlink" href="#module-nbodykit.dataset" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nbodykit.dataset.Corr1dDataSet">
+<em class="property">class </em><code class="descclassname">nbodykit.dataset.</code><code class="descname">Corr1dDataSet</code><span class="sig-paren">(</span><em>edges</em>, <em>variables</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Corr1dDataSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nbodykit.dataset.DataSet" title="nbodykit.dataset.DataSet"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.dataset.DataSet</span></code></a></p>
+<p>A <cite>DataSet</cite> that holds a 1D correlation function in bins of <cite>r</cite></p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">shape</span></code></td>
+<td>The shape of the coordinate grid</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">variables</span></code></td>
+<td>Alias to return the names of the variables stored in <cite>data</cite></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">average</span></code>(dim,&nbsp;**kwargs)</td>
+<td>Compute the average of each variable over the specified dimension.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code>()</td>
+<td>Returns a copy of the DataSet</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.dataset.Corr1dDataSet.from_nbkit" title="nbodykit.dataset.Corr1dDataSet.from_nbkit"><code class="xref py py-obj docutils literal"><span class="pre">from_nbkit</span></code></a>(d,&nbsp;meta[,&nbsp;columns])</td>
+<td>Return a <cite>Corr1dDataSet</cite> instance taking the return values</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">reindex</span></code>(dim,&nbsp;spacing[,&nbsp;weights,&nbsp;force,&nbsp;...])</td>
+<td>Reindex the dimension <cite>dim</cite> by averaging over multiple coordinate bins,  optionally weighting by <cite>weights</cite>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">rename_variable</span></code>(old_name,&nbsp;new_name)</td>
+<td>Rename a variable in <code class="xref py py-attr docutils literal"><span class="pre">data</span></code> from <cite>old_name</cite> to <cite>new_name</cite></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">sel</span></code>([method])</td>
+<td>Return a new DataSet indexed by coordinate values along the</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">squeeze</span></code>([dim])</td>
+<td>Squeeze the DataSet along the specified dimension, which</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.dataset.Corr1dDataSet.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>edges</em>, <em>variables</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Corr1dDataSet.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.dataset.Corr1dDataSet.from_nbkit">
+<em class="property">classmethod </em><code class="descname">from_nbkit</code><span class="sig-paren">(</span><em>d</em>, <em>meta</em>, <em>columns=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Corr1dDataSet.from_nbkit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <cite>Corr1dDataSet</cite> instance taking the return values
+of <cite>files.Read1DPlaintext</cite> as input</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>d</strong> : array_like</p>
+<blockquote>
+<div><p>the 1D data stacked vertically, such that each columns
+represents a separate data variable</p>
+</div></blockquote>
+<p><strong>meta</strong> : dict</p>
+<blockquote>
+<div><p>any additional metadata to store as part of the 
+P(k) measurement</p>
+</div></blockquote>
+<p><strong>columns</strong> : list</p>
+<blockquote class="last">
+<div><p>list of the column names &#8211; required if <cite>columns</cite>
+not in <cite>meta</cite> dictionary</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nbodykit</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">Power1dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read1DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.dataset.Corr2dDataSet">
+<em class="property">class </em><code class="descclassname">nbodykit.dataset.</code><code class="descname">Corr2dDataSet</code><span class="sig-paren">(</span><em>edges</em>, <em>variables</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Corr2dDataSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nbodykit.dataset.DataSet" title="nbodykit.dataset.DataSet"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.dataset.DataSet</span></code></a></p>
+<p>A <cite>DataSet</cite> that holds a 2D correlation in bins of <cite>k</cite> and <cite>mu</cite></p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">shape</span></code></td>
+<td>The shape of the coordinate grid</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">variables</span></code></td>
+<td>Alias to return the names of the variables stored in <cite>data</cite></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">average</span></code>(dim,&nbsp;**kwargs)</td>
+<td>Compute the average of each variable over the specified dimension.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code>()</td>
+<td>Returns a copy of the DataSet</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.dataset.Corr2dDataSet.from_nbkit" title="nbodykit.dataset.Corr2dDataSet.from_nbkit"><code class="xref py py-obj docutils literal"><span class="pre">from_nbkit</span></code></a>(d,&nbsp;meta,&nbsp;**kwargs)</td>
+<td>Return a <cite>Corr2dDataSet</cite> instance taking the return values</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">reindex</span></code>(dim,&nbsp;spacing[,&nbsp;weights,&nbsp;force,&nbsp;...])</td>
+<td>Reindex the dimension <cite>dim</cite> by averaging over multiple coordinate bins,  optionally weighting by <cite>weights</cite>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">rename_variable</span></code>(old_name,&nbsp;new_name)</td>
+<td>Rename a variable in <code class="xref py py-attr docutils literal"><span class="pre">data</span></code> from <cite>old_name</cite> to <cite>new_name</cite></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">sel</span></code>([method])</td>
+<td>Return a new DataSet indexed by coordinate values along the</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">squeeze</span></code>([dim])</td>
+<td>Squeeze the DataSet along the specified dimension, which</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.dataset.Corr2dDataSet.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>edges</em>, <em>variables</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Corr2dDataSet.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.dataset.Corr2dDataSet.from_nbkit">
+<em class="property">classmethod </em><code class="descname">from_nbkit</code><span class="sig-paren">(</span><em>d</em>, <em>meta</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Corr2dDataSet.from_nbkit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <cite>Corr2dDataSet</cite> instance taking the return values
+of <cite>files.Read2DPlaintext</cite> as input</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>d</strong> : dict</p>
+<blockquote>
+<div><p>dictionary holding the <cite>edges</cite> data, as well as the
+data columns for the 2D measurement</p>
+</div></blockquote>
+<p><strong>meta</strong> : dict</p>
+<blockquote class="last">
+<div><p>any additional metadata to store as part of the 
+2D measurement</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nbodykit</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">Corr2dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read2DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.dataset.DataSet">
+<em class="property">class </em><code class="descclassname">nbodykit.dataset.</code><code class="descname">DataSet</code><span class="sig-paren">(</span><em>dims</em>, <em>edges</em>, <em>variables</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.DataSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Lightweight class to hold variables at fixed coordinates, i.e.,
+a grid of (r, mu) or (k, mu) bins for a correlation function or
+power spectrum measurement</p>
+<p>It is modeled after the syntax of <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v0.7.2)"><code class="xref py py-class docutils literal"><span class="pre">xarray.Dataset</span></code></a>, and is designed 
+to hold correlation function or power spectrum results (in 1D or 2D)</p>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>the suffix <em>cen</em> will be appended to the names of the 
+dimensions passed to the constructor, since the <code class="xref py py-attr docutils literal"><span class="pre">coords</span></code> array holds
+the <strong>bin centers</strong>, as constructed from the bin edges</li>
+</ul>
+<p class="rubric">Examples</p>
+<p>The following example shows how to read a power spectrum or correlation 
+function measurement as written by a nbodykit <cite>Algorithm</cite>. It uses
+<code class="xref py py-func docutils literal"><span class="pre">Read1DPlaintext()</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nbodykit</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">Corr2dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read2DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pk</span> <span class="o">=</span> <span class="n">Power1dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read1DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Data variables and coordinate arrays can be accessed in a dict-like
+fashion:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">power</span> <span class="o">=</span> <span class="n">pkmu</span><span class="p">[</span><span class="s">&#39;power&#39;</span><span class="p">]</span> <span class="c"># returns power data variable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">k_cen</span> <span class="o">=</span> <span class="n">pkmu</span><span class="p">[</span><span class="s">&#39;k_cen&#39;</span><span class="p">]</span> <span class="c"># returns k_cen coordinate array</span>
+</pre></div>
+</div>
+<p>Array-like indexing of a <a class="reference internal" href="#nbodykit.dataset.DataSet" title="nbodykit.dataset.DataSet"><code class="xref py py-class docutils literal"><span class="pre">DataSet</span></code></a> returns a new <a class="reference internal" href="#nbodykit.dataset.DataSet" title="nbodykit.dataset.DataSet"><code class="xref py py-class docutils literal"><span class="pre">DataSet</span></code></a>
+holding the sliced data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span>
+<span class="go">&lt;DataSet: dims: (k_cen: 200, mu_cen: 5), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="c"># select first mu column</span>
+<span class="go">&lt;DataSet: dims: (k_cen: 200), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+</pre></div>
+</div>
+<p>Additional data variables can be added to the <a class="reference internal" href="#nbodykit.dataset.DataSet" title="nbodykit.dataset.DataSet"><code class="xref py py-class docutils literal"><span class="pre">DataSet</span></code></a> via:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">modes</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">200</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span><span class="p">[</span><span class="s">&#39;modes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">modes</span>
+</pre></div>
+</div>
+<p>Coordinate-based indexing is possible through <a class="reference internal" href="#nbodykit.dataset.DataSet.sel" title="nbodykit.dataset.DataSet.sel"><code class="xref py py-func docutils literal"><span class="pre">sel()</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span>
+<span class="go">&lt;DataSet: dims: (k_cen: 200, mu_cen: 5), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">k_cen</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span> <span class="n">mu_cen</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">&lt;DataSet: dims: (k_cen: 30), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#nbodykit.dataset.DataSet.squeeze" title="nbodykit.dataset.DataSet.squeeze"><code class="xref py py-func docutils literal"><span class="pre">squeeze()</span></code></a> will explicitly squeeze the specified dimension 
+(of length one) such that the resulting instance has one less dimension:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span>
+<span class="go">&lt;DataSet: dims: (k_cen: 200, mu_cen: 1), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s">&#39;mu_cen&#39;</span><span class="p">)</span> <span class="c"># can also just call pkmu.squeeze()</span>
+<span class="go">&lt;DataSet: dims: (k_cen: 200), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#nbodykit.dataset.DataSet.average" title="nbodykit.dataset.DataSet.average"><code class="xref py py-func docutils literal"><span class="pre">average()</span></code></a> returns a new <a class="reference internal" href="#nbodykit.dataset.DataSet" title="nbodykit.dataset.DataSet"><code class="xref py py-class docutils literal"><span class="pre">DataSet</span></code></a> holding the 
+data averaged over one dimension</p>
+<p><a class="reference internal" href="#nbodykit.dataset.DataSet.reindex" title="nbodykit.dataset.DataSet.reindex"><code class="xref py py-func docutils literal"><span class="pre">reindex()</span></code></a> will re-bin the coordinate arrays along the specified 
+dimension</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.dataset.DataSet.shape" title="nbodykit.dataset.DataSet.shape"><code class="xref py py-obj docutils literal"><span class="pre">shape</span></code></a></td>
+<td>The shape of the coordinate grid</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.dataset.DataSet.variables" title="nbodykit.dataset.DataSet.variables"><code class="xref py py-obj docutils literal"><span class="pre">variables</span></code></a></td>
+<td>Alias to return the names of the variables stored in <cite>data</cite></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.dataset.DataSet.average" title="nbodykit.dataset.DataSet.average"><code class="xref py py-obj docutils literal"><span class="pre">average</span></code></a>(dim,&nbsp;**kwargs)</td>
+<td>Compute the average of each variable over the specified dimension.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.dataset.DataSet.copy" title="nbodykit.dataset.DataSet.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
+<td>Returns a copy of the DataSet</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.dataset.DataSet.from_nbkit" title="nbodykit.dataset.DataSet.from_nbkit"><code class="xref py py-obj docutils literal"><span class="pre">from_nbkit</span></code></a>(d,&nbsp;meta)</td>
+<td>Return a DataSet object from a dictionary of data and</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.dataset.DataSet.reindex" title="nbodykit.dataset.DataSet.reindex"><code class="xref py py-obj docutils literal"><span class="pre">reindex</span></code></a>(dim,&nbsp;spacing[,&nbsp;weights,&nbsp;force,&nbsp;...])</td>
+<td>Reindex the dimension <cite>dim</cite> by averaging over multiple coordinate bins,  optionally weighting by <cite>weights</cite>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.dataset.DataSet.rename_variable" title="nbodykit.dataset.DataSet.rename_variable"><code class="xref py py-obj docutils literal"><span class="pre">rename_variable</span></code></a>(old_name,&nbsp;new_name)</td>
+<td>Rename a variable in <code class="xref py py-attr docutils literal"><span class="pre">data</span></code> from <cite>old_name</cite> to <cite>new_name</cite></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.dataset.DataSet.sel" title="nbodykit.dataset.DataSet.sel"><code class="xref py py-obj docutils literal"><span class="pre">sel</span></code></a>([method])</td>
+<td>Return a new DataSet indexed by coordinate values along the</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.dataset.DataSet.squeeze" title="nbodykit.dataset.DataSet.squeeze"><code class="xref py py-obj docutils literal"><span class="pre">squeeze</span></code></a>([dim])</td>
+<td>Squeeze the DataSet along the specified dimension, which</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.dataset.DataSet.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>dims</em>, <em>edges</em>, <em>variables</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.DataSet.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dims</strong> : list, (Ndim,)</p>
+<blockquote>
+<div><p>A list of strings specifying names for the coordinate dimensions.
+The dimension names stored in <code class="xref py py-attr docutils literal"><span class="pre">dims</span></code> have the suffix &#8216;cen&#8217;
+added, to indicate that the coordinate grid is defined at the bin 
+centers</p>
+</div></blockquote>
+<p><strong>edges</strong> : list, (Ndim,)</p>
+<blockquote>
+<div><p>A list specifying the bin edges for each dimension</p>
+</div></blockquote>
+<p><strong>variables</strong> : dict</p>
+<blockquote>
+<div><p>a dictionary holding the data variables, where the keys
+are interpreted as the variable names. The variable names are 
+stored in <a class="reference internal" href="#nbodykit.dataset.DataSet.variables" title="nbodykit.dataset.DataSet.variables"><code class="xref py py-attr docutils literal"><span class="pre">variables</span></code></a></p>
+</div></blockquote>
+<p><strong>**kwargs :</strong></p>
+<blockquote class="last">
+<div><p>Any additional keywords are saved as metadata in the <code class="xref py py-attr docutils literal"><span class="pre">attrs</span></code>
+attribute, which is an <a class="reference external" href="https://docs.python.org/2.7/library/collections.html#collections.OrderedDict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">OrderedDict</span></code></a></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.dataset.DataSet.average">
+<code class="descname">average</code><span class="sig-paren">(</span><em>dim</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.DataSet.average" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the average of each variable over the specified dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dim</strong> : str</p>
+<blockquote>
+<div><p>The name of the dimension to average over</p>
+</div></blockquote>
+<p><strong>**kwargs :</strong></p>
+<blockquote>
+<div><p>Additional keywords to pass to <a class="reference internal" href="#nbodykit.dataset.DataSet.reindex" title="nbodykit.dataset.DataSet.reindex"><code class="xref py py-func docutils literal"><span class="pre">DataSet.reindex()</span></code></a>. See the 
+documentation for <a class="reference internal" href="#nbodykit.dataset.DataSet.reindex" title="nbodykit.dataset.DataSet.reindex"><code class="xref py py-func docutils literal"><span class="pre">DataSet.reindex()</span></code></a> for valid keywords.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>averaged</strong> : DataSet</p>
+<blockquote class="last">
+<div><p>A new DataSet, with data averaged along one dimension, 
+which reduces the number of dimension by one</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.dataset.DataSet.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.DataSet.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a copy of the DataSet</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.dataset.DataSet.from_nbkit">
+<em class="property">classmethod </em><code class="descname">from_nbkit</code><span class="sig-paren">(</span><em>d</em>, <em>meta</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.DataSet.from_nbkit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a DataSet object from a dictionary of data and
+metadata</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>d</strong> : dict</p>
+<blockquote>
+<div><p>A dictionary holding the data variables, as well as the
+<cite>dims</cite> and <cite>edges</cite> values</p>
+</div></blockquote>
+<p><strong>meta</strong> : dict</p>
+<blockquote>
+<div><p>dictionary of metadata to store in the <code class="xref py py-attr docutils literal"><span class="pre">attrs</span></code> attribute</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DataSet</p>
+<blockquote class="last">
+<div><p>The newly constructed DataSet</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>The dictionary <cite>d</cite> must also have entries for <cite>dims</cite>
+and <cite>edges</cite> which are used to construct the DataSet</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.dataset.DataSet.reindex">
+<code class="descname">reindex</code><span class="sig-paren">(</span><em>dim</em>, <em>spacing</em>, <em>weights=None</em>, <em>force=True</em>, <em>return_spacing=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.DataSet.reindex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reindex the dimension <cite>dim</cite> by averaging over multiple coordinate bins, 
+optionally weighting by <cite>weights</cite>. Return a new DataSet holding the 
+re-binned data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dim</strong> : str</p>
+<blockquote>
+<div><p>The name of the dimension to average over</p>
+</div></blockquote>
+<p><strong>spacing</strong> : float</p>
+<blockquote>
+<div><p>The desired spacing for the re-binned data. If <cite>force = True</cite>,
+the spacing used will be the closest value to this value, such
+that the new bins are N times larger, when N is an integer</p>
+</div></blockquote>
+<p><strong>weights</strong> : array_like or str, optional (<cite>None</cite>)</p>
+<blockquote>
+<div><p>An array to weight the data by before re-binning, or if
+a string is provided, the name of a data column to use as weights</p>
+</div></blockquote>
+<p><strong>force</strong> : bool, optional</p>
+<blockquote>
+<div><p>If <cite>True</cite>, force the spacing to be a value such
+that the new bins are N times larger, when N is an integer, 
+otherwise, raise an exception. Default is <cite>True</cite></p>
+</div></blockquote>
+<p><strong>return_spacing</strong> : bool, optional</p>
+<blockquote>
+<div><p>If <cite>True</cite>, return the new spacing as the second return value. 
+Default is <cite>False</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>rebinned</strong> : DataSet</p>
+<blockquote>
+<div><p>A new DataSet instance, which holds the rebinned coordinate
+grid and data variables</p>
+</div></blockquote>
+<p><strong>spacing</strong> : float, optional</p>
+<blockquote class="last">
+<div><p>If <cite>return_spacing</cite> is <cite>True</cite>, the new coordinate spacing 
+will be returned</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>We can only re-bin to an integral factor of the current 
+dimension size in order to inaccuracies when re-binning to 
+overlapping bins</li>
+<li>Variables specified in <code class="xref py py-attr docutils literal"><span class="pre">DataSet._fields_to_sum</span></code> will 
+be summed when re-indexing, instead of averaging</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.dataset.DataSet.rename_variable">
+<code class="descname">rename_variable</code><span class="sig-paren">(</span><em>old_name</em>, <em>new_name</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.DataSet.rename_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rename a variable in <code class="xref py py-attr docutils literal"><span class="pre">data</span></code> from <cite>old_name</cite> to <cite>new_name</cite></p>
+<p>Note that this procedure is performed in-place (does not 
+return a new DataSet)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>old_name</strong> : str</p>
+<blockquote>
+<div><p>the name of the old varibale to rename</p>
+</div></blockquote>
+<p><strong>new_name</strong> : str</p>
+<blockquote>
+<div><p>the desired new variable name</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ValueError</strong></p>
+<blockquote class="last">
+<div><p>If <cite>old_name</cite> is not present in <a class="reference internal" href="#nbodykit.dataset.DataSet.variables" title="nbodykit.dataset.DataSet.variables"><code class="xref py py-attr docutils literal"><span class="pre">variables</span></code></a></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.dataset.DataSet.sel">
+<code class="descname">sel</code><span class="sig-paren">(</span><em>method=None</em>, <em>**indexers</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.DataSet.sel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new DataSet indexed by coordinate values along the 
+specified dimension(s)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>method</strong> : {None, &#8216;nearest&#8217;}</p>
+<blockquote>
+<div><p>The method to use for inexact matches; if set to <cite>None</cite>, require
+an exact coordinate match, otherwise match the nearest coordinate</p>
+</div></blockquote>
+<p><strong>**indexers :</strong></p>
+<blockquote>
+<div><p>the pairs of dimension name and coordinate value used to index
+the DataSet</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>sliced</strong> : DataSet</p>
+<blockquote class="last">
+<div><p>a new DataSet holding the sliced data and coordinate grid</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Scalar values used to index a specific dimension will result in 
+that dimension being squeezed. To keep a dimension of unit length,
+use a list to index (see examples below).</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span>
+<span class="go">&lt;DataSet: dims: (k_cen: 200, mu_cen: 5), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">k_cen</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="go">&lt;DataSet: dims: (mu_cen: 5), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">k_cen</span><span class="o">=</span><span class="p">[</span><span class="mf">0.4</span><span class="p">])</span>
+<span class="go">&lt;DataSet: dims: (k_cen: 1, mu_cen: 5), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">k_cen</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span> <span class="n">mu_cen</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">&lt;DataSet: dims: (k_cen: 30), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.dataset.DataSet.shape">
+<code class="descname">shape</code><a class="headerlink" href="#nbodykit.dataset.DataSet.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>The shape of the coordinate grid</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.dataset.DataSet.squeeze">
+<code class="descname">squeeze</code><span class="sig-paren">(</span><em>dim=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.DataSet.squeeze" title="Permalink to this definition">¶</a></dt>
+<dd><p>Squeeze the DataSet along the specified dimension, which
+removes that dimension from the DataSet</p>
+<p>The behavior is similar to that of <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.squeeze.html#numpy.squeeze" title="(in NumPy v1.10)"><code class="xref py py-func docutils literal"><span class="pre">numpy.squeeze()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dim</strong> : str, optional</p>
+<blockquote>
+<div><p>The name of the dimension to squeeze. If no dimension
+is provided, then the one dimension with unit length will 
+be squeezed</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>squeezed</strong> : DataSet</p>
+<blockquote>
+<div><p>a new DataSet instance, squeezed along one dimension</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ValueError</strong></p>
+<blockquote class="last">
+<div><p>If the specified dimension does not have length one, or 
+no dimension is specified and multiple dimensions have 
+length one</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span>
+<span class="go">&lt;DataSet: dims: (k_cen: 200, mu_cen: 1), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pkmu</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span> <span class="c"># squeeze the mu dimension</span>
+<span class="go">&lt;DataSet: dims: (k_cen: 200), variables: (&#39;mu&#39;, &#39;k&#39;, &#39;power&#39;)&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.dataset.DataSet.variables">
+<code class="descname">variables</code><a class="headerlink" href="#nbodykit.dataset.DataSet.variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias to return the names of the variables stored in <cite>data</cite></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.dataset.Power1dDataSet">
+<em class="property">class </em><code class="descclassname">nbodykit.dataset.</code><code class="descname">Power1dDataSet</code><span class="sig-paren">(</span><em>edges</em>, <em>variables</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Power1dDataSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nbodykit.dataset.DataSet" title="nbodykit.dataset.DataSet"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.dataset.DataSet</span></code></a></p>
+<p>A <cite>DataSet</cite> that holds a 1D power spectrum in bins of <cite>k</cite></p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">shape</span></code></td>
+<td>The shape of the coordinate grid</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">variables</span></code></td>
+<td>Alias to return the names of the variables stored in <cite>data</cite></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">average</span></code>(dim,&nbsp;**kwargs)</td>
+<td>Compute the average of each variable over the specified dimension.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code>()</td>
+<td>Returns a copy of the DataSet</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.dataset.Power1dDataSet.from_nbkit" title="nbodykit.dataset.Power1dDataSet.from_nbkit"><code class="xref py py-obj docutils literal"><span class="pre">from_nbkit</span></code></a>(d,&nbsp;meta[,&nbsp;columns])</td>
+<td>Return a <cite>Power1dDataSet</cite> instance taking the return values</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">reindex</span></code>(dim,&nbsp;spacing[,&nbsp;weights,&nbsp;force,&nbsp;...])</td>
+<td>Reindex the dimension <cite>dim</cite> by averaging over multiple coordinate bins,  optionally weighting by <cite>weights</cite>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">rename_variable</span></code>(old_name,&nbsp;new_name)</td>
+<td>Rename a variable in <code class="xref py py-attr docutils literal"><span class="pre">data</span></code> from <cite>old_name</cite> to <cite>new_name</cite></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">sel</span></code>([method])</td>
+<td>Return a new DataSet indexed by coordinate values along the</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">squeeze</span></code>([dim])</td>
+<td>Squeeze the DataSet along the specified dimension, which</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.dataset.Power1dDataSet.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>edges</em>, <em>variables</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Power1dDataSet.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.dataset.Power1dDataSet.from_nbkit">
+<em class="property">classmethod </em><code class="descname">from_nbkit</code><span class="sig-paren">(</span><em>d</em>, <em>meta</em>, <em>columns=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Power1dDataSet.from_nbkit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <cite>Power1dDataSet</cite> instance taking the return values
+of <cite>files.Read1DPlaintext</cite> as input</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>d</strong> : array_like</p>
+<blockquote>
+<div><p>the 1D data stacked vertically, such that each columns
+represents a separate data variable</p>
+</div></blockquote>
+<p><strong>meta</strong> : dict</p>
+<blockquote>
+<div><p>any additional metadata to store as part of the 
+P(k) measurement</p>
+</div></blockquote>
+<p><strong>columns</strong> : list</p>
+<blockquote class="last">
+<div><p>list of the column names &#8211; required if <cite>columns</cite>
+not in <cite>meta</cite> dictionary</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nbodykit</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">power</span> <span class="o">=</span> <span class="n">Power1dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read1DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.dataset.Power2dDataSet">
+<em class="property">class </em><code class="descclassname">nbodykit.dataset.</code><code class="descname">Power2dDataSet</code><span class="sig-paren">(</span><em>edges</em>, <em>variables</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Power2dDataSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nbodykit.dataset.DataSet" title="nbodykit.dataset.DataSet"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.dataset.DataSet</span></code></a></p>
+<p>A <cite>DataSet</cite> that holds a 2D power spectrum in bins of <cite>k</cite> and <cite>mu</cite></p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">shape</span></code></td>
+<td>The shape of the coordinate grid</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">variables</span></code></td>
+<td>Alias to return the names of the variables stored in <cite>data</cite></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">average</span></code>(dim,&nbsp;**kwargs)</td>
+<td>Compute the average of each variable over the specified dimension.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code>()</td>
+<td>Returns a copy of the DataSet</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.dataset.Power2dDataSet.from_nbkit" title="nbodykit.dataset.Power2dDataSet.from_nbkit"><code class="xref py py-obj docutils literal"><span class="pre">from_nbkit</span></code></a>(d,&nbsp;meta,&nbsp;**kwargs)</td>
+<td>Return a <cite>Power2dDataSet</cite> instance taking the return values</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">reindex</span></code>(dim,&nbsp;spacing[,&nbsp;weights,&nbsp;force,&nbsp;...])</td>
+<td>Reindex the dimension <cite>dim</cite> by averaging over multiple coordinate bins,  optionally weighting by <cite>weights</cite>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">rename_variable</span></code>(old_name,&nbsp;new_name)</td>
+<td>Rename a variable in <code class="xref py py-attr docutils literal"><span class="pre">data</span></code> from <cite>old_name</cite> to <cite>new_name</cite></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">sel</span></code>([method])</td>
+<td>Return a new DataSet indexed by coordinate values along the</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">squeeze</span></code>([dim])</td>
+<td>Squeeze the DataSet along the specified dimension, which</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.dataset.Power2dDataSet.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>edges</em>, <em>variables</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Power2dDataSet.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.dataset.Power2dDataSet.from_nbkit">
+<em class="property">classmethod </em><code class="descname">from_nbkit</code><span class="sig-paren">(</span><em>d</em>, <em>meta</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Power2dDataSet.from_nbkit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <cite>Power2dDataSet</cite> instance taking the return values
+of <cite>files.Read2DPlaintext</cite> as input</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>d</strong> : dict</p>
+<blockquote>
+<div><p>dictionary holding the <cite>edges</cite> data, as well as the
+data columns for the 2D measurement</p>
+</div></blockquote>
+<p><strong>meta</strong> : dict</p>
+<blockquote class="last">
+<div><p>any additional metadata to store as part of the 
+2D measurement</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nbodykit</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">power</span> <span class="o">=</span> <span class="n">Power2dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read2DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.dataset.bin_ndarray">
+<code class="descclassname">nbodykit.dataset.</code><code class="descname">bin_ndarray</code><span class="sig-paren">(</span><em>ndarray</em>, <em>new_shape</em>, <em>weights=None</em>, <em>operation=&lt;function mean&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.bin_ndarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bins an ndarray in all axes based on the target shape, by summing 
+or averaging.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ndarray</strong> : array_like</p>
+<blockquote>
+<div><p>the input array to re-bin</p>
+</div></blockquote>
+<p><strong>new_shape</strong> : tuple</p>
+<blockquote>
+<div><p>the tuple holding the desired new shape</p>
+</div></blockquote>
+<p><strong>weights</strong> : array_like, optional</p>
+<blockquote class="last">
+<div><p>weights to multiply the input array by, before running the re-binning
+operation,</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>Dimensions in <cite>new_shape</cite> must be integral factor smaller than the 
+old shape</li>
+<li>Number of output dimensions must match number of input dimensions.</li>
+<li>See <a class="reference external" href="https://gist.github.com/derricw/95eab740e1b08b78c03f">https://gist.github.com/derricw/95eab740e1b08b78c03f</a></li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.dataset.from_1d_measurement">
+<code class="descclassname">nbodykit.dataset.</code><code class="descname">from_1d_measurement</code><span class="sig-paren">(</span><em>dims</em>, <em>d</em>, <em>meta</em>, <em>columns=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.from_1d_measurement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a DataSet object from columns of data and
+any additional meta data</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.dataset.from_2d_measurement">
+<code class="descclassname">nbodykit.dataset.</code><code class="descname">from_2d_measurement</code><span class="sig-paren">(</span><em>dims</em>, <em>d</em>, <em>meta</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.from_2d_measurement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a DataSet object from a dictionary of data 
+and any additional data</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nbodykit.distributedarray.html" class="btn btn-neutral float-right" title="nbodykit.distributedarray module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nbodykit.cosmology.html" class="btn btn-neutral" title="nbodykit.cosmology module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,7 +1,0 @@
-plugins.datasource.UniformBox module
-====================================
-
-.. automodule:: plugins.datasource.UniformBox
-    :members:
-    :undoc-members:
-    :show-inheritance:

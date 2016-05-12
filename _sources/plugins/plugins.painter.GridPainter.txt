@@ -1,7 +1,0 @@
-plugins.painter.GridPainter module
-==================================
-
-.. automodule:: plugins.painter.GridPainter
-    :members:
-    :undoc-members:
-    :show-inheritance:

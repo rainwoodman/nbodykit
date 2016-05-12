@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.PairCountCorrelation module
+=======================================================
+
+.. automodule:: nbodykit.plugins.algorithms.PairCountCorrelation
+    :members:
+    :undoc-members:
+    :show-inheritance:

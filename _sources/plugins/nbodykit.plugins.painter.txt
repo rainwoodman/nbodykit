@@ -1,0 +1,17 @@
+nbodykit.plugins.painter package
+================================
+
+.. automodule:: nbodykit.plugins.painter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   nbodykit.plugins.painter.DefaultPainter
+   nbodykit.plugins.painter.GridPainter
+   nbodykit.plugins.painter.MomentumPainter
+

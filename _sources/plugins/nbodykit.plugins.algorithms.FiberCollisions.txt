@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.FiberCollisions module
+==================================================
+
+.. automodule:: nbodykit.plugins.algorithms.FiberCollisions
+    :members:
+    :undoc-members:
+    :show-inheritance:

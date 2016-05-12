@@ -1,0 +1,27 @@
+nbodykit.plugins.datasource package
+===================================
+
+.. automodule:: nbodykit.plugins.datasource
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   nbodykit.plugins.datasource.FOFGroups
+   nbodykit.plugins.datasource.FastPM
+   nbodykit.plugins.datasource.Gadget
+   nbodykit.plugins.datasource.Grid
+   nbodykit.plugins.datasource.HaloLabel
+   nbodykit.plugins.datasource.Pandas
+   nbodykit.plugins.datasource.PlainText
+   nbodykit.plugins.datasource.RaDecRedshift
+   nbodykit.plugins.datasource.ShiftedObserver
+   nbodykit.plugins.datasource.Subsample
+   nbodykit.plugins.datasource.TPMLabel
+   nbodykit.plugins.datasource.TPMSnapshot
+   nbodykit.plugins.datasource.UniformBox
+

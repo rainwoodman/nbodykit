@@ -1,7 +1,0 @@
-plugins.datasource.HaloLabel module
-===================================
-
-.. automodule:: plugins.datasource.HaloLabel
-    :members:
-    :undoc-members:
-    :show-inheritance:

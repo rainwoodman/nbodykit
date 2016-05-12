@@ -1,0 +1,380 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.fof module &mdash; nbodykit 0.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+        <link rel="up" title="nbodykit package" href="nbodykit.html"/>
+        <link rel="next" title="nbodykit.halos module" href="nbodykit.halos.html"/>
+        <link rel="prev" title="nbodykit.fkp module" href="nbodykit.fkp.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Plugins Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.corrfrompower.html">nbodykit.corrfrompower module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.cosmology.html">nbodykit.cosmology module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.dataset.html">nbodykit.dataset module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.distributedarray.html">nbodykit.distributedarray module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.extensionpoints.html">nbodykit.extensionpoints module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.files.html">nbodykit.files module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.fkp.html">nbodykit.fkp module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">nbodykit.fof module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.halos.html">nbodykit.halos module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.measurestats.html">nbodykit.measurestats module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.ndarray.html">nbodykit.ndarray module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.pluginmanager.html">nbodykit.pluginmanager module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.storage.html">nbodykit.storage module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.stripedfile.html">nbodykit.stripedfile module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">Plugins Reference</a> &raquo;</li>
+      
+          <li><a href="nbodykit.html">nbodykit package</a> &raquo;</li>
+      
+    <li>nbodykit.fof module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/nbodykit.fof.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-nbodykit.fof">
+<span id="nbodykit-fof-module"></span><h1>nbodykit.fof module<a class="headerlink" href="#module-nbodykit.fof" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="nbodykit.fof.fof">
+<code class="descclassname">nbodykit.fof.</code><code class="descname">fof</code><span class="sig-paren">(</span><em>datasource</em>, <em>linking_length</em>, <em>nmin</em>, <em>comm=&lt;mpi4py.MPI.Intracomm object&gt;</em>, <em>log_level=10</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.fof.fof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run Friend-of-friend halo finder.</p>
+<p>Friend-of-friend was first used by Davis et al 1985 to define
+halos in hierachical structure formation of cosmological simulations.
+The algorithm is also known as DBSCAN in computer science. 
+The subroutine here implements a parallel version of the FOF.</p>
+<p>The underlying local FOF algorithm is from <cite>kdcount.cluster</cite>, 
+which is an adaptation of the implementation in Volker Springel&#8217;s 
+Gadget and Martin White&#8217;s PM. It could have been done faster.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>datasource: DataSource</strong></p>
+<blockquote>
+<div><p>datasource; must support Position.
+datasource.BoxSize is used too.</p>
+</div></blockquote>
+<p><strong>linking_length: float</strong></p>
+<blockquote>
+<div><p>linking length in data units. (Usually Mpc/h).</p>
+</div></blockquote>
+<p><strong>nmin: int</strong></p>
+<blockquote>
+<div><p>Minimal length (number of particles) of a halo. Features
+with less than nmin particles are considered noise, and
+removed from the catalogue</p>
+</div></blockquote>
+<p><strong>comm: MPI.Comm</strong></p>
+<blockquote>
+<div><p>The mpi communicator.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">label: array_like</p>
+<blockquote class="last">
+<div><p>The halo label of each position. A label of 0 standands for not in any halo.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.fof.fof_catalogue">
+<code class="descclassname">nbodykit.fof.</code><code class="descname">fof_catalogue</code><span class="sig-paren">(</span><em>datasource</em>, <em>label</em>, <em>comm</em>, <em>calculate_initial=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.fof.fof_catalogue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Catalogue of FOF groups based on label from a data source</p>
+<p>Friend-of-friend was first used by Davis et al 1985 to define
+halos in hierachical structure formation of cosmological simulations.
+The algorithm is also known as DBSCAN in computer science. 
+The subroutine here implements a parallel version of the FOF.</p>
+<p>The underlying local FOF algorithm is from <cite>kdcount.cluster</cite>, 
+which is an adaptation of the implementation in Volker Springel&#8217;s 
+Gadget and Martin White&#8217;s PM. It could have been done faster.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>label</strong> : array_like</p>
+<blockquote>
+<div><p>halo label of particles from data source.</p>
+</div></blockquote>
+<p><strong>datasource: DataSource</strong></p>
+<blockquote>
+<div><p>datasource; must support Position and Velocity.
+datasource.BoxSize is used too.</p>
+</div></blockquote>
+<p><strong>comm: MPI.Comm</strong></p>
+<blockquote>
+<div><p>The mpi communicator. Must agree with the datasource</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">catalogue: array_like</p>
+<blockquote class="last">
+<div><p>A 1-d array of type &#8216;Position&#8217;, &#8216;Velocity&#8217;, &#8216;Length&#8217;. 
+The center mass position and velocity of the FOF halo, and
+Length is the number of particles in a halo. The catalogue is
+sorted such that the most massive halo is first. catalogue[0]
+does not correspond to any halo.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.fof.fof_halo_label">
+<code class="descclassname">nbodykit.fof.</code><code class="descname">fof_halo_label</code><span class="sig-paren">(</span><em>minid</em>, <em>comm</em>, <em>thresh</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.fof.fof_halo_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert minid to sequential labels starting from 0.</p>
+<p>This routine is used to assign halo label to particles with
+the same minid.
+Halos with less than thresh particles are reclassified to 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>minid</strong> : array_like, (&#8216;i8&#8217;)</p>
+<blockquote>
+<div><p>The minimum particle id of the halo. All particles of a halo 
+have the same minid</p>
+</div></blockquote>
+<p><strong>thresh</strong> : int</p>
+<blockquote>
+<div><p>halo with less than thresh particles are merged into halo 0</p>
+</div></blockquote>
+<p><strong>comm</strong> : py:class:<cite>MPI.Comm</cite></p>
+<blockquote>
+<div><p>communicator. since this is a collective operation</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>labels</strong> : array_like (&#8216;i8&#8217;)</p>
+<blockquote class="last">
+<div><p>The new labels of particles. Note that this is ordered
+by the size of halo, with the exception 0 represents all
+particles that are in halos that contain less than thresh particles.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.fof.fof_merge">
+<code class="descclassname">nbodykit.fof.</code><code class="descname">fof_merge</code><span class="sig-paren">(</span><em>layout</em>, <em>minid</em>, <em>comm</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.fof.fof_merge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.fof.local_fof">
+<code class="descclassname">nbodykit.fof.</code><code class="descname">local_fof</code><span class="sig-paren">(</span><em>layout</em>, <em>pos</em>, <em>boxsize</em>, <em>ll</em>, <em>comm</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.fof.local_fof" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.fof.split_size_3d">
+<code class="descclassname">nbodykit.fof.</code><code class="descname">split_size_3d</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.fof.split_size_3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split <cite>s</cite> into two integers, 
+a and d, such that a * d == s and a &lt;= d</p>
+<p>returns:  a, d</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nbodykit.halos.html" class="btn btn-neutral float-right" title="nbodykit.halos module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nbodykit.fkp.html" class="btn btn-neutral" title="nbodykit.fkp module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

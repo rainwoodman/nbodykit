@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.Subsample module
+============================================
+
+.. automodule:: nbodykit.plugins.algorithms.Subsample
+    :members:
+    :undoc-members:
+    :show-inheritance:

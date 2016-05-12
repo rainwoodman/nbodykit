@@ -1,0 +1,7 @@
+nbodykit.plugins.datasource.Subsample module
+============================================
+
+.. automodule:: nbodykit.plugins.datasource.Subsample
+    :members:
+    :undoc-members:
+    :show-inheritance:

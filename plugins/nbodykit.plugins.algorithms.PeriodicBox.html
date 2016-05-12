@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.plugins.algorithms.PeriodicBox module &mdash; nbodykit 0.3 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+        <link rel="up" title="nbodykit.plugins.algorithms package" href="nbodykit.plugins.algorithms.html"/>
+        <link rel="next" title="nbodykit.plugins.algorithms.Subsample module" href="nbodykit.plugins.algorithms.Subsample.html"/>
+        <link rel="prev" title="nbodykit.plugins.algorithms.PairCountCorrelation module" href="nbodykit.plugins.algorithms.PairCountCorrelation.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Plugins Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="nbodykit.plugins.html">nbodykit.plugins package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">Plugins Reference</a> &raquo;</li>
+      
+          <li><a href="nbodykit.html">nbodykit package</a> &raquo;</li>
+      
+          <li><a href="nbodykit.plugins.html">nbodykit.plugins package</a> &raquo;</li>
+      
+          <li><a href="nbodykit.plugins.algorithms.html">nbodykit.plugins.algorithms package</a> &raquo;</li>
+      
+    <li>nbodykit.plugins.algorithms.PeriodicBox module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/nbodykit.plugins.algorithms.PeriodicBox.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-nbodykit.plugins.algorithms.PeriodicBox">
+<span id="nbodykit-plugins-algorithms-periodicbox-module"></span><h1>nbodykit.plugins.algorithms.PeriodicBox module<a class="headerlink" href="#module-nbodykit.plugins.algorithms.PeriodicBox" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm">
+<em class="property">class </em><code class="descclassname">nbodykit.plugins.algorithms.PeriodicBox.</code><code class="descname">FFTCorrelationAlgorithm</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Algorithm</span></code></p>
+<p>Algorithm to compute the 1d or 2d correlation function and multipoles
+in a periodic box. This FFTs the measured power spectrum to compute
+the correlation function</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parse_known_yaml</span></code>(kls,&nbsp;name,&nbsp;stream)</td>
+<td>Parse the known (and unknown) attributes from a YAML, where <cite>known</cite></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.register" title="nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.run" title="nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.run"><code class="xref py py-obj docutils literal"><span class="pre">run</span></code></a>()</td>
+<td>Run the algorithm, which computes and returns the correlation function</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.save" title="nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.save"><code class="xref py py-obj docutils literal"><span class="pre">save</span></code></a>(output,&nbsp;result)</td>
+<td>Save the correlation function results to the specified output file</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>correlation spectrum calculator via FFT in a periodic box</p>
+<blockquote>
+<div><p>mode                 compute the power as a function of <cite>k</cite> or <cite>k</cite> and <cite>mu</cite>
+Nmesh                the number of cells in the gridded mesh
+field                first data field; a tuple of (DataSource, Painter, Transfer)</p>
+<blockquote>
+<div>DataSource           the 1st DataSource; run <cite>nbkit.py &#8211;list-datasources</cite> for all options
+Painter              the 1st Painter; run <cite>nbkit.py &#8211;list-painters</cite> for all options
+Transfer             the 1st Transfer chain; run <cite>nbkit.py &#8211;list-transfers</cite> for all options</div></blockquote>
+</div></blockquote>
+<blockquote>
+<div><dl class="docutils">
+<dt>other                the other data field; a tuple of (DataSource, Painter, Transfer)</dt>
+<dd>DataSource           the 2nd DataSource; run <cite>nbkit.py &#8211;list-datasources</cite> for all options
+Painter              the 2nd Painter; run <cite>nbkit.py &#8211;list-painters</cite> for all options
+Transfer             the 2nd Transfer chain; run <cite>nbkit.py &#8211;list-transfers</cite> for all options</dd>
+</dl>
+<p>los                  the line-of-sight direction &#8211; the angle <cite>mu</cite> is defined with respect to (default: z)
+Nmu                  the number of mu bins to use from mu=[0,1]; if <cite>mode = 1d</cite>, then <cite>Nmu</cite> is set to 1 (default: 5)
+dk                   the spacing of k bins to use; if not provided, the fundamental mode of the box is used
+kmin                 the edge of the first <cite>k</cite> bin to use; default is 0 (default: 0.0)
+quiet                silence the logging output (default: False)
+poles                if specified, also compute these multipoles from P(k,mu) (default: [])
+paintbrush           the density assignment kernel to use when painting; CIC (2nd order) or TSC (3rd order) (default: cic)
+comm                 the global MPI communicator</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.logger">
+<code class="descname">logger</code><em class="property"> = &lt;logging.Logger object&gt;</em><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = 'FFTCorrelation'</em><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the algorithm, which computes and returns the correlation function</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>output</em>, <em>result</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the correlation function results to the specified output file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>output</strong> : str</p>
+<blockquote>
+<div><p>the string specifying the file to save</p>
+</div></blockquote>
+<p><strong>result</strong> : tuple</p>
+<blockquote class="last">
+<div><p>the tuple returned by <cite>run()</cite> &#8211; first argument specifies the bin
+edges and the second is a dictionary holding the data results</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.schema">
+<code class="descname">schema</code><em class="property"> = ConstructorSchema([('mode', Argument(name='mode', required=True, type=&lt;type 'str'&gt;, default=None, choices=['1d', '2d'], nargs=None, help='compute the power as a function of `k` or `k` and `mu`', subfields=OrderedDict())), ('Nmesh', Argument(name='Nmesh', required=True, type=&lt;type 'int'&gt;, default=None, choices=None, nargs=None, help='the number of cells in the gridded mesh', subfields=OrderedDict())), ('field', Argument(name='field', required=True, type=&lt;function FieldType at 0x7f8710031d70&gt;, default=None, choices=None, nargs=None, help='first data field; a tuple of (DataSource, Painter, Transfer)', subfields=OrderedDict([('DataSource', Argument(name='field.DataSource', required=True, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.DataSource'&gt;&gt;, default=None, choices=None, nargs=None, help='the 1st DataSource; run `nbkit.py --list-datasources` for all options', subfields=OrderedDict())), ('Painter', Argument(name='field.Painter', required=False, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.Painter'&gt;&gt;, default=None, choices=None, nargs=None, help='the 1st Painter; run `nbkit.py --list-painters` for all options', subfields=OrderedDict())), ('Transfer', Argument(name='field.Transfer', required=False, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.Transfer'&gt;&gt;, default=None, choices=None, nargs='*', help='the 1st Transfer chain; run `nbkit.py --list-transfers` for all options', subfields=OrderedDict()))]))), ('other', Argument(name='other', required=False, type=&lt;function FieldType at 0x7f8710031d70&gt;, default=None, choices=None, nargs=None, help='the other data field; a tuple of (DataSource, Painter, Transfer)', subfields=OrderedDict([('DataSource', Argument(name='other.DataSource', required=False, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.DataSource'&gt;&gt;, default=None, choices=None, nargs=None, help='the 2nd DataSource; run `nbkit.py --list-datasources` for all options', subfields=OrderedDict())), ('Painter', Argument(name='other.Painter', required=False, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.Painter'&gt;&gt;, default=None, choices=None, nargs=None, help='the 2nd Painter; run `nbkit.py --list-painters` for all options', subfields=OrderedDict())), ('Transfer', Argument(name='other.Transfer', required=False, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.Transfer'&gt;&gt;, default=None, choices=None, nargs='*', help='the 2nd Transfer chain; run `nbkit.py --list-transfers` for all options', subfields=OrderedDict()))]))), ('los', Argument(name='los', required=False, type=&lt;type 'str'&gt;, default='z', choices='xyz', nargs=None, help='the line-of-sight direction -- the angle `mu` is defined with respect to', subfields=OrderedDict())), ('Nmu', Argument(name='Nmu', required=False, type=&lt;type 'int'&gt;, default=5, choices=None, nargs=None, help='the number of mu bins to use from mu=[0,1]; if `mode = 1d`, then `Nmu` is set to 1', subfields=OrderedDict())), ('dk', Argument(name='dk', required=False, type=&lt;type 'float'&gt;, default=None, choices=None, nargs=None, help='the spacing of k bins to use; if not provided, the fundamental mode of the box is used', subfields=OrderedDict())), ('kmin', Argument(name='kmin', required=False, type=&lt;type 'float'&gt;, default=0.0, choices=None, nargs=None, help='the edge of the first `k` bin to use; default is 0', subfields=OrderedDict())), ('quiet', Argument(name='quiet', required=False, type=&lt;type 'bool'&gt;, default=False, choices=None, nargs=None, help='silence the logging output', subfields=OrderedDict())), ('poles', Argument(name='poles', required=False, type=&lt;type 'int'&gt;, default=[], choices=None, nargs='*', help='if specified, also compute these multipoles from P(k,mu)', subfields=OrderedDict())), ('paintbrush', Argument(name='paintbrush', required=False, type=&lt;function &lt;lambda&gt; at 0x7f87100407d0&gt;, default='cic', choices=['cic', 'tsc'], nargs=None, help='the density assignment kernel to use when painting; CIC (2nd order) or TSC (3rd order)', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTCorrelationAlgorithm.schema" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm">
+<em class="property">class </em><code class="descclassname">nbodykit.plugins.algorithms.PeriodicBox.</code><code class="descname">FFTPowerAlgorithm</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.Algorithm</span></code></p>
+<p>Algorithm to compute the 1d or 2d power spectrum and multipoles
+in a periodic box, using an FFT</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parse_known_yaml</span></code>(kls,&nbsp;name,&nbsp;stream)</td>
+<td>Parse the known (and unknown) attributes from a YAML, where <cite>known</cite></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.register" title="nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.run" title="nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.run"><code class="xref py py-obj docutils literal"><span class="pre">run</span></code></a>()</td>
+<td>Run the algorithm, which computes and returns the power spectrum</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.save" title="nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.save"><code class="xref py py-obj docutils literal"><span class="pre">save</span></code></a>(output,&nbsp;result)</td>
+<td>Save the power spectrum results to the specified output file</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>periodic power spectrum calculator via FFT</p>
+<blockquote>
+<div><p>mode                 compute the power as a function of <cite>k</cite> or <cite>k</cite> and <cite>mu</cite>
+Nmesh                the number of cells in the gridded mesh
+field                first data field; a tuple of (DataSource, Painter, Transfer)</p>
+<blockquote>
+<div>DataSource           the 1st DataSource; run <cite>nbkit.py &#8211;list-datasources</cite> for all options
+Painter              the 1st Painter; run <cite>nbkit.py &#8211;list-painters</cite> for all options
+Transfer             the 1st Transfer chain; run <cite>nbkit.py &#8211;list-transfers</cite> for all options</div></blockquote>
+</div></blockquote>
+<blockquote>
+<div><dl class="docutils">
+<dt>other                the other data field; a tuple of (DataSource, Painter, Transfer)</dt>
+<dd>DataSource           the 2nd DataSource; run <cite>nbkit.py &#8211;list-datasources</cite> for all options
+Painter              the 2nd Painter; run <cite>nbkit.py &#8211;list-painters</cite> for all options
+Transfer             the 2nd Transfer chain; run <cite>nbkit.py &#8211;list-transfers</cite> for all options</dd>
+</dl>
+<p>los                  the line-of-sight direction &#8211; the angle <cite>mu</cite> is defined with respect to (default: z)
+Nmu                  the number of mu bins to use from mu=[0,1]; if <cite>mode = 1d</cite>, then <cite>Nmu</cite> is set to 1 (default: 5)
+dk                   the spacing of k bins to use; if not provided, the fundamental mode of the box is used
+kmin                 the edge of the first <cite>k</cite> bin to use; default is 0 (default: 0.0)
+quiet                silence the logging output (default: False)
+poles                if specified, also compute these multipoles from P(k,mu) (default: [])
+paintbrush           the density assignment kernel to use when painting; CIC (2nd order) or TSC (3rd order) (default: cic)
+comm                 the global MPI communicator</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.logger">
+<code class="descname">logger</code><em class="property"> = &lt;logging.Logger object&gt;</em><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = 'FFTPower'</em><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the algorithm, which computes and returns the power spectrum</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>output</em>, <em>result</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the power spectrum results to the specified output file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>output</strong> : str</p>
+<blockquote>
+<div><p>the string specifying the file to save</p>
+</div></blockquote>
+<p><strong>result</strong> : tuple</p>
+<blockquote class="last">
+<div><p>the tuple returned by <cite>run()</cite> &#8211; first argument specifies the bin
+edges and the second is a dictionary holding the data results</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.schema">
+<code class="descname">schema</code><em class="property"> = ConstructorSchema([('mode', Argument(name='mode', required=True, type=&lt;type 'str'&gt;, default=None, choices=['1d', '2d'], nargs=None, help='compute the power as a function of `k` or `k` and `mu`', subfields=OrderedDict())), ('Nmesh', Argument(name='Nmesh', required=True, type=&lt;type 'int'&gt;, default=None, choices=None, nargs=None, help='the number of cells in the gridded mesh', subfields=OrderedDict())), ('field', Argument(name='field', required=True, type=&lt;function FieldType at 0x7f8710031d70&gt;, default=None, choices=None, nargs=None, help='first data field; a tuple of (DataSource, Painter, Transfer)', subfields=OrderedDict([('DataSource', Argument(name='field.DataSource', required=True, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.DataSource'&gt;&gt;, default=None, choices=None, nargs=None, help='the 1st DataSource; run `nbkit.py --list-datasources` for all options', subfields=OrderedDict())), ('Painter', Argument(name='field.Painter', required=False, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.Painter'&gt;&gt;, default=None, choices=None, nargs=None, help='the 1st Painter; run `nbkit.py --list-painters` for all options', subfields=OrderedDict())), ('Transfer', Argument(name='field.Transfer', required=False, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.Transfer'&gt;&gt;, default=None, choices=None, nargs='*', help='the 1st Transfer chain; run `nbkit.py --list-transfers` for all options', subfields=OrderedDict()))]))), ('other', Argument(name='other', required=False, type=&lt;function FieldType at 0x7f8710031d70&gt;, default=None, choices=None, nargs=None, help='the other data field; a tuple of (DataSource, Painter, Transfer)', subfields=OrderedDict([('DataSource', Argument(name='other.DataSource', required=False, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.DataSource'&gt;&gt;, default=None, choices=None, nargs=None, help='the 2nd DataSource; run `nbkit.py --list-datasources` for all options', subfields=OrderedDict())), ('Painter', Argument(name='other.Painter', required=False, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.Painter'&gt;&gt;, default=None, choices=None, nargs=None, help='the 2nd Painter; run `nbkit.py --list-painters` for all options', subfields=OrderedDict())), ('Transfer', Argument(name='other.Transfer', required=False, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.Transfer'&gt;&gt;, default=None, choices=None, nargs='*', help='the 2nd Transfer chain; run `nbkit.py --list-transfers` for all options', subfields=OrderedDict()))]))), ('los', Argument(name='los', required=False, type=&lt;type 'str'&gt;, default='z', choices='xyz', nargs=None, help='the line-of-sight direction -- the angle `mu` is defined with respect to', subfields=OrderedDict())), ('Nmu', Argument(name='Nmu', required=False, type=&lt;type 'int'&gt;, default=5, choices=None, nargs=None, help='the number of mu bins to use from mu=[0,1]; if `mode = 1d`, then `Nmu` is set to 1', subfields=OrderedDict())), ('dk', Argument(name='dk', required=False, type=&lt;type 'float'&gt;, default=None, choices=None, nargs=None, help='the spacing of k bins to use; if not provided, the fundamental mode of the box is used', subfields=OrderedDict())), ('kmin', Argument(name='kmin', required=False, type=&lt;type 'float'&gt;, default=0.0, choices=None, nargs=None, help='the edge of the first `k` bin to use; default is 0', subfields=OrderedDict())), ('quiet', Argument(name='quiet', required=False, type=&lt;type 'bool'&gt;, default=False, choices=None, nargs=None, help='silence the logging output', subfields=OrderedDict())), ('poles', Argument(name='poles', required=False, type=&lt;type 'int'&gt;, default=[], choices=None, nargs='*', help='if specified, also compute these multipoles from P(k,mu)', subfields=OrderedDict())), ('paintbrush', Argument(name='paintbrush', required=False, type=&lt;function &lt;lambda&gt; at 0x7f87100407d0&gt;, default='cic', choices=['cic', 'tsc'], nargs=None, help='the density assignment kernel to use when painting; CIC (2nd order) or TSC (3rd order)', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FFTPowerAlgorithm.schema" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.plugins.algorithms.PeriodicBox.FieldType">
+<code class="descclassname">nbodykit.plugins.algorithms.PeriodicBox.</code><code class="descname">FieldType</code><span class="sig-paren">(</span><em>ns</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.algorithms.PeriodicBox.FieldType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct and return a <cite>Field</cite>:
+a tuple of (<cite>DataSource</cite>, <cite>Painter</cite>, <cite>Transfer</cite>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fields_dict</strong> : OrderedDict</p>
+<blockquote>
+<div><p>an ordered dictionary where the keys are Plugin names
+and the values are instantiated Plugins</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>field</strong> : list</p>
+<blockquote class="last">
+<div><p>list of (DataSource, Painter, Transfer)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>the default Painter is set to <cite>DefaultPainter</cite></li>
+<li>the default Transfer chain is set to 
+[<cite>NormalizeDC</cite>, <cite>RemoveDC</cite>, <cite>AnisotropicCIC</cite>]</li>
+</ul>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nbodykit.plugins.algorithms.Subsample.html" class="btn btn-neutral float-right" title="nbodykit.plugins.algorithms.Subsample module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nbodykit.plugins.algorithms.PairCountCorrelation.html" class="btn btn-neutral" title="nbodykit.plugins.algorithms.PairCountCorrelation module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.ExampleAlgorithm module
+===================================================
+
+.. automodule:: nbodykit.plugins.algorithms.ExampleAlgorithm
+    :members:
+    :undoc-members:
+    :show-inheritance:

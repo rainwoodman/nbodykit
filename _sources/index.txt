@@ -44,7 +44,7 @@ Documentation
    api/modules
    plugins/modules
 
-   maintainter
+   maintainer
 
 Get in touch
 ------------

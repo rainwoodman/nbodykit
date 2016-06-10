@@ -1,0 +1,7 @@
+nbodykit.test.asserts module
+============================
+
+.. automodule:: nbodykit.test.asserts
+    :members:
+    :undoc-members:
+    :show-inheritance:

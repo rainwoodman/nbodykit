@@ -1,0 +1,28 @@
+nbodykit.test package
+=====================
+
+.. automodule:: nbodykit.test
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   nbodykit.test.asserts
+   nbodykit.test.pipeline
+   nbodykit.test.results
+   nbodykit.test.test_batch
+   nbodykit.test.test_boxsize
+   nbodykit.test.test_corr
+   nbodykit.test.test_fiber_collisions
+   nbodykit.test.test_fof
+   nbodykit.test.test_power
+   nbodykit.test.test_subhalo
+   nbodykit.test.test_subsample
+   nbodykit.test.test_tidaltensor
+   nbodykit.test.test_tracehalo
+   nbodykit.test.test_zhist
+

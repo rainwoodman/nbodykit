@@ -11,6 +11,7 @@ Subpackages
 
 .. toctree::
 
+    nbodykit.test
     nbodykit.utils
 
 Submodules
@@ -32,4 +33,5 @@ Submodules
    nbodykit.pluginmanager
    nbodykit.storage
    nbodykit.stripedfile
+   nbodykit.version
 

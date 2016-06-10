@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nbodykit package &mdash; nbodykit 0.3 documentation</title>
+  <title>nbodykit package &mdash; nbodykit 0.1.2.dev0 documentation</title>
   
 
   
@@ -30,9 +30,9 @@
   
 
   
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Reference" href="modules.html"/>
-        <link rel="next" title="nbodykit.utils package" href="nbodykit.utils.html"/>
+        <link rel="next" title="nbodykit.test package" href="nbodykit.test.html"/>
         <link rel="prev" title="API Reference" href="modules.html"/> 
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3
+                0.1.2.dev0
               </div>
             
           
@@ -89,6 +89,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="">nbodykit package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.test.html">nbodykit.test package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a></li>
 </ul>
 </li>
@@ -107,6 +108,7 @@
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.pluginmanager.html">nbodykit.pluginmanager module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.storage.html">nbodykit.storage module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.stripedfile.html">nbodykit.stripedfile module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.version.html">nbodykit.version module</a></li>
 </ul>
 </li>
 </ul>
@@ -166,6 +168,26 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="nbodykit.test.html">nbodykit.test package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nbodykit.test.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.asserts.html">nbodykit.test.asserts module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.pipeline.html">nbodykit.test.pipeline module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.results.html">nbodykit.test.results module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.test_batch.html">nbodykit.test.test_batch module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.test_boxsize.html">nbodykit.test.test_boxsize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.test_corr.html">nbodykit.test.test_corr module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.test_fiber_collisions.html">nbodykit.test.test_fiber_collisions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.test_fof.html">nbodykit.test.test_fof module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.test_power.html">nbodykit.test.test_power module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.test_subhalo.html">nbodykit.test.test_subhalo module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.test_subsample.html">nbodykit.test.test_subsample module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.test_tidaltensor.html">nbodykit.test.test_tidaltensor module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.test_tracehalo.html">nbodykit.test.test_tracehalo module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.test.test_zhist.html">nbodykit.test.test_zhist module</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="nbodykit.utils.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="nbodykit.utils.config.html">nbodykit.utils.config module</a></li>
@@ -200,6 +222,7 @@
 <li class="toctree-l1"><a class="reference internal" href="nbodykit.pluginmanager.html">nbodykit.pluginmanager module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nbodykit.storage.html">nbodykit.storage module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nbodykit.stripedfile.html">nbodykit.stripedfile module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nbodykit.version.html">nbodykit.version module</a></li>
 </ul>
 </div>
 </div>
@@ -212,7 +235,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="nbodykit.utils.html" class="btn btn-neutral float-right" title="nbodykit.utils package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="nbodykit.test.html" class="btn btn-neutral float-right" title="nbodykit.test package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="modules.html" class="btn btn-neutral" title="API Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -246,7 +269,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.3',
+            VERSION:'0.1.2.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

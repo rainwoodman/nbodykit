@@ -1,0 +1,7 @@
+nbodykit.test.test_tidaltensor module
+=====================================
+
+.. automodule:: nbodykit.test.test_tidaltensor
+    :members:
+    :undoc-members:
+    :show-inheritance:

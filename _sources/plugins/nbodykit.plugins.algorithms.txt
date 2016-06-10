@@ -18,7 +18,9 @@ Submodules
    nbodykit.plugins.algorithms.FiberCollisions
    nbodykit.plugins.algorithms.PairCountCorrelation
    nbodykit.plugins.algorithms.PeriodicBox
+   nbodykit.plugins.algorithms.RedshiftHistogram
    nbodykit.plugins.algorithms.Subsample
+   nbodykit.plugins.algorithms.TestBoxSize
    nbodykit.plugins.algorithms.TidalTensor
    nbodykit.plugins.algorithms.TraceHalo
 

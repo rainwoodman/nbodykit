@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.RedshiftHistogram module
+====================================================
+
+.. automodule:: nbodykit.plugins.algorithms.RedshiftHistogram
+    :members:
+    :undoc-members:
+    :show-inheritance:

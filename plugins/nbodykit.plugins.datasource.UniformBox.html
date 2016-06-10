@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nbodykit.plugins.datasource.UniformBox module &mdash; nbodykit 0.3 documentation</title>
+  <title>nbodykit.plugins.datasource.UniformBox module &mdash; nbodykit 0.1.2.dev0 documentation</title>
   
 
   
@@ -30,9 +30,9 @@
   
 
   
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
         <link rel="up" title="nbodykit.plugins.datasource package" href="nbodykit.plugins.datasource.html"/>
-        <link rel="next" title="nbodykit.plugins.painter package" href="nbodykit.plugins.painter.html"/>
+        <link rel="next" title="nbodykit.plugins.datasource.Zheng07HOD module" href="nbodykit.plugins.datasource.Zheng07HOD.html"/>
         <link rel="prev" title="nbodykit.plugins.datasource.TPMSnapshot module" href="nbodykit.plugins.datasource.TPMSnapshot.html"/> 
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3
+                0.1.2.dev0
               </div>
             
           
@@ -91,6 +91,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="nbodykit.plugins.html">nbodykit.plugins package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.test.html">nbodykit.test package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a></li>
 </ul>
 </li>
@@ -157,9 +158,11 @@
 <dt id="nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource">
 <em class="property">class </em><code class="descclassname">nbodykit.plugins.datasource.UniformBox.</code><code class="descname">UniformBoxDataSource</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></p>
-<p>Class to return particles uniformly distributed
-in a box between [0, BoxSize], and velocities 
-uniformly distributed between <code class="docutils literal"><span class="pre">[-max_speed,</span> <span class="pre">max_speed]</span></code></p>
+<p>DataSource to return the following columns:</p>
+<p><cite>Position</cite> : uniformly distributed in box
+<cite>Velocity</cite> : uniformly distributed between <code class="docutils literal"><span class="pre">+/-</span> <span class="pre">max_speed</span></code>
+<cite>LogMass</cite>  : normally distributed with mean <cite>mu_logM</cite> and std dev <cite>sigma_logM</cite>
+<cite>Mass</cite>     : values corresponding to 10**`LogMass`</p>
 <p class="rubric">Attributes</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -182,19 +185,22 @@ uniformly distributed between <code class="docutils literal"><span class="pre">[
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">BoxSizeParser</span></code>(value)</td>
 <td>Read the <a href="#id1"><span class="problematic" id="id2">`</span></a>BoxSize, enforcing that the BoxSize must be a</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">keep_cache</span></code>()</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MissingColumn</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">keep_cache</span></code>()</td>
 <td>A context manager that forces the <cite>DataSource</cite> cache to persist, even if there are no open <cite>DataStream</cite> objects.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">open</span></code>([defaults])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">open</span></code>([defaults])</td>
 <td>Open the <cite>DataSource</cite> by returning a <cite>DataStream</cite> from which the data can be read.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parallel_read</span></code>(columns[,&nbsp;full])</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parallel_read</span></code>(columns[,&nbsp;full])</td>
 <td>Override this function for complex, large data sets.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.readall" title="nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.readall"><code class="xref py py-obj docutils literal"><span class="pre">readall</span></code></a>()</td>
-<td>Return <cite>Position</cite> and <cite>Velocity</cite> distributed normally in the box</td>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.readall" title="nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.readall"><code class="xref py py-obj docutils literal"><span class="pre">readall</span></code></a>()</td>
+<td>Valid columns are:</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.register" title="nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.register" title="nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
 <td></td>
 </tr>
 </tbody>
@@ -208,7 +214,9 @@ uniformly distributed between <code class="docutils literal"><span class="pre">[
 BoxSize              the size of the isotropic box, or the sizes of the 3 box dimensions</div></blockquote>
 <blockquote>
 <div>max_speed            use uniform velocities between [-max_speed, max_speed] (in km/s) (default: 500.0)
-seed                 the number used to seed the random number generator (default: 1234)
+mu_logM              the mean log10 mass to use when generating mass values (default: 13.5)
+sigma_logM           the standard deviation of the log10 mass to use when generating mass values (default: 0.5)
+seed                 the number used to seed the random number generator
 cosmo                the <cite>Cosmology</cite> class relevant for the DataSource
 comm                 the global MPI communicator</div></blockquote>
 </dd></dl>
@@ -221,7 +229,13 @@ comm                 the global MPI communicator</div></blockquote>
 <dl class="method">
 <dt id="nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.readall">
 <code class="descname">readall</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.readall" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <cite>Position</cite> and <cite>Velocity</cite> distributed normally in the box</p>
+<dd><dl class="docutils">
+<dt>Valid columns are:</dt>
+<dd><cite>Position</cite> : uniformly distributed in box
+<cite>Velocity</cite> : uniformly distributed between <code class="docutils literal"><span class="pre">+/-</span> <span class="pre">max_speed</span></code>
+<cite>LogMass</cite>  : normally distributed with mean <cite>mu_logM</cite> and std dev <cite>sigma_logM</cite>
+<cite>Mass</cite>     : values corresponding to 10**`LogMass`</dd>
+</dl>
 </dd></dl>
 
 <dl class="classmethod">
@@ -231,7 +245,7 @@ comm                 the global MPI communicator</div></blockquote>
 
 <dl class="attribute">
 <dt id="nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.schema">
-<code class="descname">schema</code><em class="property"> = ConstructorSchema([('N', Argument(name='N', required=True, type=&lt;type 'int'&gt;, default=None, choices=None, nargs=None, help='the total number of objects in the box', subfields=OrderedDict())), ('BoxSize', Argument(name='BoxSize', required=True, type=&lt;function BoxSizeParser at 0x7f8720f7b320&gt;, default=None, choices=None, nargs=None, help='the size of the isotropic box, or the sizes of the 3 box dimensions', subfields=OrderedDict())), ('max_speed', Argument(name='max_speed', required=False, type=&lt;type 'float'&gt;, default=500.0, choices=None, nargs=None, help='use uniform velocities between [-max_speed, max_speed] (in km/s)', subfields=OrderedDict())), ('seed', Argument(name='seed', required=False, type=&lt;type 'int'&gt;, default=1234, choices=None, nargs=None, help='the number used to seed the random number generator', subfields=OrderedDict())), ('cosmo', Argument(name='cosmo', required=False, type=None, default=None, choices=None, nargs=None, help='the `Cosmology` class relevant for the DataSource', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.schema" title="Permalink to this definition">¶</a></dt>
+<code class="descname">schema</code><em class="property"> = ConstructorSchema([('N', Argument(name='N', required=True, type=&lt;type 'int'&gt;, default=None, choices=None, nargs=None, help='the total number of objects in the box', subfields=OrderedDict())), ('BoxSize', Argument(name='BoxSize', required=True, type=&lt;function BoxSizeParser at 0x7f83f3b8bc80&gt;, default=None, choices=None, nargs=None, help='the size of the isotropic box, or the sizes of the 3 box dimensions', subfields=OrderedDict())), ('max_speed', Argument(name='max_speed', required=False, type=&lt;type 'float'&gt;, default=500.0, choices=None, nargs=None, help='use uniform velocities between [-max_speed, max_speed] (in km/s)', subfields=OrderedDict())), ('mu_logM', Argument(name='mu_logM', required=False, type=&lt;type 'float'&gt;, default=13.5, choices=None, nargs=None, help='the mean log10 mass to use when generating mass values', subfields=OrderedDict())), ('sigma_logM', Argument(name='sigma_logM', required=False, type=&lt;type 'float'&gt;, default=0.5, choices=None, nargs=None, help='the standard deviation of the log10 mass to use when generating mass values', subfields=OrderedDict())), ('seed', Argument(name='seed', required=False, type=&lt;type 'int'&gt;, default=None, choices=None, nargs=None, help='the number used to seed the random number generator', subfields=OrderedDict())), ('cosmo', Argument(name='cosmo', required=False, type=None, default=None, choices=None, nargs=None, help='the `Cosmology` class relevant for the DataSource', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.datasource.UniformBox.UniformBoxDataSource.schema" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -245,7 +259,7 @@ comm                 the global MPI communicator</div></blockquote>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="nbodykit.plugins.painter.html" class="btn btn-neutral float-right" title="nbodykit.plugins.painter package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="nbodykit.plugins.datasource.Zheng07HOD.html" class="btn btn-neutral float-right" title="nbodykit.plugins.datasource.Zheng07HOD module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="nbodykit.plugins.datasource.TPMSnapshot.html" class="btn btn-neutral" title="nbodykit.plugins.datasource.TPMSnapshot module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -279,7 +293,7 @@ comm                 the global MPI communicator</div></blockquote>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.3',
+            VERSION:'0.1.2.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

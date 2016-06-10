@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nbodykit.plugins.datasource.FastPM module &mdash; nbodykit 0.3 documentation</title>
+  <title>nbodykit.plugins.datasource.FastPM module &mdash; nbodykit 0.1.2.dev0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
         <link rel="up" title="nbodykit.plugins.datasource package" href="nbodykit.plugins.datasource.html"/>
         <link rel="next" title="nbodykit.plugins.datasource.Gadget module" href="nbodykit.plugins.datasource.Gadget.html"/>
         <link rel="prev" title="nbodykit.plugins.datasource.FOFGroups module" href="nbodykit.plugins.datasource.FOFGroups.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3
+                0.1.2.dev0
               </div>
             
           
@@ -91,6 +91,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="nbodykit.plugins.html">nbodykit.plugins package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.test.html">nbodykit.test package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a></li>
 </ul>
 </li>
@@ -180,19 +181,22 @@
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">BoxSizeParser</span></code>(value)</td>
 <td>Read the <a href="#id1"><span class="problematic" id="id2">`</span></a>BoxSize, enforcing that the BoxSize must be a</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">keep_cache</span></code>()</td>
-<td>A context manager that forces the <cite>DataSource</cite> cache to persist, even if there are no open <cite>DataStream</cite> objects.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">open</span></code>([defaults])</td>
-<td>Open the <cite>DataSource</cite> by returning a <cite>DataStream</cite> from which the data can be read.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.datasource.FastPM.FastPMDataSource.parallel_read" title="nbodykit.plugins.datasource.FastPM.FastPMDataSource.parallel_read"><code class="xref py py-obj docutils literal"><span class="pre">parallel_read</span></code></a>(columns[,&nbsp;full])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MissingColumn</span></code></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">readall</span></code>()</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">keep_cache</span></code>()</td>
+<td>A context manager that forces the <cite>DataSource</cite> cache to persist, even if there are no open <cite>DataStream</cite> objects.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">open</span></code>([defaults])</td>
+<td>Open the <cite>DataSource</cite> by returning a <cite>DataStream</cite> from which the data can be read.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.datasource.FastPM.FastPMDataSource.parallel_read" title="nbodykit.plugins.datasource.FastPM.FastPMDataSource.parallel_read"><code class="xref py py-obj docutils literal"><span class="pre">parallel_read</span></code></a>(columns[,&nbsp;full])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">readall</span></code>()</td>
 <td>Override to provide a method to read all available data at once</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.datasource.FastPM.FastPMDataSource.register" title="nbodykit.plugins.datasource.FastPM.FastPMDataSource.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.datasource.FastPM.FastPMDataSource.register" title="nbodykit.plugins.datasource.FastPM.FastPMDataSource.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
 <td>Fill the attribute schema associated with this class</td>
 </tr>
 </tbody>
@@ -229,7 +233,7 @@ comm                 the global MPI communicator</div></blockquote>
 
 <dl class="attribute">
 <dt id="nbodykit.plugins.datasource.FastPM.FastPMDataSource.schema">
-<code class="descname">schema</code><em class="property"> = ConstructorSchema([('path', Argument(name='path', required=True, type=&lt;type 'str'&gt;, default=None, choices=None, nargs=None, help='the file path to load the data from', subfields=OrderedDict())), ('BoxSize', Argument(name='BoxSize', required=False, type=&lt;function BoxSizeParser at 0x7f8720f7b320&gt;, default=None, choices=None, nargs=None, help='override the size of the box; can be a scalar or a three vector', subfields=OrderedDict())), ('rsd', Argument(name='rsd', required=False, type=&lt;type 'str'&gt;, default=None, choices='xyz', nargs=None, help='direction to do redshift distortion', subfields=OrderedDict())), ('bunchsize', Argument(name='bunchsize', required=False, type=&lt;type 'int'&gt;, default=4194304, choices=None, nargs=None, help='number of particles to read per rank in a bunch', subfields=OrderedDict())), ('cosmo', Argument(name='cosmo', required=False, type=None, default=None, choices=None, nargs=None, help='the `Cosmology` class relevant for the DataSource', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.datasource.FastPM.FastPMDataSource.schema" title="Permalink to this definition">¶</a></dt>
+<code class="descname">schema</code><em class="property"> = ConstructorSchema([('path', Argument(name='path', required=True, type=&lt;type 'str'&gt;, default=None, choices=None, nargs=None, help='the file path to load the data from', subfields=OrderedDict())), ('BoxSize', Argument(name='BoxSize', required=False, type=&lt;function BoxSizeParser at 0x7f83f3b8bc80&gt;, default=None, choices=None, nargs=None, help='override the size of the box; can be a scalar or a three vector', subfields=OrderedDict())), ('rsd', Argument(name='rsd', required=False, type=&lt;type 'str'&gt;, default=None, choices='xyz', nargs=None, help='direction to do redshift distortion', subfields=OrderedDict())), ('bunchsize', Argument(name='bunchsize', required=False, type=&lt;type 'int'&gt;, default=4194304, choices=None, nargs=None, help='number of particles to read per rank in a bunch', subfields=OrderedDict())), ('cosmo', Argument(name='cosmo', required=False, type=None, default=None, choices=None, nargs=None, help='the `Cosmology` class relevant for the DataSource', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.datasource.FastPM.FastPMDataSource.schema" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -277,7 +281,7 @@ comm                 the global MPI communicator</div></blockquote>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.3',
+            VERSION:'0.1.2.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

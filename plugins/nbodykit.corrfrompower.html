@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nbodykit.corrfrompower module &mdash; nbodykit 0.3 documentation</title>
+  <title>nbodykit.corrfrompower module &mdash; nbodykit 0.1.2.dev0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
         <link rel="up" title="nbodykit package" href="nbodykit.html"/>
         <link rel="next" title="nbodykit.cosmology module" href="nbodykit.cosmology.html"/>
         <link rel="prev" title="nbodykit.utils.taskmanager module" href="nbodykit.utils.taskmanager.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3
+                0.1.2.dev0
               </div>
             
           
@@ -105,6 +105,7 @@
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.pluginmanager.html">nbodykit.pluginmanager module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.storage.html">nbodykit.storage module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.stripedfile.html">nbodykit.stripedfile module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.version.html">nbodykit.version module</a></li>
 </ul>
 </li>
 </ul>
@@ -178,60 +179,6 @@ The integral can also be done on log K instead of K if logscale
 is True.</p>
 </dd></dl>
 
-<dl class="class">
-<dt id="nbodykit.corrfrompower.interp1d">
-<em class="property">class </em><code class="descclassname">nbodykit.corrfrompower.</code><code class="descname">interp1d</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>kind</em>, <em>bounds_error=False</em>, <em>fill_value=nan</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.corrfrompower.interp1d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">scipy.interpolate.fitpack2.InterpolatedUnivariateSpline</span></code></p>
-<p>this replaces the scipy interp1d which do not always
-pass through the points
-note that kind has to be an integer as it is actually
-a UnivariateSpline.</p>
-<p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(x)</td>
-<td></td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">antiderivative</span></code>([n])</td>
-<td>Construct a new spline representing the antiderivative of this spline.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">derivative</span></code>([n])</td>
-<td>Construct a new spline representing the derivative of this spline.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">derivatives</span></code>(x)</td>
-<td>Return all derivatives of the spline at the point x.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_coeffs</span></code>()</td>
-<td>Return spline coefficients.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">get_knots</span></code>()</td>
-<td>Return positions of interior knots of the spline.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">get_residual</span></code>()</td>
-<td>Return weighted sum of squared residuals of the spline approximation.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">integral</span></code>(a,&nbsp;b)</td>
-<td>Return definite integral of the spline between two given points.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">roots</span></code>()</td>
-<td>Return the zeros of the spline.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">set_smoothing_factor</span></code>(s)</td>
-<td>Continue spline computation with the given smoothing factor s and with the knots found at the last call.</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="nbodykit.corrfrompower.interp1d.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>kind</em>, <em>bounds_error=False</em>, <em>fill_value=nan</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.corrfrompower.interp1d.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 
 
@@ -275,7 +222,7 @@ a UnivariateSpline.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.3',
+            VERSION:'0.1.2.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

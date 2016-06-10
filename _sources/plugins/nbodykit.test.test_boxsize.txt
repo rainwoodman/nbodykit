@@ -1,0 +1,7 @@
+nbodykit.test.test_boxsize module
+=================================
+
+.. automodule:: nbodykit.test.test_boxsize
+    :members:
+    :undoc-members:
+    :show-inheritance:

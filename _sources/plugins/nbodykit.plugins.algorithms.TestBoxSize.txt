@@ -1,0 +1,7 @@
+nbodykit.plugins.algorithms.TestBoxSize module
+==============================================
+
+.. automodule:: nbodykit.plugins.algorithms.TestBoxSize
+    :members:
+    :undoc-members:
+    :show-inheritance:

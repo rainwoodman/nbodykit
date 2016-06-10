@@ -14,7 +14,6 @@ Subpackages
     nbodykit.plugins.algorithms
     nbodykit.plugins.datasource
     nbodykit.plugins.painter
-    nbodykit.plugins.storage
     nbodykit.plugins.transfer
     nbodykit.plugins.user
 

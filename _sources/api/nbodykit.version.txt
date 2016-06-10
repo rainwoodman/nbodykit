@@ -1,0 +1,7 @@
+nbodykit.version module
+=======================
+
+.. automodule:: nbodykit.version
+    :members:
+    :undoc-members:
+    :show-inheritance:

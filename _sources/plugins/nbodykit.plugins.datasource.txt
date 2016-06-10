@@ -24,4 +24,5 @@ Submodules
    nbodykit.plugins.datasource.TPMLabel
    nbodykit.plugins.datasource.TPMSnapshot
    nbodykit.plugins.datasource.UniformBox
+   nbodykit.plugins.datasource.Zheng07HOD
 

@@ -1,0 +1,7 @@
+nbodykit.test.test_batch module
+===============================
+
+.. automodule:: nbodykit.test.test_batch
+    :members:
+    :undoc-members:
+    :show-inheritance:

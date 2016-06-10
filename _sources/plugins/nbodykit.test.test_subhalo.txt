@@ -1,0 +1,7 @@
+nbodykit.test.test_subhalo module
+=================================
+
+.. automodule:: nbodykit.test.test_subhalo
+    :members:
+    :undoc-members:
+    :show-inheritance:

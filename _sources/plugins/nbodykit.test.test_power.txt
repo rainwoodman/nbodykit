@@ -1,0 +1,7 @@
+nbodykit.test.test_power module
+===============================
+
+.. automodule:: nbodykit.test.test_power
+    :members:
+    :undoc-members:
+    :show-inheritance:

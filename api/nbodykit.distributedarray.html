@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nbodykit.distributedarray module &mdash; nbodykit 0.3 documentation</title>
+  <title>nbodykit.distributedarray module &mdash; nbodykit 0.1.2.dev0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
         <link rel="up" title="nbodykit package" href="nbodykit.html"/>
         <link rel="next" title="nbodykit.extensionpoints module" href="nbodykit.extensionpoints.html"/>
         <link rel="prev" title="nbodykit.dataset module" href="nbodykit.dataset.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3
+                0.1.2.dev0
               </div>
             
           
@@ -104,6 +104,7 @@
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.pluginmanager.html">nbodykit.pluginmanager module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.storage.html">nbodykit.storage module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.stripedfile.html">nbodykit.stripedfile module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.version.html">nbodykit.version module</a></li>
 </ul>
 </li>
 </ul>
@@ -163,7 +164,7 @@
 <span id="nbodykit-distributedarray-module"></span><h1>nbodykit.distributedarray module<a class="headerlink" href="#module-nbodykit.distributedarray" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="nbodykit.distributedarray.DistributedArray">
-<em class="property">class </em><code class="descclassname">nbodykit.distributedarray.</code><code class="descname">DistributedArray</code><span class="sig-paren">(</span><em>local</em>, <em>comm=&lt;mpi4py.MPI.Intracomm object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.DistributedArray" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">nbodykit.distributedarray.</code><code class="descname">DistributedArray</code><span class="sig-paren">(</span><em>local</em>, <em>comm=&lt;Mock name='mock.MPI.COMM_WORLD' id='140204706355344'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.DistributedArray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Distributed Array Object</p>
 <p>A distributed array is striped along ranks</p>
@@ -202,7 +203,7 @@
 </table>
 <dl class="method">
 <dt id="nbodykit.distributedarray.DistributedArray.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>local</em>, <em>comm=&lt;mpi4py.MPI.Intracomm object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.DistributedArray.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>local</em>, <em>comm=&lt;Mock name='mock.MPI.COMM_WORLD' id='140204706355344'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.DistributedArray.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -272,6 +273,40 @@ Then the counts array is [ (3, ), (3, 1)]</p>
 <dt id="nbodykit.distributedarray.EmptyRankType">
 <em class="property">class </em><code class="descclassname">nbodykit.distributedarray.</code><code class="descname">EmptyRankType</code><a class="headerlink" href="#nbodykit.distributedarray.EmptyRankType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.distributedarray.GatherArray">
+<code class="descclassname">nbodykit.distributedarray.</code><code class="descname">GatherArray</code><span class="sig-paren">(</span><em>data</em>, <em>comm</em>, <em>root=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.distributedarray.GatherArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gather the input data array from all ranks to the specified <code class="docutils literal"><span class="pre">root</span></code></p>
+<p>This uses <cite>Gatherv</cite>, which avoids mpi4py pickling, and also
+avoids the 2 GB mpi4py limit for bytes using a custom datatype</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : array_like</p>
+<blockquote>
+<div><p>the data on each rank to gather</p>
+</div></blockquote>
+<p><strong>comm</strong> : MPI communicator</p>
+<blockquote>
+<div><p>the MPI communicator</p>
+</div></blockquote>
+<p><strong>root</strong> : int</p>
+<blockquote>
+<div><p>the rank number to gather the data to</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>recvbuffer</strong> : array_like, None</p>
+<blockquote class="last">
+<div><p>the gathered data on root, and <cite>None</cite> otherwise</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
@@ -469,7 +504,7 @@ avoids the 2 GB mpi4py limit for bytes using a custom datatype</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.3',
+            VERSION:'0.1.2.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

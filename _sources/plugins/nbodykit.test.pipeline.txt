@@ -1,0 +1,7 @@
+nbodykit.test.pipeline module
+=============================
+
+.. automodule:: nbodykit.test.pipeline
+    :members:
+    :undoc-members:
+    :show-inheritance:

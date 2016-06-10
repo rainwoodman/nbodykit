@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nbodykit.dataset module &mdash; nbodykit 0.3 documentation</title>
+  <title>nbodykit.dataset module &mdash; nbodykit 0.1.2.dev0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
         <link rel="up" title="nbodykit package" href="nbodykit.html"/>
         <link rel="next" title="nbodykit.distributedarray module" href="nbodykit.distributedarray.html"/>
         <link rel="prev" title="nbodykit.cosmology module" href="nbodykit.cosmology.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3
+                0.1.2.dev0
               </div>
             
           
@@ -105,6 +105,7 @@
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.pluginmanager.html">nbodykit.pluginmanager module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.storage.html">nbodykit.storage module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.stripedfile.html">nbodykit.stripedfile module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.version.html">nbodykit.version module</a></li>
 </ul>
 </li>
 </ul>
@@ -220,7 +221,7 @@
 <dt id="nbodykit.dataset.Corr1dDataSet.from_nbkit">
 <em class="property">classmethod </em><code class="descname">from_nbkit</code><span class="sig-paren">(</span><em>d</em>, <em>meta</em>, <em>columns=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Corr1dDataSet.from_nbkit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <cite>Corr1dDataSet</cite> instance taking the return values
-of <cite>files.Read1DPlaintext</cite> as input</p>
+of <cite>files.Read1DPlainText</cite> as input</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -246,7 +247,7 @@ not in <cite>meta</cite> dictionary</p>
 </table>
 <p class="rubric">Examples</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nbodykit</span> <span class="kn">import</span> <span class="n">files</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">Power1dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read1DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">Power1dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read1DPlainText</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -312,7 +313,7 @@ not in <cite>meta</cite> dictionary</p>
 <dt id="nbodykit.dataset.Corr2dDataSet.from_nbkit">
 <em class="property">classmethod </em><code class="descname">from_nbkit</code><span class="sig-paren">(</span><em>d</em>, <em>meta</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Corr2dDataSet.from_nbkit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <cite>Corr2dDataSet</cite> instance taking the return values
-of <cite>files.Read2DPlaintext</cite> as input</p>
+of <cite>files.Read2DPlainText</cite> as input</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -333,7 +334,7 @@ data columns for the 2D measurement</p>
 </table>
 <p class="rubric">Examples</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nbodykit</span> <span class="kn">import</span> <span class="n">files</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">Corr2dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read2DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">Corr2dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read2DPlainText</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -358,10 +359,10 @@ the <strong>bin centers</strong>, as constructed from the bin edges</li>
 <p class="rubric">Examples</p>
 <p>The following example shows how to read a power spectrum or correlation 
 function measurement as written by a nbodykit <cite>Algorithm</cite>. It uses
-<code class="xref py py-func docutils literal"><span class="pre">Read1DPlaintext()</span></code></p>
+<code class="xref py py-func docutils literal"><span class="pre">Read1DPlainText()</span></code></p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nbodykit</span> <span class="kn">import</span> <span class="n">files</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">Corr2dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read2DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pk</span> <span class="o">=</span> <span class="n">Power1dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read1DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corr</span> <span class="o">=</span> <span class="n">Corr2dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read2DPlainText</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pk</span> <span class="o">=</span> <span class="n">Power1dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read1DPlainText</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Data variables and coordinate arrays can be accessed in a dict-like
@@ -708,7 +709,7 @@ use a list to index (see examples below).</p>
 <code class="descname">squeeze</code><span class="sig-paren">(</span><em>dim=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.DataSet.squeeze" title="Permalink to this definition">¶</a></dt>
 <dd><p>Squeeze the DataSet along the specified dimension, which
 removes that dimension from the DataSet</p>
-<p>The behavior is similar to that of <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.squeeze.html#numpy.squeeze" title="(in NumPy v1.10)"><code class="xref py py-func docutils literal"><span class="pre">numpy.squeeze()</span></code></a>.</p>
+<p>The behavior is similar to that of <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.squeeze.html#numpy.squeeze" title="(in NumPy v1.11)"><code class="xref py py-func docutils literal"><span class="pre">numpy.squeeze()</span></code></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -813,7 +814,7 @@ length one</p>
 <dt id="nbodykit.dataset.Power1dDataSet.from_nbkit">
 <em class="property">classmethod </em><code class="descname">from_nbkit</code><span class="sig-paren">(</span><em>d</em>, <em>meta</em>, <em>columns=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Power1dDataSet.from_nbkit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <cite>Power1dDataSet</cite> instance taking the return values
-of <cite>files.Read1DPlaintext</cite> as input</p>
+of <cite>files.Read1DPlainText</cite> as input</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -839,7 +840,7 @@ not in <cite>meta</cite> dictionary</p>
 </table>
 <p class="rubric">Examples</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nbodykit</span> <span class="kn">import</span> <span class="n">files</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">power</span> <span class="o">=</span> <span class="n">Power1dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read1DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">power</span> <span class="o">=</span> <span class="n">Power1dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read1DPlainText</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -905,7 +906,7 @@ not in <cite>meta</cite> dictionary</p>
 <dt id="nbodykit.dataset.Power2dDataSet.from_nbkit">
 <em class="property">classmethod </em><code class="descname">from_nbkit</code><span class="sig-paren">(</span><em>d</em>, <em>meta</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.dataset.Power2dDataSet.from_nbkit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <cite>Power2dDataSet</cite> instance taking the return values
-of <cite>files.Read2DPlaintext</cite> as input</p>
+of <cite>files.Read2DPlainText</cite> as input</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -926,7 +927,7 @@ data columns for the 2D measurement</p>
 </table>
 <p class="rubric">Examples</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nbodykit</span> <span class="kn">import</span> <span class="n">files</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">power</span> <span class="o">=</span> <span class="n">Power2dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read2DPlaintext</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">power</span> <span class="o">=</span> <span class="n">Power2dDataSet</span><span class="o">.</span><span class="n">from_nbkit</span><span class="p">(</span><span class="o">*</span><span class="n">files</span><span class="o">.</span><span class="n">Read2DPlainText</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1025,7 +1026,7 @@ and any additional data</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.3',
+            VERSION:'0.1.2.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nbodykit.plugins.algorithms.FiberCollisions module &mdash; nbodykit 0.3 documentation</title>
+  <title>nbodykit.plugins.algorithms.FiberCollisions module &mdash; nbodykit 0.1.2.dev0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
         <link rel="up" title="nbodykit.plugins.algorithms package" href="nbodykit.plugins.algorithms.html"/>
         <link rel="next" title="nbodykit.plugins.algorithms.PairCountCorrelation module" href="nbodykit.plugins.algorithms.PairCountCorrelation.html"/>
         <link rel="prev" title="nbodykit.plugins.algorithms.FOF6D module" href="nbodykit.plugins.algorithms.FOF6D.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3
+                0.1.2.dev0
               </div>
             
           
@@ -91,6 +91,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="nbodykit.plugins.html">nbodykit.plugins package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.test.html">nbodykit.test package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a></li>
 </ul>
 </li>
@@ -270,7 +271,7 @@ as a Pandas DataFrame to an HDF file, with key <cite>FiberCollisonGroups</cite><
 
 <dl class="attribute">
 <dt id="nbodykit.plugins.algorithms.FiberCollisions.FiberCollisionsAlgorithm.schema">
-<code class="descname">schema</code><em class="property"> = ConstructorSchema([('datasource', Argument(name='datasource', required=True, type=&lt;function RaDecDataSource at 0x7f8710031938&gt;, default=None, choices=None, nargs=None, help='`RaDecRedshift DataSource; run `nbkit.py --list-datasources RaDecRedshift` for details', subfields=OrderedDict())), ('collision_radius', Argument(name='collision_radius', required=False, type=&lt;type 'float'&gt;, default=0.017222222222222226, choices=None, nargs=None, help='the size of the angular collision radius (in degrees)', subfields=OrderedDict())), ('seed', Argument(name='seed', required=False, type=&lt;type 'int'&gt;, default=0, choices=None, nargs=None, help='seed the random number generator explicitly, for reproducibility', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.algorithms.FiberCollisions.FiberCollisionsAlgorithm.schema" title="Permalink to this definition">¶</a></dt>
+<code class="descname">schema</code><em class="property"> = ConstructorSchema([('datasource', Argument(name='datasource', required=True, type=&lt;function RaDecDataSource at 0x7f83f3b39c80&gt;, default=None, choices=None, nargs=None, help='`RaDecRedshift DataSource; run `nbkit.py --list-datasources RaDecRedshift` for details', subfields=OrderedDict())), ('collision_radius', Argument(name='collision_radius', required=False, type=&lt;type 'float'&gt;, default=0.017222222222222226, choices=None, nargs=None, help='the size of the angular collision radius (in degrees)', subfields=OrderedDict())), ('seed', Argument(name='seed', required=False, type=&lt;type 'int'&gt;, default=0, choices=None, nargs=None, help='seed the random number generator explicitly, for reproducibility', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.algorithms.FiberCollisions.FiberCollisionsAlgorithm.schema" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -323,7 +324,7 @@ as a Pandas DataFrame to an HDF file, with key <cite>FiberCollisonGroups</cite><
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.3',
+            VERSION:'0.1.2.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

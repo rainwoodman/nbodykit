@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.test.asserts module &mdash; nbodykit 0.1.2.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="nbodykit.test package" href="nbodykit.test.html"/>
+        <link rel="next" title="nbodykit.test.pipeline module" href="nbodykit.test.pipeline.html"/>
+        <link rel="prev" title="nbodykit.test package" href="nbodykit.test.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.2.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Plugins Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.plugins.html">nbodykit.plugins package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="nbodykit.test.html">nbodykit.test package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">Plugins Reference</a> &raquo;</li>
+      
+          <li><a href="nbodykit.html">nbodykit package</a> &raquo;</li>
+      
+          <li><a href="nbodykit.test.html">nbodykit.test package</a> &raquo;</li>
+      
+    <li>nbodykit.test.asserts module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/nbodykit.test.asserts.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-nbodykit.test.asserts">
+<span id="nbodykit-test-asserts-module"></span><h1>nbodykit.test.asserts module<a class="headerlink" href="#module-nbodykit.test.asserts" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="nbodykit.test.asserts.assert_numpy_allclose">
+<code class="descclassname">nbodykit.test.asserts.</code><code class="descname">assert_numpy_allclose</code><span class="sig-paren">(</span><em>this</em>, <em>ref</em>, <em>**kws</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.asserts.assert_numpy_allclose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper around <code class="docutils literal"><span class="pre">numpy.testing.assert_allclose</span></code> that will loop
+over each element of a complex data type, i.e., structured array</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.test.asserts.test_dataset_result">
+<code class="descclassname">nbodykit.test.asserts.</code><code class="descname">test_dataset_result</code><span class="sig-paren">(</span><em>self</em>, <em>dim</em>, <em>stat</em>, <em>rtol=0.01</em>, <em>atol=1e-05</em>, <em>skip_imaginary=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.asserts.test_dataset_result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test that the <code class="docutils literal"><span class="pre">DataSet</span></code> result file is the same as the reference
+result file</p>
+<p>This loads the <cite>DataSet</cite> and checks that the data
+arrays are <code class="docutils literal"><span class="pre">allclose</span></code> and also checks the meta-data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dim</strong> : {&#8216;1d&#8217;, &#8216;2d&#8217;}</p>
+<blockquote>
+<div><p>load either a &#8216;1d&#8217; or &#8216;2d&#8217; <cite>DataSet</cite></p>
+</div></blockquote>
+<p><strong>stat</strong> : {&#8216;power&#8217;, &#8216;corr&#8217;}</p>
+<blockquote>
+<div><p>load either a power or correlation function measurement</p>
+</div></blockquote>
+<p><strong>rtol</strong> : float, optional</p>
+<blockquote>
+<div><p>the relative tolerance; default is 1e-2</p>
+</div></blockquote>
+<p><strong>atol</strong> : float, optional</p>
+<blockquote>
+<div><p>the absolute tolerance; default is 1e-8</p>
+</div></blockquote>
+<p><strong>skip_imaginary</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>if <cite>True</cite>, do not check the imaginary components of the data arrays;
+default is True</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.test.asserts.test_exception">
+<code class="descclassname">nbodykit.test.asserts.</code><code class="descname">test_exception</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.asserts.test_exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert that no exception occurred, by analyzing the 
+<code class="docutils literal"><span class="pre">stderr</span></code> output</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.test.asserts.test_exit_code">
+<code class="descclassname">nbodykit.test.asserts.</code><code class="descname">test_exit_code</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.asserts.test_exit_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert that the exit code is equal to 0</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.test.asserts.test_hdf_result">
+<code class="descclassname">nbodykit.test.asserts.</code><code class="descname">test_hdf_result</code><span class="sig-paren">(</span><em>self</em>, <em>dataset</em>, <em>rtol=1e-05</em>, <em>atol=1e-08</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.asserts.test_hdf_result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test that the HDF5 result file is the same as the reference
+result file, using <code class="docutils literal"><span class="pre">h5py</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dataset</strong> : str</p>
+<blockquote>
+<div><p>the name of the HDF5 dataset to load</p>
+</div></blockquote>
+<p><strong>rtol</strong> : float, optional</p>
+<blockquote>
+<div><p>the relative tolerance; default is 1e-5</p>
+</div></blockquote>
+<p><strong>atol</strong> : float, optional</p>
+<blockquote class="last">
+<div><p>the absolute tolerance; default is 1e-8</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.test.asserts.test_pandas_hdf_result">
+<code class="descclassname">nbodykit.test.asserts.</code><code class="descname">test_pandas_hdf_result</code><span class="sig-paren">(</span><em>self</em>, <em>dataset</em>, <em>**kws</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.asserts.test_pandas_hdf_result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test that the pandas HDF5 result file is the same as the reference
+result file, by checking that the <code class="docutils literal"><span class="pre">DataFrame</span></code> objects are 
+the same</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dataset</strong> : str</p>
+<blockquote>
+<div><p>the name of the HDF5 dataset to load</p>
+</div></blockquote>
+<p><strong>**kws :</strong></p>
+<blockquote class="last">
+<div><p>any additional keywords to pass to 
+<code class="xref py py-func docutils literal"><span class="pre">assert_frame_equal()</span></code></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.test.asserts.test_result_md5sum">
+<code class="descclassname">nbodykit.test.asserts.</code><code class="descname">test_result_md5sum</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.asserts.test_result_md5sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert that the result file from the pipeline run has the same 
+MD5 sum as the reference result file in the cache directory</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nbodykit.test.pipeline.html" class="btn btn-neutral float-right" title="nbodykit.test.pipeline module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nbodykit.test.html" class="btn btn-neutral" title="nbodykit.test package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.2.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

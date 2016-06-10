@@ -1,0 +1,7 @@
+nbodykit.test.test_zhist module
+===============================
+
+.. automodule:: nbodykit.test.test_zhist
+    :members:
+    :undoc-members:
+    :show-inheritance:

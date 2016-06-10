@@ -1,0 +1,511 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.test.test_fiber_collisions module &mdash; nbodykit 0.1.2.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="nbodykit.test package" href="nbodykit.test.html"/>
+        <link rel="next" title="nbodykit.test.test_fof module" href="nbodykit.test.test_fof.html"/>
+        <link rel="prev" title="nbodykit.test.test_corr module" href="nbodykit.test.test_corr.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.2.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Plugins Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.plugins.html">nbodykit.plugins package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="nbodykit.test.html">nbodykit.test package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">Plugins Reference</a> &raquo;</li>
+      
+          <li><a href="nbodykit.html">nbodykit package</a> &raquo;</li>
+      
+          <li><a href="nbodykit.test.html">nbodykit.test package</a> &raquo;</li>
+      
+    <li>nbodykit.test.test_fiber_collisions module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/nbodykit.test.test_fiber_collisions.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="nbodykit-test-test-fiber-collisions-module">
+<h1>nbodykit.test.test_fiber_collisions module<a class="headerlink" href="#nbodykit-test-test-fiber-collisions-module" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-nbodykit.test.test_fiber_collisions"></span><dl class="class">
+<dt id="nbodykit.test.test_fiber_collisions.RunFiberCollisionsAlgorithm">
+<em class="property">class </em><code class="descclassname">nbodykit.test.test_fiber_collisions.</code><code class="descname">RunFiberCollisionsAlgorithm</code><span class="sig-paren">(</span><em>cmd</em>, <em>stdout=None</em>, <em>stderr=None</em>, <em>poll_time=0.01</em>, <em>timeout=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.test_fiber_collisions.RunFiberCollisionsAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="nbodykit.test.pipeline.html#nbodykit.test.pipeline.RunAlgorithm" title="nbodykit.test.pipeline.RunAlgorithm"><code class="xref py py-class docutils literal"><span class="pre">nbodykit.test.pipeline.RunAlgorithm</span></code></a></p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">exit_code</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">run_id</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">class_fixture</span></code>(*args,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">initialize_output</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Make the <code class="docutils literal"><span class="pre">output</span></code> directory in <a href="#id1"><span class="problematic" id="id2">``</span></a>nbodykit/examples`, if</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">make_fixture</span></code>(scope,&nbsp;*args,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">set_env</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Set the <code class="docutils literal"><span class="pre">NBKIT_CACHE</span></code> and <code class="docutils literal"><span class="pre">NBKTIT_HOME</span></code> environment</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">verify_cache</span></code>(*args,&nbsp;**kwargs)</td>
+<td>Verify that all the necessary data has been downloaded</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nbodykit.test.test_fiber_collisions.RunFiberCollisionsAlgorithm.run_dir">
+<code class="descname">run_dir</code><em class="property"> = '/home/yfeng1/source/nbodykit/examples/fiber_collisions'</em><a class="headerlink" href="#nbodykit.test.test_fiber_collisions.RunFiberCollisionsAlgorithm.run_dir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nbodykit.test.test_fiber_collisions.TestFiberCollisions">
+<em class="property">class </em><code class="descclassname">nbodykit.test.test_fiber_collisions.</code><code class="descname">TestFiberCollisions</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.test_fiber_collisions.TestFiberCollisions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">__call__</span></code>(*args,&nbsp;**kwds)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">addCleanup</span></code>(function,&nbsp;*args,&nbsp;**kwargs)</td>
+<td>Add a function, with arguments, to be called when the test is completed.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">addTypeEqualityFunc</span></code>(typeobj,&nbsp;function)</td>
+<td>Add a type specific assertEqual style function to compare a type.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertAlmostEqual</span></code>(first,&nbsp;second[,&nbsp;places,&nbsp;...])</td>
+<td>Fail if the two objects are unequal as determined by their difference rounded to the given number of decimal places (default 7) and comparing to zero, or by comparing that the between the two objects is more than the given delta.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertAlmostEquals</span></code>(first,&nbsp;second[,&nbsp;places,&nbsp;...])</td>
+<td>Fail if the two objects are unequal as determined by their difference rounded to the given number of decimal places (default 7) and comparing to zero, or by comparing that the between the two objects is more than the given delta.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertDictContainsSubset</span></code>(expected,&nbsp;actual[,&nbsp;msg])</td>
+<td>Checks whether actual is a superset of expected.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertDictEqual</span></code>(d1,&nbsp;d2[,&nbsp;msg])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertEqual</span></code>(first,&nbsp;second[,&nbsp;msg])</td>
+<td>Fail if the two objects are unequal as determined by the &#8216;==&#8217; operator.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertEquals</span></code>(first,&nbsp;second[,&nbsp;msg])</td>
+<td>Fail if the two objects are unequal as determined by the &#8216;==&#8217; operator.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertFalse</span></code>(expr[,&nbsp;msg])</td>
+<td>Check that the expression is false.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertGreater</span></code>(a,&nbsp;b[,&nbsp;msg])</td>
+<td>Just like self.assertTrue(a &gt; b), but with a nicer default message.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertGreaterEqual</span></code>(a,&nbsp;b[,&nbsp;msg])</td>
+<td>Just like self.assertTrue(a &gt;= b), but with a nicer default message.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertIn</span></code>(member,&nbsp;container[,&nbsp;msg])</td>
+<td>Just like self.assertTrue(a in b), but with a nicer default message.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertIs</span></code>(expr1,&nbsp;expr2[,&nbsp;msg])</td>
+<td>Just like self.assertTrue(a is b), but with a nicer default message.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertIsInstance</span></code>(obj,&nbsp;cls[,&nbsp;msg])</td>
+<td>Same as self.assertTrue(isinstance(obj, cls)), with a nicer default message.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertIsNone</span></code>(obj[,&nbsp;msg])</td>
+<td>Same as self.assertTrue(obj is None), with a nicer default message.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertIsNot</span></code>(expr1,&nbsp;expr2[,&nbsp;msg])</td>
+<td>Just like self.assertTrue(a is not b), but with a nicer default message.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertIsNotNone</span></code>(obj[,&nbsp;msg])</td>
+<td>Included for symmetry with assertIsNone.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertItemsEqual</span></code>(expected_seq,&nbsp;actual_seq[,&nbsp;msg])</td>
+<td>An unordered sequence specific comparison.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertLess</span></code>(a,&nbsp;b[,&nbsp;msg])</td>
+<td>Just like self.assertTrue(a &lt; b), but with a nicer default message.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertLessEqual</span></code>(a,&nbsp;b[,&nbsp;msg])</td>
+<td>Just like self.assertTrue(a &lt;= b), but with a nicer default message.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertListEqual</span></code>(list1,&nbsp;list2[,&nbsp;msg])</td>
+<td>A list-specific equality assertion.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertMultiLineEqual</span></code>(first,&nbsp;second[,&nbsp;msg])</td>
+<td>Assert that two multi-line strings are equal.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertNotAlmostEqual</span></code>(first,&nbsp;second[,&nbsp;...])</td>
+<td>Fail if the two objects are equal as determined by their difference rounded to the given number of decimal places (default 7) and comparing to zero, or by comparing that the between the two objects is less than the given delta.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertNotAlmostEquals</span></code>(first,&nbsp;second[,&nbsp;...])</td>
+<td>Fail if the two objects are equal as determined by their difference rounded to the given number of decimal places (default 7) and comparing to zero, or by comparing that the between the two objects is less than the given delta.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertNotEqual</span></code>(first,&nbsp;second[,&nbsp;msg])</td>
+<td>Fail if the two objects are equal as determined by the &#8216;!=&#8217; operator.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertNotEquals</span></code>(first,&nbsp;second[,&nbsp;msg])</td>
+<td>Fail if the two objects are equal as determined by the &#8216;!=&#8217; operator.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertNotIn</span></code>(member,&nbsp;container[,&nbsp;msg])</td>
+<td>Just like self.assertTrue(a not in b), but with a nicer default message.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertNotIsInstance</span></code>(obj,&nbsp;cls[,&nbsp;msg])</td>
+<td>Included for symmetry with assertIsInstance.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertNotRegexpMatches</span></code>(text,&nbsp;unexpected_regexp)</td>
+<td>Fail the test if the text matches the regular expression.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertRaises</span></code>(excClass[,&nbsp;callableObj])</td>
+<td>Fail unless an exception of class excClass is raised by callableObj when invoked with arguments args and keyword arguments kwargs.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertRaisesRegexp</span></code>(expected_exception,&nbsp;...)</td>
+<td>Asserts that the message in a raised exception matches a regexp.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertRegexpMatches</span></code>(text,&nbsp;expected_regexp[,&nbsp;msg])</td>
+<td>Fail the test unless the text matches the regular expression.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertSequenceEqual</span></code>(seq1,&nbsp;seq2[,&nbsp;msg,&nbsp;seq_type])</td>
+<td>An equality assertion for ordered sequences (like lists and tuples).</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertSetEqual</span></code>(set1,&nbsp;set2[,&nbsp;msg])</td>
+<td>A set-specific equality assertion.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assertTrue</span></code>(expr[,&nbsp;msg])</td>
+<td>Check that the expression is true.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">assertTupleEqual</span></code>(tuple1,&nbsp;tuple2[,&nbsp;msg])</td>
+<td>A tuple-specific equality assertion.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">assert_</span></code>(expr[,&nbsp;msg])</td>
+<td>Check that the expression is true.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">countTestCases</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">debug</span></code>()</td>
+<td>Run the test without collecting errors in a TestResult</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">defaultTestResult</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">doCleanups</span></code>()</td>
+<td>Execute all cleanup functions.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">fail</span></code>([msg])</td>
+<td>Fail immediately, with the given message.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">failIf</span></code>(*args,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">failIfAlmostEqual</span></code>(*args,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">failIfEqual</span></code>(*args,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">failUnless</span></code>(*args,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">failUnlessAlmostEqual</span></code>(*args,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">failUnlessEqual</span></code>(*args,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">failUnlessRaises</span></code>(*args,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">failureException</span></code></td>
+<td>alias of <code class="xref py py-class docutils literal"><span class="pre">AssertionError</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">id</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">run</span></code>([result])</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">setUp</span></code>()</td>
+<td>Hook method for setting up the test fixture before exercising it.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">setUpClass</span></code>()</td>
+<td>Hook method for setting up class fixture before running tests in the class.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">shortDescription</span></code>()</td>
+<td>Returns a one-line description of the test, or None if no description has been provided.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">skipTest</span></code>(reason)</td>
+<td>Skip this test.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">tearDown</span></code>()</td>
+<td>Hook method for deconstructing the test fixture after testing it.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">tearDownClass</span></code>()</td>
+<td>Hook method for deconstructing the class fixture after running all tests in the class.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_exception" title="nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_exception"><code class="xref py py-obj docutils literal"><span class="pre">test_exception</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_exit_code" title="nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_exit_code"><code class="xref py py-obj docutils literal"><span class="pre">test_exit_code</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_result" title="nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_result"><code class="xref py py-obj docutils literal"><span class="pre">test_result</span></code></a>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="nbodykit.test.test_fiber_collisions.TestFiberCollisions.datasources">
+<code class="descname">datasources</code><em class="property"> = ['test_bianchi_data.dat']</em><a class="headerlink" href="#nbodykit.test.test_fiber_collisions.TestFiberCollisions.datasources" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.test.test_fiber_collisions.TestFiberCollisions.output_file">
+<code class="descname">output_file</code><em class="property"> = 'test_fiber_collisions.hdf5'</em><a class="headerlink" href="#nbodykit.test.test_fiber_collisions.TestFiberCollisions.output_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.test.test_fiber_collisions.TestFiberCollisions.param_file">
+<code class="descname">param_file</code><em class="property"> = 'test_fc.params'</em><a class="headerlink" href="#nbodykit.test.test_fiber_collisions.TestFiberCollisions.param_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.test.test_fiber_collisions.TestFiberCollisions.pytestmark">
+<code class="descname">pytestmark</code><em class="property"> = [&lt;MarkDecorator 'usefixtures' {'args': ('run_nbodykit.test.test_fiber_collisions_4',), 'kwargs': {}}&gt;]</em><a class="headerlink" href="#nbodykit.test.test_fiber_collisions.TestFiberCollisions.pytestmark" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_exception">
+<code class="descname">test_exception</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_exception" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_exit_code">
+<code class="descname">test_exit_code</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_exit_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_result">
+<code class="descname">test_result</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.test.test_fiber_collisions.TestFiberCollisions.test_result" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nbodykit.test.test_fof.html" class="btn btn-neutral float-right" title="nbodykit.test.test_fof module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nbodykit.test.test_corr.html" class="btn btn-neutral" title="nbodykit.test.test_corr module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.2.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

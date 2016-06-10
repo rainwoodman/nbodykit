@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nbodykit.halos module &mdash; nbodykit 0.3 documentation</title>
+  <title>nbodykit.halos module &mdash; nbodykit 0.1.2.dev0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
         <link rel="up" title="nbodykit package" href="nbodykit.html"/>
         <link rel="next" title="nbodykit.measurestats module" href="nbodykit.measurestats.html"/>
         <link rel="prev" title="nbodykit.fof module" href="nbodykit.fof.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3
+                0.1.2.dev0
               </div>
             
           
@@ -105,6 +105,7 @@
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.pluginmanager.html">nbodykit.pluginmanager module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.storage.html">nbodykit.storage module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.stripedfile.html">nbodykit.stripedfile module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.version.html">nbodykit.version module</a></li>
 </ul>
 </li>
 </ul>
@@ -163,7 +164,7 @@
 <span id="nbodykit-halos-module"></span><h1>nbodykit.halos module<a class="headerlink" href="#module-nbodykit.halos" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="nbodykit.halos.centerofmass">
-<code class="descclassname">nbodykit.halos.</code><code class="descname">centerofmass</code><span class="sig-paren">(</span><em>label</em>, <em>pos</em>, <em>boxsize=1.0</em>, <em>comm=&lt;mpi4py.MPI.Intracomm object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.halos.centerofmass" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.halos.</code><code class="descname">centerofmass</code><span class="sig-paren">(</span><em>label</em>, <em>pos</em>, <em>boxsize=1.0</em>, <em>comm=&lt;Mock name='mock.MPI.COMM_WORLD' id='140204706355344'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.halos.centerofmass" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calulate the center of mass of particles of the same label.</p>
 <p>The center of mass is defined as the mean of positions of particles,
 but care has to be taken regarding to the periodic boundary.</p>
@@ -203,7 +204,7 @@ will have the position of halos.</p>
 
 <dl class="function">
 <dt id="nbodykit.halos.count">
-<code class="descclassname">nbodykit.halos.</code><code class="descname">count</code><span class="sig-paren">(</span><em>label</em>, <em>comm=&lt;mpi4py.MPI.Intracomm object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.halos.count" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nbodykit.halos.</code><code class="descname">count</code><span class="sig-paren">(</span><em>label</em>, <em>comm=&lt;Mock name='mock.MPI.COMM_WORLD' id='140204706355344'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.halos.count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Count the number of particles of the same label.</p>
 <p>This is a collective operation, and after the call, all ranks
 will have the particle count.</p>
@@ -274,7 +275,7 @@ will have the particle count.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.3',
+            VERSION:'0.1.2.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -1,0 +1,7 @@
+nbodykit.test.results module
+============================
+
+.. automodule:: nbodykit.test.results
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,379 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nbodykit.plugins.datasource.Zheng07HOD module &mdash; nbodykit 0.1.2.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="nbodykit.plugins.datasource package" href="nbodykit.plugins.datasource.html"/>
+        <link rel="next" title="nbodykit.plugins.painter package" href="nbodykit.plugins.painter.html"/>
+        <link rel="prev" title="nbodykit.plugins.datasource.UniformBox module" href="nbodykit.plugins.datasource.UniformBox.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nbodykit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.2.dev0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../why-nbodykit.html">Why nbodykit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Plugins Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="nbodykit.plugins.html">nbodykit.plugins package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.test.html">nbodykit.test package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="nbodykit.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">nbodykit</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">Plugins Reference</a> &raquo;</li>
+      
+          <li><a href="nbodykit.html">nbodykit package</a> &raquo;</li>
+      
+          <li><a href="nbodykit.plugins.html">nbodykit.plugins package</a> &raquo;</li>
+      
+          <li><a href="nbodykit.plugins.datasource.html">nbodykit.plugins.datasource package</a> &raquo;</li>
+      
+    <li>nbodykit.plugins.datasource.Zheng07HOD module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/plugins/nbodykit.plugins.datasource.Zheng07HOD.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-nbodykit.plugins.datasource.Zheng07HOD">
+<span id="nbodykit-plugins-datasource-zheng07hod-module"></span><h1>nbodykit.plugins.datasource.Zheng07HOD module<a class="headerlink" href="#module-nbodykit.plugins.datasource.Zheng07HOD" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource">
+<em class="property">class </em><code class="descclassname">nbodykit.plugins.datasource.Zheng07HOD.</code><code class="descname">Zheng07HodDataSource</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nbodykit.extensionpoints.DataSource</span></code></p>
+<p>A <cite>DataSource</cite> that uses the Hod prescription of 
+Zheng et al. 2007 to populate an input halo catalog with galaxies, 
+and returns the (Position, Velocity) of those galaxies</p>
+<p>The mock population is done using <cite>halotools</cite> (<a class="reference external" href="http://halotools.readthedocs.org">http://halotools.readthedocs.org</a>)
+The Hod model is of the commonly-used form:</p>
+<ul class="simple">
+<li>logMmin: Minimum mass required for a halo to host a central galaxy</li>
+<li>sigma_logM: Rate of transition from &lt;Ncen&gt;=0 &#8211;&gt; &lt;Ncen&gt;=1</li>
+<li>alpha: Power law slope of the relation between halo mass and &lt;Nsat&gt;</li>
+<li>logM0: Low-mass cutoff in &lt;Nsat&gt;</li>
+<li>logM1: Characteristic halo mass where &lt;Nsat&gt; begins to assume a power law form</li>
+</ul>
+<p>See the documentation for the <cite>halotools</cite> builtin Zheng07 Hod model, 
+for further details regarding the Hod</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">size</span></code></td>
+<td>The total size of the DataSource returned via the <cite>read</cite> operation.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">BoxSizeParser</span></code>(value)</td>
+<td>Read the <a href="#id1"><span class="problematic" id="id2">`</span></a>BoxSize, enforcing that the BoxSize must be a</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MissingColumn</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">keep_cache</span></code>()</td>
+<td>A context manager that forces the <cite>DataSource</cite> cache to persist, even if there are no open <cite>DataStream</cite> objects.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.log_populated_stats" title="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.log_populated_stats"><code class="xref py py-obj docutils literal"><span class="pre">log_populated_stats</span></code></a>()</td>
+<td>Log statistics of the populated catalog</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">open</span></code>([defaults])</td>
+<td>Open the <cite>DataSource</cite> by returning a <cite>DataStream</cite> from which the data can be read.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.parallel_read" title="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.parallel_read"><code class="xref py py-obj docutils literal"><span class="pre">parallel_read</span></code></a>(columns[,&nbsp;full])</td>
+<td>Return the positions of galaxies, populated into halos using an Hod</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.populate_mock" title="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.populate_mock"><code class="xref py py-obj docutils literal"><span class="pre">populate_mock</span></code></a>()</td>
+<td>Populate the halo catalog with a new set of galaxies.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">readall</span></code>()</td>
+<td>Override to provide a method to read all available data at once</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.register" title="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.update_and_populate" title="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.update_and_populate"><code class="xref py py-obj docutils literal"><span class="pre">update_and_populate</span></code></a>(**params)</td>
+<td>Update the Hod parameters and populate a mock</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Default values for Hod values from Reid et al. 2014</div></blockquote>
+<p>dataSource for galaxies populating a halo catalog using the Zheng et al. 2007 Hod</p>
+<blockquote>
+<div>halocat              DataSource representing the <cite>halo</cite> catalog
+redshift             the redshift of the</div></blockquote>
+<blockquote>
+<div>logMmin              minimum mass required for a halo to host a central galaxy (default: 13.031)
+sigma_logM           rate of transition from &lt;Ncen&gt;=0 &#8211;&gt; &lt;Ncen&gt;=1 (default: 0.38)
+alpha                power law slope of the relation between halo mass and &lt;Nsat&gt; (default: 0.76)
+logM0                Low-mass cutoff in &lt;Nsat&gt; (default: 13.27)
+logM1                characteristic halo mass where &lt;Nsat&gt; begins to assume a power law form (default: 14.08)
+rsd                  the direction to do the redshift distortion
+seed                 the number used to seed the random number generator
+cosmo                the <cite>Cosmology</cite> class relevant for the DataSource
+comm                 the global MPI communicator</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.log_populated_stats">
+<code class="descname">log_populated_stats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.log_populated_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log statistics of the populated catalog</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.parallel_read">
+<code class="descname">parallel_read</code><span class="sig-paren">(</span><em>columns</em>, <em>full=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.parallel_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the positions of galaxies, populated into halos using an Hod</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.plugin_name">
+<code class="descname">plugin_name</code><em class="property"> = 'Zheng07Hod'</em><a class="headerlink" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.populate_mock">
+<code class="descname">populate_mock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.populate_mock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populate the halo catalog with a new set of galaxies. 
+Each call to this function creates a new galaxy catalog,
+overwriting any existing catalog</p>
+<p>This is only done on root 0, which is the only rank
+to have the Hod model</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.register">
+<em class="property">classmethod </em><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.schema">
+<code class="descname">schema</code><em class="property"> = ConstructorSchema([('halocat', Argument(name='halocat', required=True, type=&lt;bound method PluginMount.from_config of &lt;class 'nbodykit.extensionpoints.DataSource'&gt;&gt;, default=None, choices=None, nargs=None, help='DataSource representing the `halo` catalog', subfields=OrderedDict())), ('redshift', Argument(name='redshift', required=True, type=&lt;type 'float'&gt;, default=None, choices=None, nargs=None, help='the redshift of the ', subfields=OrderedDict())), ('logMmin', Argument(name='logMmin', required=False, type=&lt;type 'float'&gt;, default=13.031, choices=None, nargs=None, help='minimum mass required for a halo to host a central galaxy', subfields=OrderedDict())), ('sigma_logM', Argument(name='sigma_logM', required=False, type=&lt;type 'float'&gt;, default=0.38, choices=None, nargs=None, help='rate of transition from &lt;Ncen&gt;=0 --&gt; &lt;Ncen&gt;=1', subfields=OrderedDict())), ('alpha', Argument(name='alpha', required=False, type=&lt;type 'float'&gt;, default=0.76, choices=None, nargs=None, help='power law slope of the relation between halo mass and &lt;Nsat&gt;', subfields=OrderedDict())), ('logM0', Argument(name='logM0', required=False, type=&lt;type 'float'&gt;, default=13.27, choices=None, nargs=None, help='Low-mass cutoff in &lt;Nsat&gt;', subfields=OrderedDict())), ('logM1', Argument(name='logM1', required=False, type=&lt;type 'float'&gt;, default=14.08, choices=None, nargs=None, help='characteristic halo mass where &lt;Nsat&gt; begins to assume a power law form', subfields=OrderedDict())), ('rsd', Argument(name='rsd', required=False, type=&lt;type 'str'&gt;, default=None, choices='xyz', nargs=None, help='the direction to do the redshift distortion', subfields=OrderedDict())), ('seed', Argument(name='seed', required=False, type=&lt;type 'int'&gt;, default=None, choices=None, nargs=None, help='the number used to seed the random number generator', subfields=OrderedDict())), ('cosmo', Argument(name='cosmo', required=False, type=None, default=None, choices=None, nargs=None, help='the `Cosmology` class relevant for the DataSource', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.schema" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.update_and_populate">
+<code class="descname">update_and_populate</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.Zheng07HOD.Zheng07HodDataSource.update_and_populate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the Hod parameters and populate a mock
+catalog using the new parameters</p>
+<p>This is only done on root 0, which is the only rank
+to have the Hod model</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.plugins.datasource.Zheng07HOD.model_with_random_seed">
+<code class="descclassname">nbodykit.plugins.datasource.Zheng07HOD.</code><code class="descname">model_with_random_seed</code><span class="sig-paren">(</span><em>model</em>, <em>seed</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.Zheng07HOD.model_with_random_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the relevant functions of the model to use the
+specified random seed</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nbodykit.plugins.datasource.Zheng07HOD.set_random_seed">
+<code class="descclassname">nbodykit.plugins.datasource.Zheng07HOD.</code><code class="descname">set_random_seed</code><span class="sig-paren">(</span><em>f</em>, <em>seed</em><span class="sig-paren">)</span><a class="headerlink" href="#nbodykit.plugins.datasource.Zheng07HOD.set_random_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator to seed the random seed in the 
+<code class="docutils literal"><span class="pre">mc_occuputation_*</span></code> functions of the HOD model instance</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nbodykit.plugins.painter.html" class="btn btn-neutral float-right" title="nbodykit.plugins.painter package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nbodykit.plugins.datasource.UniformBox.html" class="btn btn-neutral" title="nbodykit.plugins.datasource.UniformBox module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Yu Feng, Nick Hand .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.2.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

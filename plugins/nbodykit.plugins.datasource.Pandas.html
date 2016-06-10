@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nbodykit.plugins.datasource.Pandas module &mdash; nbodykit 0.3 documentation</title>
+  <title>nbodykit.plugins.datasource.Pandas module &mdash; nbodykit 0.1.2.dev0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="nbodykit 0.3 documentation" href="../index.html"/>
+    <link rel="top" title="nbodykit 0.1.2.dev0 documentation" href="../index.html"/>
         <link rel="up" title="nbodykit.plugins.datasource package" href="nbodykit.plugins.datasource.html"/>
         <link rel="next" title="nbodykit.plugins.datasource.PlainText module" href="nbodykit.plugins.datasource.PlainText.html"/>
         <link rel="prev" title="nbodykit.plugins.datasource.HaloLabel module" href="nbodykit.plugins.datasource.HaloLabel.html"/> 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3
+                0.1.2.dev0
               </div>
             
           
@@ -91,6 +91,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="nbodykit.html">nbodykit package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="nbodykit.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="nbodykit.plugins.html">nbodykit.plugins package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nbodykit.test.html">nbodykit.test package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nbodykit.utils.html">nbodykit.utils package</a></li>
 </ul>
 </li>
@@ -193,19 +194,22 @@ columns, otherwise behavior is undefined</li>
 <tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">BoxSizeParser</span></code>(value)</td>
 <td>Read the <a href="#id1"><span class="problematic" id="id2">`</span></a>BoxSize, enforcing that the BoxSize must be a</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">keep_cache</span></code>()</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">MissingColumn</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">keep_cache</span></code>()</td>
 <td>A context manager that forces the <cite>DataSource</cite> cache to persist, even if there are no open <cite>DataStream</cite> objects.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">open</span></code>([defaults])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">open</span></code>([defaults])</td>
 <td>Open the <cite>DataSource</cite> by returning a <cite>DataStream</cite> from which the data can be read.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">parallel_read</span></code>(columns[,&nbsp;full])</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">parallel_read</span></code>(columns[,&nbsp;full])</td>
 <td>Override this function for complex, large data sets.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.datasource.Pandas.PandasDataSource.readall" title="nbodykit.plugins.datasource.Pandas.PandasDataSource.readall"><code class="xref py py-obj docutils literal"><span class="pre">readall</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.datasource.Pandas.PandasDataSource.readall" title="nbodykit.plugins.datasource.Pandas.PandasDataSource.readall"><code class="xref py py-obj docutils literal"><span class="pre">readall</span></code></a>()</td>
 <td>Read all available data, returning a dictionary</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nbodykit.plugins.datasource.Pandas.PandasDataSource.register" title="nbodykit.plugins.datasource.Pandas.PandasDataSource.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#nbodykit.plugins.datasource.Pandas.PandasDataSource.register" title="nbodykit.plugins.datasource.Pandas.PandasDataSource.register"><code class="xref py py-obj docutils literal"><span class="pre">register</span></code></a>()</td>
 <td>Fill the attribute schema associated with this class</td>
 </tr>
 </tbody>
@@ -251,7 +255,7 @@ comm                 the global MPI communicator</div></blockquote>
 
 <dl class="attribute">
 <dt id="nbodykit.plugins.datasource.Pandas.PandasDataSource.schema">
-<code class="descname">schema</code><em class="property"> = ConstructorSchema([('path', Argument(name='path', required=True, type=&lt;type 'str'&gt;, default=None, choices=None, nargs=None, help='the file path to load the data from', subfields=OrderedDict())), ('names', Argument(name='names', required=True, type=&lt;type 'str'&gt;, default=None, choices=None, nargs='+', help='names of columns in text file or name of the data group in hdf5 file', subfields=OrderedDict())), ('BoxSize', Argument(name='BoxSize', required=True, type=&lt;function BoxSizeParser at 0x7f8720f7b320&gt;, default=None, choices=None, nargs=None, help='the size of the isotropic box, or the sizes of the 3 box dimensions', subfields=OrderedDict())), ('usecols', Argument(name='usecols', required=False, type=&lt;type 'str'&gt;, default=None, choices=None, nargs='*', help='only read these columns from file', subfields=OrderedDict())), ('poscols', Argument(name='poscols', required=False, type=&lt;type 'str'&gt;, default=['x', 'y', 'z'], choices=None, nargs=3, help='names of the position columns', subfields=OrderedDict())), ('velcols', Argument(name='velcols', required=False, type=&lt;type 'str'&gt;, default=None, choices=None, nargs=3, help='names of the velocity columns', subfields=OrderedDict())), ('rsd', Argument(name='rsd', required=False, type=&lt;type 'str'&gt;, default=None, choices='xyz', nargs=None, help='direction to do redshift distortion', subfields=OrderedDict())), ('posf', Argument(name='posf', required=False, type=&lt;type 'float'&gt;, default=1.0, choices=None, nargs=None, help='factor to scale the positions', subfields=OrderedDict())), ('velf', Argument(name='velf', required=False, type=&lt;type 'float'&gt;, default=1.0, choices=None, nargs=None, help='factor to scale the velocities', subfields=OrderedDict())), ('select', Argument(name='select', required=False, type=&lt;class 'nbodykit.utils.selectionlanguage.Query'&gt;, default=None, choices=None, nargs=None, help='row selection based on conditions specified as string, i.e., &quot;Mass &gt; 1e14&quot;', subfields=OrderedDict())), ('ftype', Argument(name='ftype', required=False, type=None, default='auto', choices=['hdf5', 'text', 'auto'], nargs=None, help='format of the Pandas storage container. auto is to guess from the file name.', subfields=OrderedDict())), ('cosmo', Argument(name='cosmo', required=False, type=None, default=None, choices=None, nargs=None, help='the `Cosmology` class relevant for the DataSource', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.datasource.Pandas.PandasDataSource.schema" title="Permalink to this definition">¶</a></dt>
+<code class="descname">schema</code><em class="property"> = ConstructorSchema([('path', Argument(name='path', required=True, type=&lt;type 'str'&gt;, default=None, choices=None, nargs=None, help='the file path to load the data from', subfields=OrderedDict())), ('names', Argument(name='names', required=True, type=&lt;type 'str'&gt;, default=None, choices=None, nargs='+', help='names of columns in text file or name of the data group in hdf5 file', subfields=OrderedDict())), ('BoxSize', Argument(name='BoxSize', required=True, type=&lt;function BoxSizeParser at 0x7f83f3b8bc80&gt;, default=None, choices=None, nargs=None, help='the size of the isotropic box, or the sizes of the 3 box dimensions', subfields=OrderedDict())), ('usecols', Argument(name='usecols', required=False, type=&lt;type 'str'&gt;, default=None, choices=None, nargs='*', help='only read these columns from file', subfields=OrderedDict())), ('poscols', Argument(name='poscols', required=False, type=&lt;type 'str'&gt;, default=['x', 'y', 'z'], choices=None, nargs=3, help='names of the position columns', subfields=OrderedDict())), ('velcols', Argument(name='velcols', required=False, type=&lt;type 'str'&gt;, default=None, choices=None, nargs=3, help='names of the velocity columns', subfields=OrderedDict())), ('rsd', Argument(name='rsd', required=False, type=&lt;type 'str'&gt;, default=None, choices='xyz', nargs=None, help='direction to do redshift distortion', subfields=OrderedDict())), ('posf', Argument(name='posf', required=False, type=&lt;type 'float'&gt;, default=1.0, choices=None, nargs=None, help='factor to scale the positions', subfields=OrderedDict())), ('velf', Argument(name='velf', required=False, type=&lt;type 'float'&gt;, default=1.0, choices=None, nargs=None, help='factor to scale the velocities', subfields=OrderedDict())), ('select', Argument(name='select', required=False, type=&lt;class 'nbodykit.utils.selectionlanguage.Query'&gt;, default=None, choices=None, nargs=None, help='row selection based on conditions specified as string, i.e., &quot;Mass &gt; 1e14&quot;', subfields=OrderedDict())), ('ftype', Argument(name='ftype', required=False, type=None, default='auto', choices=['hdf5', 'text', 'auto'], nargs=None, help='format of the Pandas storage container. auto is to guess from the file name.', subfields=OrderedDict())), ('cosmo', Argument(name='cosmo', required=False, type=None, default=None, choices=None, nargs=None, help='the `Cosmology` class relevant for the DataSource', subfields=OrderedDict())), ('comm', Argument(name='comm', required=False, type=None, default=None, choices=None, nargs=None, help='the global MPI communicator', subfields=OrderedDict()))])</em><a class="headerlink" href="#nbodykit.plugins.datasource.Pandas.PandasDataSource.schema" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -299,7 +303,7 @@ comm                 the global MPI communicator</div></blockquote>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.3',
+            VERSION:'0.1.2.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

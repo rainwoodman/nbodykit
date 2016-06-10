@@ -1,0 +1,7 @@
+nbodykit.test.test_corr module
+==============================
+
+.. automodule:: nbodykit.test.test_corr
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+nbodykit.test.test_fof module
+=============================
+
+.. automodule:: nbodykit.test.test_fof
+    :members:
+    :undoc-members:
+    :show-inheritance:

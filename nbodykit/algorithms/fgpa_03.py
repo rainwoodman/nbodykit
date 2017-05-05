@@ -23,52 +23,173 @@ from nbodykit.io.bigfile import BigFile
 class FGPA(object):
     logger = logging.getLogger('FGPA')
     
-    def __init__(self, source, z, seed, Nmesh, BoxSize):
+    def __init__(self, source, z, seed, Nmesh, smoothing):
         # setting parameters
         self.attrs = {}
+        self.cosmo = source.cosmo
         self.attrs['z'] = z
         self.attrs['seed'] = seed
-        self.attrs['Nmesh'] = Nmesh  
-        self.attrs['BoxSize'] = BoxSize
+        self.attrs['smoothing'] = smoothing
 
         # import data from simulation
-        self.particles = source
-        self.mesh = self.particles.to_mesh(Nmesh=Nmesh, BoxSize=BoxSize)
-        self.real = self.mesh.to_field(mode='real')
+        mesh = source.to_mesh(Nmesh=Nmesh, BoxSize=source.attrs['BoxSize'])
+        real = mesh.paint(mode='real')
+        self.pm = real.pm
 
+        self.attrs['BoxSize'] = mesh.pm.BoxSize
+        self.attrs['Nmesh'] = mesh.pm.Nmesh
 
-    # calculate overdensity field  
-    def to_overdensity(self):
-        self.delta_mean = np.mean(self.real)
-        self.delta = self.real / self.delta_mean - 1
-        return self.delta
+        # apply Gaussian smoothing to real field to get baryons instead of DM
+        # smoothing = 0.07: random parameter that makes sense
+        # (100 kpc in bi and davidsen http://iopscience.iop.org/article/10.1086/303908/pdf)
+        real = real.r2c().apply(lambda k, v: v * np.exp(- 0.5 * self.attrs['smoothing'] ** 2 * sum(ki **2 for ki in k))).c2r()
+
+        # calculate overdensity field  
+        delta_mean = real.cmean()
+        self.delta = real / delta_mean - 1
+
+        # calculate optical depth and flux (with and without RSD and thermal broadening) along a skewer in z direction
+
+        vel_to_dist = (self.attrs['z'] + 1) / (self.cosmo.efunc(self.attrs['z']) * 100.0)
+        self.vel_to_dist = vel_to_dist
     
-    # calculate velocity field
-    def get_cell_velocity(self):
-        self.particles['vz'] = self.particles['Velocity'][:, 2]
-        self.vreal_accum = self.particles.to_mesh(Nmesh=self.attrs['Nmesh'], BoxSize=self.attrs['BoxSize'] , weight='vz').to_field(mode='real')
-        self.velocity = np.where(self.real[:] != 0., self.vreal_accum[:]/self.real[:], 0)
-        return self.velocity
+        # calculate velocity field
+        source['vz'] = source['Velocity'][:, 2]
+        # XXX : velocity field is not smoothed. Is this desirable?
+        vreal_accum = source.to_mesh(Nmesh=self.attrs['Nmesh'], BoxSize=self.attrs['BoxSize'] , weight='vz').paint(mode='real')
+        self.velocity = np.where(real[:] != 0., vreal_accum[:] / real[:], 0)
 
-    # apply Gaussian smoothing to real field to get baryons instead of DM
-    # smoothing = 0.07: random parameter that makes sense
-    # (100 kpc in bi and davidsen http://iopscience.iop.org/article/10.1086/303908/pdf)
-    def smoothing(self, smoothing):
-        self.attrs['smoothing'] = smoothing
-        self.real = self.real.r2c().apply(lambda k, v: v * np.exp(- 0.5 * self.attrs['smoothing'] ** 2 * sum(ki **2 for ki in k))).c2r()    
-        return self.real
+        # calculate RSD
+        self.dreal = np.linspace(0, self.attrs['BoxSize'][2], self.attrs['Nmesh'][2], endpoint=False)
 
-    # temperature-density-relation to calculate T field
-    def temperature_field(self, T_IGM, gamma):
+
+    def fit(self, N, seed, T_IGM, A0=0.6, gamma0=2.6):
+        # call generate_los
+        # compute
+        # iterate till  agrees with the model
+        skewer_pos = self.create_los(N, seed)
+
+        def model(A, gamma):
+            cat = FGPASkewerCatalog(self, skewer_pos, A=A, T_IGM=T_IGM, gamma=gamma)
+            F_red = cat.fields['F_red']
+            F_sum = self.pm.comm.allreduce(np.sum(F_red))
+            F2_sum = self.pm.comm.allreduce(np.sum(F_red * F_red))
+            N = self.pm.comm.allreduce(F_red.size)
+            F_mean = F_sum / N
+            F_var = F2_sum / N - F_mean ** 2
+            self.logger.info("Iteration at %g %g : F_mean= %g F_var=%g" % (A, gamma, F_mean, F_var))
+            return F_mean, F_var
+
+        def objective(x):
+            F_mean, F_var = model(x[0], x[1])
+            F_mean_fiducial, F_var_fiducial = flux_fiducial(self.attrs['z'])
+            chi_squared_F_mean = (F_mean_fiducial - F_mean)**2/F_mean_fiducial**2
+            chi_squared_F_var = (F_var_fiducial - F_var)**2/F_var_fiducial**2
+            return chi_squared_F_mean  + chi_squared_F_var
+
+        res = minimize(objective, (A0, gamma0), method = 'Nelder-Mead')
+        A, gamma = res.x[0], res.x[1]
+        
+        return A, gamma
+
+    def create_los(self, N, seed):
+        rng = np.random.RandomState(seed)
+
+        pm = self.delta.pm
+
+        if pm.comm.rank == 0:
+            pos = (rng.uniform(size = (N, 3)) * self.attrs['BoxSize']).astype('f8')
+            pos[:, -1] = 0
+        else:
+            pos = np.empty((0, 3), dtype='f8')
+
+        return pos
+
+SQRT_KELVIN_TO_KMS = 0.12849 #sqrt(2 * k_B / m_proton) in km/s
+
+class FGPASkewerCatalog(object):
+    def __init__(self, fgpa, skewer_pos, A, T_IGM, gamma):
+        self.attrs = {}
+        self.cosmo = fgpa.cosmo
         self.attrs['T_IGM'] = T_IGM
         self.attrs['gamma'] = gamma
-        self.T = self.attrs['T_IGM'] * ( 1 + self.delta ) ** (self.attrs['gamma'] - 1.)
-        return self.T
-    
-    def set_A(self, A):
         self.attrs['A'] = A
-        return self.attrs['A']
-    
+        self.attrs['z'] = fgpa.attrs['z']
+
+        pm = fgpa.delta.pm
+        layout = pm.decompose(skewer_pos, smoothing=0)
+        self.skewer_pos = layout.exchange(skewer_pos)
+
+        data = np.empty((len(self.skewer_pos), len(fgpa.dreal)), dtype=[
+                ('delta', 'f8'),
+                ('tau_real', 'f8'),
+                ('tau_red', 'f8'),
+                ('F_real', 'f8'),
+                ('F_red', 'f8'),
+                ('delta_F', 'f8')])
+
+        for i, pos in enumerate(self.skewer_pos):
+            ix, iy, iz = np.int32(pm.affine.scale * pos + pm.affine.translate)
+            #print(ix, iy, iz)
+            d = self.one_line_of_sight((ix, iy), fgpa.delta, fgpa.velocity, fgpa.dreal, fgpa.vel_to_dist)
+            for key, value in d.items():
+                data[key][i] = value
+
+        self.pm = pm
+        self.dreal = fgpa.dreal
+        self.fields = data
+
+    def one_line_of_sight(self, xy_skewer_pos, delta, velocity, dreal, vel_to_dist):
+        
+        # pick a skewer out of the simulated 3D box
+        xy_skewer_pos = tuple(xy_skewer_pos)
+        delta_z = delta[xy_skewer_pos]
+        velocity_z = velocity[xy_skewer_pos]
+        T_z = self.attrs['T_IGM'] * ( 1 + delta_z ) ** (self.attrs['gamma'] - 1.)
+
+        dRSD = velocity_z * vel_to_dist
+        dred = dreal + dRSD
+
+        # calculate thermal broadening
+        vtherm = SQRT_KELVIN_TO_KMS * np.sqrt(T_z)
+        dtherm = vtherm * vel_to_dist
+        
+        # calculate optical depth tau_real from density with fluctuating Gunn-Peterson approximation
+        tau_real_z = fgpa(delta_z, self.attrs['A'], self.attrs['gamma'])
+        
+        # calculate optical depth with RSD and thermal broadening using funky convolution with Gaussians
+        tau_red_z = irconvolve(dreal, dred, tau_real_z, dtherm)
+        
+        # calculate flux from optical depth
+        F_real_z = np.exp(- tau_real_z)
+        F_red_z = np.exp(- tau_red_z)
+        F_mean_fiducial = flux_fiducial(self.attrs['z'])[0]
+        F_red_normalized_z = F_red_z / F_mean_fiducial - 1
+
+        return {'delta':delta_z,
+                'tau_real':tau_real_z,
+                'tau_red':tau_red_z,
+                'F_real':F_real_z,
+                'F_red':F_red_z,
+                'delta_F':F_red_normalized_z}
+
+
+    @classmethod
+    def load(kls, filename, root):
+        pass
+
+    def save(self, filename, root):
+        from bigfile import BigFileMPI
+        with BigFileMPI(self.pm.comm, filename, create=True) as ff:
+            path = root + '/' + 'skewer_pos'
+            with ff.create_from_array(path, self.skewer_pos) as bb:
+                pass
+            for key in sorted(self.fields.dtype.fields):
+                path = root + '/' + key
+                data = self.fields[key]
+                with ff.create_from_array(path, data) as bb:
+                    pass
+ 
 def sample_PS(fgpa_obj, which_field, number_of_skewers, random_seed):
     F_mean_fiducial = flux_fiducial(fgpa_obj.attrs['z'])[0]
     los = create_los(fgpa_obj, which_field, number_of_skewers, randon_seed, F_mean_fiduacial)
@@ -83,66 +204,27 @@ def flux_fiducial(z):
 
 # calculate 1d power spectrum
 def power_spectrum_1d(fgpa_obj, los):
-    
-    los_fft = np.fft.rfft(los, axis = 1) / fgpa_obj.attrs['Nmesh']
+    pm = fgpa_obj.delta.pm
+    Nlos = pm.comm.allreduce(len(los))
+    print('---------------', Nlos)
+    los_fft = np.fft.rfft(los, axis = 1) / los.shape[1]
     los_fft_abs_sqr = np.absolute(los_fft) ** 2 
     
     vel_to_dist = (fgpa_obj.attrs['z'] + 1) / Planck15.H(fgpa_obj.attrs['z']) / (Mpc/Planck15.h) * km / s
 
-    PS_1d = np.mean(los_fft_abs_sqr, axis = 0) * (fgpa_obj.attrs['BoxSize']/vel_to_dist) 
-    
+    PS_1d = pm.comm.allreduce(np.sum(los_fft_abs_sqr, axis = 0)) * (fgpa_obj.attrs['BoxSize'][2]/vel_to_dist) 
+    PS_1d /= Nlos
     return PS_1d
 
 
 def create_los(fgpa_obj, which_field, number_of_skewers, random_seed):
     np.random.seed(random_seed)
-    xy_skewer_pos_array = np.int32(np.random.uniform(size = (number_of_skewers,2)) * fgpa_obj.attrs['Nmesh'])
+    xy_skewer_pos_array = np.int32(np.random.uniform(size = (number_of_skewers,2)) * fgpa_obj.attrs['Nmesh'][2])
     
-    los = np.zeros((len(xy_skewer_pos_array), fgpa_obj.attrs['Nmesh']))
+    los = np.zeros((len(xy_skewer_pos_array), fgpa_obj.attrs['Nmesh'][2]))
     for i in range(len(xy_skewer_pos_array)):
         los[i] = line_of_sight(fgpa_obj, xy_skewer_pos_array[i])[which_field]
     return los
-
-
-# calculate optical depth and flux (with and without RSD and thermal broadening) along a skewer in z direction
-def line_of_sight(fgpa_obj, xy_skewer_pos):
-    
-    # pick a skewer out of the simulated 3D box
-    xy_skewer_pos = tuple(xy_skewer_pos)
-    delta_z = fgpa_obj.delta[xy_skewer_pos]
-    velocity_z = fgpa_obj.velocity[xy_skewer_pos]
-    T_z = fgpa_obj.T[xy_skewer_pos]
-    
-    vel_to_dist = (fgpa_obj.attrs['z'] + 1) / Planck15.H(fgpa_obj.attrs['z']) / (Mpc/Planck15.h) * km / s
-    SQRT_KELVIN_TO_KMS = 0.12849 #sqrt(2 * k_B / m_proton) in km/s
-    
-    # calculate RSD
-    dreal = np.linspace(0, fgpa_obj.attrs['BoxSize'] - fgpa_obj.attrs['BoxSize'] / fgpa_obj.attrs['Nmesh'], fgpa_obj.attrs['Nmesh'])
-    dRSD = velocity_z * vel_to_dist
-    dred = dreal + dRSD
-
-    # calculate thermal broadening
-    vtherm = SQRT_KELVIN_TO_KMS * np.sqrt(T_z)
-    dtherm = vtherm * vel_to_dist
-    
-    # calculate optical depth tau_real from density with fluctuating Gunn-Peterson approximation
-    tau_real_z = fgpa(delta_z, fgpa_obj.attrs['A'], fgpa_obj.attrs['gamma'])
-    
-    # calculate optical depth with RSD and thermal broadening using funky convolution with Gaussians
-    tau_red_z = irconvolve(dreal, dred, tau_real_z, dtherm)
-    
-    # calculate flux from optical depth
-    F_real_z = np.exp(- tau_real_z)
-    F_red_z = np.exp(- tau_red_z)
-    F_mean_fiducial = flux_fiducial(fgpa_obj.attrs['z'])[0]
-    F_red_normalized_z = F_red_z / F_mean_fiducial - 1
-
-    return {'delta':delta_z,
-            'tau_real':tau_real_z,
-            'tau_red':tau_red_z,
-            'F_real':F_real_z,
-            'F_red':F_red_z,
-            'F_red_normalized':F_red_normalized_z}
 
 
 # Fluctuating Gunn-Peterson approximation to obtain optical depth from density field

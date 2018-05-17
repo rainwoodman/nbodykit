@@ -271,17 +271,27 @@ def _assign_labels(minid, comm, thresh):
     return label
 
 def _fof_local(layout, pos, boxsize, ll, comm):
-    from kdcount import cluster
 
     N = len(pos)
 
     pos = layout.exchange(pos)
     if boxsize is not None:
         pos %= boxsize
-    data = cluster.dataset(pos, boxsize=boxsize)
-    fof = cluster.fof(data, linking_length=ll, np=0)
-    labels = fof.labels
-    del fof
+
+    if False:
+        from kdcount import cluster
+        data = cluster.dataset(pos, boxsize=boxsize)
+        fof = cluster.fof(data, linking_length=ll, np=0)
+        labels = fof.labels
+        del fof
+
+    else:
+        from hfof import fof
+
+        if boxsize is not None:
+            # https://github.com/pec27/hfof/issues/2
+            boxsize = boxsize[0]
+        labels = fof(numpy.float64(pos), rcut=ll, boxsize=boxsize, log=None)
 
     PID = numpy.arange(N, dtype='intp')
     PID += sum(comm.allgather(N)[:comm.rank])

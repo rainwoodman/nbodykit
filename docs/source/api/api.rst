@@ -285,6 +285,13 @@ MPI Utilities
     nbodykit.utils.GatherArray
     nbodykit.utils.ScatterArray
 
+Distributed Random Numbers
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autosummary::
+
+    nbodykit.mpirng.MPIRandomState
+
 General Utilities
 ^^^^^^^^^^^^^^^^^
 
